@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F1F74042-A189-F27F-2C06-138FC8B54008}</ProjectGuid>
+    <ProjectGuid>{797BF0CD-E40C-0E0A-A37F-49DF30E13419}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -109,15 +109,15 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
-    <Compile Include="Assets\Scripts\LootLocker.cs" />
+    <Compile Include="Assets\Scripts\Levels\LootLocker.cs" />
     <Compile Include="Assets\Scripts\Levels\MobileSpotlight.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Scripts\Generic\GameTrackChanger.cs" />
     <Compile Include="Assets\Scripts\Generic\LightFlicker.cs" />
     <Compile Include="Assets\Scripts\UI\TitleScreen.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyVoice.cs" />
-    <Compile Include="Assets\Aligned Games\Polygonal Modern Weapons Asset Package\Scripts\Utility\FlyCameraBehaviour.cs" />
-    <Compile Include="Assets\Scripts\EnvironmentTrigger.cs" />
+    <Compile Include="Assets\Store Assets\Aligned Games\Polygonal Modern Weapons Asset Package\Scripts\Utility\FlyCameraBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Levels\EnvironmentTrigger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Items\InteractableButton.cs" />
@@ -131,10 +131,10 @@
     <Compile Include="Assets\Scripts\Generic\CleanUpGib.cs" />
     <Compile Include="Assets\Scripts\Items\InteractablePickUp.cs" />
     <Compile Include="Assets\Scripts\AI\Waypoint.cs" />
-    <Compile Include="Assets\Scripts\Checkpoint.cs" />
+    <Compile Include="Assets\Scripts\Levels\Checkpoint.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyAmmoBase.cs" />
-    <Compile Include="Assets\Scripts\BreakableGlassV2.cs" />
+    <Compile Include="Assets\Scripts\Levels\BreakableGlassV2.cs" />
     <Compile Include="Assets\Scripts\Player\CustomCharacterController.cs" />
     <Compile Include="Assets\Scripts\Generic\BloodSplatter.cs" />
     <Compile Include="Assets\Scripts\AI\Enemy_VIP.cs" />
@@ -161,7 +161,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\Scripts\Player\MoveCamera.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
-    <Compile Include="Assets\Scripts\EjectedShell.cs" />
+    <Compile Include="Assets\Scripts\Weapons\EjectedShell.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\Scripts\Weapons\WeaponShotgun.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
@@ -181,12 +181,12 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\QuickOutline\Resources\Shaders\OutlineMask.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\Aligned Games\Polygonal Modern Weapons Asset Package\Shaders\Diffuse.shader" />
+    <None Include="Assets\Store Assets\Aligned Games\Polygonal Modern Weapons Asset Package\Shaders\Diffuse.shader" />
     <None Include="Assets\Art\Prototype.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\Day-Night Skyboxes\Textures\Readme for Assigning.txt" />
+    <None Include="Assets\Store Assets\Day-Night Skyboxes\Textures\Readme for Assigning.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
@@ -195,9 +195,9 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Ultimate PBR Materials 300+\Third-Party Notices.txt" />
-    <None Include="Assets\Day-Night Skyboxes\readme.txt" />
+    <None Include="Assets\Store Assets\Day-Night Skyboxes\readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\Blood decal pack\readme.txt" />
+    <None Include="Assets\Store Assets\Blood decal pack\readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\QuickOutline\Resources\Shaders\OutlineFill.shader" />
@@ -780,75 +780,75 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.ShaderGraph.Editor.csproj">
-      <Project>{23662792-F5FF-A98D-70B1-DEA641D6763F}</Project>
+      <Project>{CC05AD92-0754-4F11-A301-010CAD8B32B4}</Project>
       <Name>Unity.ShaderGraph.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualEffectGraph.Editor.csproj">
-      <Project>{BC71A598-C242-15DF-319C-99EDA765E10D}</Project>
+      <Project>{D6291B6C-9F22-B909-FF95-065DB8123199}</Project>
       <Name>Unity.VisualEffectGraph.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{BCC14DED-12A1-D443-C51B-741FFF0C8286}</Project>
+      <Project>{5DC03769-08AA-9D15-7DB6-BD01557BB246}</Project>
       <Name>Unity.VSCode.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{666F8BE2-C492-3752-AAB2-88189ABF6D9F}</Project>
+      <Project>{B8D1756E-E3D4-1C05-3903-2BDE6A37934B}</Project>
       <Name>Unity.TextMeshPro.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
-      <Project>{F9432021-9F22-AF43-25E4-914793D07BAB}</Project>
+      <Project>{D3ECCF30-F86B-DFD6-72A9-CA65B595DE84}</Project>
       <Name>Unity.VisualStudio.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.VisualEffectGraph.Runtime.csproj">
-      <Project>{FDD1FA65-D16D-1325-17DF-26C731A825AE}</Project>
+      <Project>{0AE351F0-7C8E-A100-D7AA-F7F79FB20054}</Project>
       <Name>Unity.VisualEffectGraph.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj">
-      <Project>{CF895EAC-2126-577D-E36E-7B5657E1BA3A}</Project>
+      <Project>{B677EDCA-6D5F-F72E-ABDA-3A04E153F9AF}</Project>
       <Name>Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.Editor.csproj">
-      <Project>{DC867609-EC6E-2598-A9F2-1E9379054644}</Project>
+      <Project>{6E55CB5B-EA31-2D9C-6EB4-2D9523F82C40}</Project>
       <Name>Unity.Timeline.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Timeline.csproj">
-      <Project>{01305C5F-3781-FA28-D48F-A2F24E845F15}</Project>
+      <Project>{B9DF3C79-641B-E57F-A711-E37707D0DCE1}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{C401BF69-29FD-7660-440C-251B4FB03C0C}</Project>
+      <Project>{866F2934-F5D1-140D-40B0-13FC8D121592}</Project>
       <Name>Unity.TextMeshPro</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Searcher.Editor.csproj">
-      <Project>{6CBCD774-3ED6-0B06-B837-3A6060A2AE2D}</Project>
+      <Project>{6BDF8F03-2937-CD50-AFA3-D367DB464992}</Project>
       <Name>Unity.Searcher.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
-      <Project>{0394BF8C-8F4B-C720-3709-AE9685ED702A}</Project>
+      <Project>{FECC7766-BF97-DAA3-2CC1-8FDBFE1E4623}</Project>
       <Name>Unity.RenderPipelines.Core.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{EF257099-08FE-F7FE-896F-337429ABC2B0}</Project>
+      <Project>{20A6F431-E055-2DCA-E9D7-25297E4A382D}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.PlasticSCM.Editor.csproj">
-      <Project>{B37F7E4C-6CC3-97B4-AC10-98A7978FED72}</Project>
+      <Project>{044E5768-47B0-5FCF-3110-E1D35ED87E3B}</Project>
       <Name>Unity.PlasticSCM.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Rider.Editor.csproj">
-      <Project>{2400C36C-D682-EDED-5180-87821A8D4AE8}</Project>
+      <Project>{0773BA05-3EB8-4818-548F-EAC65DF01A99}</Project>
       <Name>Unity.Rider.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj">
-      <Project>{91235281-BB0A-C0AC-3201-0DEE6B74B727}</Project>
+      <Project>{E0683D8A-605C-0BB7-0C41-C37A1CC2182E}</Project>
       <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{16D1FB1E-CC0F-29D4-3180-FC483E8FCD88}</Project>
+      <Project>{AA86718F-D196-3D0C-53F6-CD374D6236B7}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Editor.csproj">
-      <Project>{7F0DFB1D-4DCA-E229-75B4-1EBA2CB3A38B}</Project>
+      <Project>{66DFF8E2-8B78-43AD-5FE3-46DD6D8C6826}</Project>
       <Name>Unity.RenderPipelines.Core.Editor</Name>
     </ProjectReference>
   </ItemGroup>
