@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Levels/title_screen.unity
+    guid: 122c62cab7118fb479f818cfd36a1a6b
+  - enabled: 1
+    path: Assets/Scenes/Levels/main_menu.unity
+    guid: c93269efa94e42840b4c36d8546a6f78
+  - enabled: 1
+    path: Assets/Scenes/Levels/sceneselection.unity
+    guid: 6362db59c18bdac4c9072481dda35175
+  - enabled: 1
+    path: Assets/Scenes/Levels/settings.unity
+    guid: 7381c7ba069a9cb4c9045ae77665305d
+  - enabled: 1
+    path: Assets/Scenes/Levels/level_1_a_v2.unity
+    guid: 197ceaf61fe6e224a8eab270502e309d
+  - enabled: 1
+    path: Assets/Scenes/Levels/level_2_a_v2.unity
+    guid: b40a4cf20d6c53f47ba67c85242461eb
+  - enabled: 1
+    path: Assets/Scenes/Levels/level_3_a_v2.unity
+    guid: d22449bd6a92c3e4ba25620da2ec9234
+  - enabled: 0
+    path: Assets/Scenes/Levels/original test levels/level_1_a.unity
+    guid: a777021ab0449cf4b8d92dd3c9d60821
+  - enabled: 0
+    path: Assets/Scenes/Levels/original test levels/level_1_b.unity
+    guid: 0904f32364ec5344697d7c852f52bea4
+  - enabled: 0
+    path: Assets/Scenes/Levels/original test levels/level_2_a.unity
+    guid: ff3b64c529b019245b65db193cb816d1
+  - enabled: 0
+    path: Assets/Scenes/Levels/original test levels/level_3_a.unity
+    guid: 3804027630dc3e54f8b720ced6e825fa
+  - enabled: 0
+    path: Assets/Scenes/Levels/original test levels/train_prototype.unity
+    guid: 9605a4844f4a3c44bb5d20f23d8f5e64
+  m_configObjects: {}

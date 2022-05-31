@@ -1,0 +1,2 @@
+E:\GitHub\August_2021_1\project_august_2021\obj\Debug\Unity.VisualEffectGraph.Editor.csprojAssemblyReference.cache
+E:\GitHub\August_2021_1\project_august_2021\obj\Debug\Unity.VisualEffectGraph.Editor.csproj.CoreCompileInputs.cache
