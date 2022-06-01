@@ -6067,7 +6067,7 @@ MonoBehaviour:
   - Sniper
   maxAmmoCapacity:
   - 120
-  - 120
+  - 90
   - 30
   - 30
   currentAmmo:
