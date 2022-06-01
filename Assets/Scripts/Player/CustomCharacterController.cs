@@ -14,6 +14,7 @@ public class CustomCharacterController : MonoBehaviour
     public float crouchSpeed;
     private float currentSpeed;
     public float groundDrag;
+    [SerializeField] float groundCheckRadius;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -76,6 +77,7 @@ public class CustomCharacterController : MonoBehaviour
 
     [Header("Functionality stuff")]
     [SerializeField] AudioSource playerSound;
+    [SerializeField] PhysicMaterial noFriction;
 
     // the big boss
     private GameManager manager;
@@ -100,16 +102,26 @@ public class CustomCharacterController : MonoBehaviour
 
         toggleCrouch = manager.toggleCrouch;
         toggleAim = manager.toggleAim;
+
+        // set initial groundcheck
+        RaycastHit hit;
+
+        isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
     }
 
     void Update()
     {
-        //isGrounded = Physics.Raycast(transform.position, Vector3.down, startHeight * 0.5f + 0.2f, ground);
 
         RaycastHit hit;
 
-        isGrounded = Physics.SphereCast(transform.position, 0.4f, Vector3.down, out hit, startHeight * 0.5f, ground);
-            
+        if(isGrounded)
+            isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
+        else
+            isGrounded = Physics.SphereCast(transform.position, groundCheckRadius / 2f, Vector3.down, out hit, startHeight * 0.5f, ground);
+
+
+
+
         if (!isDead)
         {
             PlayerInput();
@@ -210,10 +222,21 @@ public class CustomCharacterController : MonoBehaviour
         {
             Vector3 flatVelocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
 
-            if (flatVelocity.magnitude > walkSpeed)
+            if(!isCrouching)
             {
-                Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
-                rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                if (flatVelocity.magnitude > walkSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
+            }
+            else
+            {
+                if (flatVelocity.magnitude > crouchSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * crouchSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
             }
         }
 
@@ -238,11 +261,21 @@ public class CustomCharacterController : MonoBehaviour
                 rb_player.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
 
-        // if there is input, walking is true
+        // if there is input, walking is true / also set physicsmaterial to nofriction when moving and remove physics material when standing still
         if (direction.magnitude > 0f)
+        {
             isWalking = true;
+
+            if (playerCollider.sharedMaterial != noFriction)
+                playerCollider.sharedMaterial = noFriction;
+        }
         else
+        {
             isWalking = false;
+
+            if (playerCollider.sharedMaterial != null)
+                playerCollider.sharedMaterial = null;
+        }
 
         if (isGrounded)
         {
