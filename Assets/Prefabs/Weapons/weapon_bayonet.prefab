@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 7484952685055039779}
   - component: {fileID: 4628314510638132713}
   - component: {fileID: 6339526927695570334}
-  - component: {fileID: 5132659138462862323}
+  - component: {fileID: 5612373019003272687}
   - component: {fileID: 3047736757697203380}
   - component: {fileID: 6339526927695570333}
   - component: {fileID: 4209621897809767800}
   - component: {fileID: 6339526927695570335}
   - component: {fileID: 4075451072812466266}
   - component: {fileID: 6830322977479764263}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: weapon_bayonet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,8 +102,8 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.007859401, y: 0.087805085, z: 0.02404447}
   m_Center: {x: -0.0000000010300963, y: -0.0005290895, z: 0.017281914}
---- !u!65 &5132659138462862323
-BoxCollider:
+--- !u!135 &5612373019003272687
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -113,7 +113,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.1, z: 0.03}
+  m_Radius: 0.075
   m_Center: {x: 0, y: -0.00052908994, z: 0.017282149}
 --- !u!54 &3047736757697203380
 Rigidbody:
@@ -149,15 +149,18 @@ MonoBehaviour:
   meleeDmg: 40
   meleeForce: 50
   meleeRange: 3
+  throwForce: 30
+  throwSpin: 0
+  swingSpeed: 4
   meleeMask:
     serializedVersion: 2
     m_Bits: 128
   propMask:
     serializedVersion: 2
     m_Bits: 1025
-  swingSpeed: 4
   rePickUpTime: 0.5
   isSwinging: 0
+  isThrown: 0
   animator: {fileID: 0}
   weaponSound: {fileID: 0}
   weaponSounds:

@@ -50,6 +50,7 @@ public class PlayerHUD : MonoBehaviour
 
     [Header("UI related variables")]
     [SerializeField] private float interactRange; // how far the player can interact with stuff
+    [SerializeField] private LayerMask interactMask; // what objects the raycast checks for
     [SerializeField] private float hurtSplashTime; // how long the red splash last upon taking damage
     private float hurtTimer; // timer for functionality
     [SerializeField] private float healSplashTime; // how long does the red splash last upon taking damage
@@ -256,7 +257,7 @@ public class PlayerHUD : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactRange, ~playerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, interactRange, interactMask))
         {
             if (hit.transform.gameObject.GetComponent<InteractablePickUp>() != null && hit.transform.parent == null)
             {

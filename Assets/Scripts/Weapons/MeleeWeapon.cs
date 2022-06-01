@@ -13,17 +13,22 @@ public class MeleeWeapon : MonoBehaviour
     public float meleeDmg;
     public float meleeForce;
     public float meleeRange;
+    public float throwForce;
+    public float throwSpin;
+    public float swingSpeed;
     public LayerMask meleeMask;
     public LayerMask propMask;
 
-    public float swingSpeed;
     private float nextTimeToSwing;
 
     public float rePickUpTime;
     private float timer_rePickUpTime;
 
+    [Header("Weapon bools")]
     public bool isSwinging;
+    public bool isThrown;
 
+    [Header("Components for functionality")]
     public Animator animator;
     public AudioSource weaponSound;
     public AudioClip[] weaponSounds;
@@ -37,6 +42,7 @@ public class MeleeWeapon : MonoBehaviour
     private PlayerInventory inventory;
     private CustomCharacterController movement;
     private PlayerHUD hud;
+    private Transform source;
 
     void Start()
     {
@@ -61,7 +67,12 @@ public class MeleeWeapon : MonoBehaviour
     void Update()
     {
         if (transform.parent == null)
+        {
             isPickedUp = false;
+
+            if (isThrown)
+                outline.enabled = false;
+        }
         else
         {
             isPickedUp = true;
@@ -70,7 +81,7 @@ public class MeleeWeapon : MonoBehaviour
                 outline.enabled = false;
         }
 
-        if(!canPickUp)
+        if (!canPickUp)
         {
             timer_rePickUpTime += Time.deltaTime;
 
@@ -82,7 +93,8 @@ public class MeleeWeapon : MonoBehaviour
             }
         }
 
-        // two different swings depending on mouse input, have them do different things?
+        // m1 = swing/stab with weapon, alternate attack animation
+        // m2 = throw knife
         if (isPickedUp && Input.GetButtonDown("Mouse1") && !isSwinging && Time.time >= nextTimeToSwing)
         {
             nextTimeToSwing = Time.time + 1f / swingSpeed;
@@ -92,8 +104,8 @@ public class MeleeWeapon : MonoBehaviour
         else if (isPickedUp && Input.GetButtonDown("Mouse2") && !isSwinging && Time.time >= nextTimeToSwing)
         {
             nextTimeToSwing = Time.time + 1f / swingSpeed;
-            animator.SetTrigger("Stab");
-            Melee();
+            //animator.SetTrigger("Stab");
+            Throw();
         }
 
         // walking animation
@@ -143,6 +155,40 @@ public class MeleeWeapon : MonoBehaviour
         }
     }
 
+    void Throw()
+    {
+        weaponSound.PlayOneShot(weaponSounds[0]);
+        // using the drop script here, but adding a couple of new variables
+        // also adding A LOT more force here as well
+        source = player.transform;
+
+        transform.position = pCam.transform.position;
+        transform.rotation = pCam.transform.rotation;
+
+        transform.parent = null;
+        inventory.weaponInventory[0] = null;
+
+        gameObject.layer = 9;
+        if (transform.childCount != 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.layer = 9;
+        }
+
+        animator.SetTrigger("Discard");
+        animator.enabled = false;
+        rigidBody.isKinematic = false;
+        weaponCollider.enabled = true;
+        isThrown = true;
+
+        // make the weapon ignore collision with the player model, add weapon throw force, add spin with torque
+        Physics.IgnoreCollision(weaponCollider, player.GetComponentInChildren<CapsuleCollider>(), true);
+        rigidBody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.right * throwSpin, ForceMode.Impulse);
+
+        canPickUp = false;
+    }
+
     void DealDamage(RaycastHit hit)
     {
         HealthBase hitEnemy = hit.transform.gameObject.GetComponent<HealthBase>();
@@ -188,5 +234,37 @@ public class MeleeWeapon : MonoBehaviour
 
         canPickUp = false;
     }
-}
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && isThrown)
+        {
+            Vector3 contactPoint = collision.GetContact(0).point;
+
+            if (collision.gameObject.GetComponent<HealthBase>() != null)
+            {
+                HealthBase targetHealth = collision.gameObject.GetComponent<HealthBase>();
+
+                if (collision.collider == targetHealth.critBox)
+                {
+                    //Debug.Log("Headshot!");
+                    targetHealth.TakeDamage(meleeDmg * 2, throwForce, contactPoint, source, true);
+                    isThrown = false;
+
+                    // play headshot sound
+                    //if (hud != null)
+                    //hud.uiSound.PlayOneShot(hud.sounds[5]);
+                }
+                else
+                {
+                    targetHealth.TakeDamage(meleeDmg, throwForce, contactPoint, source, false);
+                    isThrown = false;
+
+                    // play normal hitmark sound
+                    //if (hud != null)
+                    //hud.uiSound.PlayOneShot(hud.sounds[5]);
+                }
+            }
+        }
+    }
+}

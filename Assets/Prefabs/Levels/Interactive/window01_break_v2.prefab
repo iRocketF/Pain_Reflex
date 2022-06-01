@@ -3626,7 +3626,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  glassBreakParticles: {fileID: 7491807147147501719, guid: 1bb4d2ebb218cc84b89f0e860648257a, type: 3}
   intactGlass: {fileID: 4737826736239437909}
   glassCells: []
 --- !u!54 &2167344880325541901
@@ -3654,10 +3653,10 @@ AudioSource:
   m_GameObject: {fileID: 3172138293076281561}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1191184701897812341, guid: c64299ea76a86ce43abd59f05f325f2b, type: 2}
   m_audioClip: {fileID: 8300000, guid: c75a80cd03ac8554eb98c7e127a48d13, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -3181,6 +3181,9 @@ MonoBehaviour:
   isHurt: 0
   isHealed: 0
   interactRange: 3
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 2561
   hurtSplashTime: 0.1
   healSplashTime: 1
   keycardXOffset: 75
@@ -5998,7 +6001,7 @@ MonoBehaviour:
   fallMultiplier: 2
   ground:
     serializedVersion: 2
-    m_Bits: 1032
+    m_Bits: 33800
   jumpSounds:
   - {fileID: 8300000, guid: 6595687eb60f0444c93f5b18e0601e8f, type: 3}
   - {fileID: 8300000, guid: 3a3269627432f5e409ba66ed3f7906ab, type: 3}
