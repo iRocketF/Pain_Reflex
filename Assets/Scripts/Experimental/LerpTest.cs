@@ -15,14 +15,10 @@ public class LerpTest : MonoBehaviour
 
     public float moveDistance;
 
-    public MeshRenderer renderer;
-
     void Start()
     {
         point1 = transform.position;
         point2 = transform.position + transform.forward * moveDistance;
-
-        renderer = GetComponent<MeshRenderer>();
     }
 
     void Update()

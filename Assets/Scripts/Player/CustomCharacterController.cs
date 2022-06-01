@@ -18,7 +18,7 @@ public class CustomCharacterController : MonoBehaviour
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
-    private bool exitingSlope;
+    [SerializeField] private bool exitingSlope;
 
     public Transform orientation;
 
@@ -29,6 +29,7 @@ public class CustomCharacterController : MonoBehaviour
     // jump jump jump everybody jump
     [Header("Jumping related variables")]
     public float jumpForce;
+    public float jumpCooldown;
     public float matrixForce;
     public float airMultiplier;
     public float fallMultiplier;
@@ -137,7 +138,13 @@ public class CustomCharacterController : MonoBehaviour
         vertical = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            readyToJump = false;
+
             Jump();
+
+            Invoke("ResetJump", jumpCooldown);
+        }
 
         if (!manager.matrixMode && Input.GetButtonDown("L_Shift") && currentStamina > matrixDrainChunk)
             PayneJump();
@@ -196,8 +203,7 @@ public class CustomCharacterController : MonoBehaviour
                 if (rb_player.velocity.magnitude > crouchSpeed)
                     rb_player.velocity = rb_player.velocity.normalized * crouchSpeed;
             }
-
-            
+           
         }
         // this limits the player velocity so it doesn't exceed the speed in player variables
         else 
@@ -232,32 +238,29 @@ public class CustomCharacterController : MonoBehaviour
                 rb_player.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
 
+        // if there is input, walking is true
         if (direction.magnitude > 0f)
             isWalking = true;
-        /*else if (direction.magnitude == 0f && isGrounded)
-        {
-            isWalking = false;
-            rb_player.velocity = Vector3.zero;
-        }*/
         else
             isWalking = false;
 
         if (isGrounded)
         {
             rb_player.AddForce(direction.normalized * currentSpeed * 10f, ForceMode.Force);
-            exitingSlope = false;
         }
         else if (!isGrounded)
             rb_player.AddForce(direction.normalized * currentSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        StepClimb(direction);
-
         // turn gravity off when the player is on slope
         rb_player.useGravity = !OnSlope();
 
+        // only do step climb when not on a slope
+        if (!OnSlope())
+            StepClimb(direction);
+
         // jump fallmultiplier applied when falling
 
-        if(rb_player.velocity.y < 0 && !manager.matrixMode)
+        if (rb_player.velocity.y < 0 && !manager.matrixMode)
         {
             rb_player.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -273,6 +276,13 @@ public class CustomCharacterController : MonoBehaviour
         rb_player.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         playerSound.PlayOneShot(jumpSounds[0]);
+    }
+
+    private void ResetJump()
+    {
+        readyToJump = true;
+
+        exitingSlope = false;
     }
 
     private void PayneJump()
@@ -417,7 +427,7 @@ public class CustomCharacterController : MonoBehaviour
 
     private bool OnSlope()
     {
-        // making player movement on slopes the same as walking on 
+        // checking if the player is on a slope
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, startHeight * 0.5f + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);

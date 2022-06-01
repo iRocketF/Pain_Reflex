@@ -66,7 +66,11 @@ public class LevelTransitionBox : MonoBehaviour
         oldTransitionPoint.position = transform.position;
 
         // save the items the player has during this transition period
+        // also clear any old ones
         PlayerInventory inventory = player.GetComponent<PlayerInventory>();
+
+        manager.itemsToReturn.Clear();
+        manager.ammoToReturn.Clear();
         manager.itemsToReturn = inventory.SaveItems();
         manager.ammoToReturn = inventory.SaveAmmo();
 

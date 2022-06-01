@@ -5993,9 +5993,11 @@ MonoBehaviour:
   walkSpeed: 6.5
   crouchSpeed: 3
   groundDrag: 5
-  maxSlopeAngle: 60
+  maxSlopeAngle: 45
+  exitingSlope: 0
   orientation: {fileID: 4921265128233218627}
   jumpForce: 6.25
+  jumpCooldown: 0.25
   matrixForce: 4
   airMultiplier: 0.2
   fallMultiplier: 2
@@ -6010,7 +6012,7 @@ MonoBehaviour:
   crouchTime: 2
   stepRayUpper: {fileID: 8906885103739327153}
   stepRayLower: {fileID: 5099468752701751365}
-  stepHeight: 0.3
+  stepHeight: 0.4
   stepSmooth: 0.1
   isWalking: 0
   isCrouching: 0

@@ -192,7 +192,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         ClearParticles();
-        itemsToReturn.Clear();
 
         master.SetFloat("sfxPitch", 1f);
         master.SetFloat("musicLowPass", 5000);
