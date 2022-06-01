@@ -11,6 +11,8 @@ public class EnemyVoice : MonoBehaviour
     public AudioClip[] hurtClip;
     public AudioClip[] deathClip;
     public AudioClip[] spottedClip;
+    public AudioClip[] playerDeathClip;
+    public AudioClip[] allyDeathClip;
 
     private AudioSource voice;
 
@@ -49,5 +51,24 @@ public class EnemyVoice : MonoBehaviour
             voice.Play();
         }
            
+    }
+
+    public bool PlayAllyDeathVoice()
+    {
+        if (Random.value < phraseChance)
+        {
+            voice.clip = allyDeathClip[Random.Range(0, allyDeathClip.Length)];
+            voice.Play();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void PlayPlayerDeathVoice()
+    {
+        voice.clip = playerDeathClip[Random.Range(0, playerDeathClip.Length)];
+        voice.Play();
     }
 }

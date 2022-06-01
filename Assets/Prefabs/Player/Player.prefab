@@ -5932,10 +5932,10 @@ GameObject:
   - component: {fileID: 4921265128057533326}
   - component: {fileID: 4921265128057533325}
   - component: {fileID: 4921265128057533324}
-  - component: {fileID: 4921265128057533327}
+  - component: {fileID: -7178577070692636433}
   - component: {fileID: 4921265128057533315}
-  - component: {fileID: 5582971340340924724}
   - component: {fileID: 5415759369786216746}
+  - component: {fileID: 5582971340340924724}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -6028,7 +6028,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b6a41a9401a28414bb868f4916164909, type: 3}
   - {fileID: 8300000, guid: bf9bff77340c80e45984cd6437a9370f, type: 3}
   playerSound: {fileID: 5582971340340924724}
---- !u!114 &4921265128057533327
+--- !u!114 &-7178577070692636433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6037,7 +6037,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4921265128057533314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a111d359e9abd85469fb0159720d1e8e, type: 3}
+  m_Script: {fileID: 11500000, guid: e0a049db2a59aff469ed9a56f8a33c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isInvincible: 0
@@ -6083,6 +6083,32 @@ MonoBehaviour:
   weaponPosition: {fileID: 4921265126563772370}
   keycardHolder: {fileID: 4921265128581476105}
   keycardUiHolder: {fileID: 2740922822131343776}
+--- !u!114 &5415759369786216746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921265128057533314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d9032eaddafbb4199f35fe5a6ef0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.45
+  crouchStepMultiplier: 1.25
+  footstepSource: {fileID: 0}
+  defaultSteps:
+  - {fileID: 8300000, guid: 7a7f9cd1423531848a09e608b2119dc9, type: 3}
+  - {fileID: 8300000, guid: 47cdb48d1ed7e2549aace6134366efe2, type: 3}
+  woodSteps:
+  - {fileID: 8300000, guid: e2ee435e2c999ec4fbb63b91761b55ff, type: 3}
+  - {fileID: 8300000, guid: 99e59a917febcf14f8a7ae2275913776, type: 3}
+  - {fileID: 8300000, guid: d74929c2215d3ca46a8cc60e6cd52910, type: 3}
+  - {fileID: 8300000, guid: 05a84e5a4d49e904285e392f517f6b2c, type: 3}
+  metalSteps:
+  - {fileID: 8300000, guid: ac9e3a6f590015342b030b380ef312c3, type: 3}
+  - {fileID: 8300000, guid: b285919538530764690ed415d8ef927c, type: 3}
 --- !u!82 &5582971340340924724
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6179,32 +6205,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5415759369786216746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4921265128057533314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d9032eaddafbb4199f35fe5a6ef0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stepSpeed: 0.4
-  crouchStepMultiplier: 1.25
-  footstepSource: {fileID: 0}
-  defaultSteps:
-  - {fileID: 8300000, guid: 7a7f9cd1423531848a09e608b2119dc9, type: 3}
-  - {fileID: 8300000, guid: 47cdb48d1ed7e2549aace6134366efe2, type: 3}
-  woodSteps:
-  - {fileID: 8300000, guid: e2ee435e2c999ec4fbb63b91761b55ff, type: 3}
-  - {fileID: 8300000, guid: 99e59a917febcf14f8a7ae2275913776, type: 3}
-  - {fileID: 8300000, guid: d74929c2215d3ca46a8cc60e6cd52910, type: 3}
-  - {fileID: 8300000, guid: 05a84e5a4d49e904285e392f517f6b2c, type: 3}
-  metalSteps:
-  - {fileID: 8300000, guid: ac9e3a6f590015342b030b380ef312c3, type: 3}
-  - {fileID: 8300000, guid: b285919538530764690ed415d8ef927c, type: 3}
 --- !u!1 &4921265128097211139
 GameObject:
   m_ObjectHideFlags: 0

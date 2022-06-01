@@ -219,8 +219,8 @@ MonoBehaviour:
   currentArmor: 0
   maxArmor: 0
   armorDamageReductionPercentage: 0
-  hitSound: {fileID: 7655554695799654856, guid: 41625f76eb14c554b922459faeb67ef8, type: 3}
   blood: {fileID: 3329617227668744050, guid: 2c98207269d33674c894c45b35b0b593, type: 3}
+  critBox: {fileID: 0}
 --- !u!54 &4355134531159341118
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -274,6 +274,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   player: {fileID: 0}
   eyes: {fileID: 1106783784511780382}
+  body: {fileID: 0}
   playerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -281,6 +282,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1160
   weapon: {fileID: 0}
+  meleeWeapon: {fileID: 0}
   health: {fileID: 0}
   waypoint: {fileID: 0}
   walkPointSet: 0
@@ -292,22 +294,26 @@ MonoBehaviour:
   randomPatrol: 0
   reactionTime: 0.4
   aimDeviation: 1
+  maxAimDeviation: 0
+  minAimDeviation: 0
+  maxPlayerDistance: 0
   aimSpeed: 5
   viewRadius: 15
   viewAngle: 120
-  attackRange: 10
-  defaultViewRange: 0
-  defaultAttackRange: 0
+  maxAttackRange: 0
+  minAttackRange: 0
+  awarenessRange: 0
   playerInAttackRange: 0
+  playerInMinAttackRange: 0
+  playerInAwarenessRange: 0
   hasLoS: 0
   sawPlayer: 0
   react: 0
   voice: {fileID: 0}
-  isPassive: 1
-  isAlert: 0
-  isAggressive: 0
   isDead: 0
+  waitingForDoor: 0
   weaponToDrop: {fileID: 4910583665062398842, guid: 8b32d4eb1cea1494e89af7fe3c8771b5, type: 3}
+  headshotEffect: {fileID: 0}
 --- !u!114 &5174876299527344062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +347,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 5
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -377,7 +383,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -429,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833f5900c5f646444a863bd11d10000d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phraseChance: 1
+  phraseChance: 0.33
   reloadClip:
   - {fileID: 8300000, guid: e20cfa4fcb7ad464abd2e9ea1d0aae8e, type: 3}
   - {fileID: 8300000, guid: 239c817c1d8d7f9428df260b783c0f69, type: 3}
@@ -463,6 +469,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 07e72cdb00a84c24daabdc6534f901fe, type: 3}
   - {fileID: 8300000, guid: eca21233c4deed24fad5eca203925646, type: 3}
   - {fileID: 8300000, guid: 867192d2dec91424483fcf09acb21d13, type: 3}
+  playerDeathClip: []
+  allyDeathClip: []
 --- !u!1 &6374173060890677978
 GameObject:
   m_ObjectHideFlags: 0

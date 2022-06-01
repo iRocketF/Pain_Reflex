@@ -124,8 +124,8 @@ MonoBehaviour:
   currentArmor: 0
   maxArmor: 0
   armorDamageReductionPercentage: 0
-  hitSound: {fileID: 7655554695799654856, guid: 41625f76eb14c554b922459faeb67ef8, type: 3}
   blood: {fileID: 3329617227668744050, guid: 2c98207269d33674c894c45b35b0b593, type: 3}
+  critBox: {fileID: 0}
 --- !u!54 &1492708839103782951
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,6 +192,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   player: {fileID: 0}
   eyes: {fileID: 2854073745510460935}
+  body: {fileID: 0}
   playerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -199,6 +200,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1160
   weapon: {fileID: 0}
+  meleeWeapon: {fileID: 0}
   health: {fileID: 0}
   waypoint: {fileID: 0}
   walkPointSet: 0
@@ -210,22 +212,26 @@ MonoBehaviour:
   randomPatrol: 0
   reactionTime: 0.2
   aimDeviation: 0
+  maxAimDeviation: 0
+  minAimDeviation: 0
+  maxPlayerDistance: 0
   aimSpeed: 5
   viewRadius: 50
   viewAngle: 120
-  attackRange: 25
-  defaultViewRange: 0
-  defaultAttackRange: 0
+  maxAttackRange: 0
+  minAttackRange: 0
+  awarenessRange: 0
   playerInAttackRange: 0
+  playerInMinAttackRange: 0
+  playerInAwarenessRange: 0
   hasLoS: 0
   sawPlayer: 0
   react: 0
   voice: {fileID: 0}
-  isPassive: 1
-  isAlert: 0
-  isAggressive: 0
   isDead: 0
+  waitingForDoor: 0
   weaponToDrop: {fileID: 4910583665062398842, guid: 8b32d4eb1cea1494e89af7fe3c8771b5, type: 3}
+  headshotEffect: {fileID: 0}
 --- !u!82 &3403880361827218073
 AudioSource:
   m_ObjectHideFlags: 0
@@ -246,7 +252,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 5
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -368,6 +374,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 07e72cdb00a84c24daabdc6534f901fe, type: 3}
   - {fileID: 8300000, guid: eca21233c4deed24fad5eca203925646, type: 3}
   - {fileID: 8300000, guid: 867192d2dec91424483fcf09acb21d13, type: 3}
+  playerDeathClip: []
+  allyDeathClip: []
 --- !u!1 &2854073745510460928
 GameObject:
   m_ObjectHideFlags: 0
