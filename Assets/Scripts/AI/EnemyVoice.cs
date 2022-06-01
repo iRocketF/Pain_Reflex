@@ -45,12 +45,8 @@ public class EnemyVoice : MonoBehaviour
 
     public void PlaySpotVoice()
     {
-        if (Random.value < phraseChance)
-        {
-            voice.clip = spottedClip[Random.Range(0, spottedClip.Length)];
-            voice.Play();
-        }
-           
+        voice.clip = spottedClip[Random.Range(0, spottedClip.Length)];
+        voice.Play();
     }
 
     public bool PlayAllyDeathVoice()
