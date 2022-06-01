@@ -45,7 +45,12 @@ public class InteractablePickUp : MonoBehaviour
         else if (CompareTag("AmmoPickUp"))
         {
             Pickup_Ammobox ammoBox = GetComponent<Pickup_Ammobox>();
-            return "Pick up " + ammoBox.caliber + " ammo";
+
+            if (!inventory.hasMaxAmmo(ammoBox))
+                return "Pick up " + ammoBox.caliber + " ammo";
+            else
+                return ammoBox.caliber + " ammo full";
+
         }
         else if (CompareTag("HealthPickUp"))
         {
@@ -155,12 +160,12 @@ public class InteractablePickUp : MonoBehaviour
     {
         Pickup_Ammobox pickUp = GetComponent<Pickup_Ammobox>();
 
-        inventory.AddAmmo(pickUp);
-
-        hud.uiSound.PlayOneShot(hud.sounds[0]);
-
-        hud.UpdateAmmoText();
-
+        if(!inventory.hasMaxAmmo(pickUp))
+        {
+            inventory.AddAmmo(pickUp);
+            hud.uiSound.PlayOneShot(hud.sounds[0]);
+            hud.UpdateAmmoText();
+        }
     }
 
     public void PickUpHealth(HealthBase pHealth, PlayerHUD hud)
@@ -172,7 +177,6 @@ public class InteractablePickUp : MonoBehaviour
             pHealth.Heal(pickUp.healAmount);
             pickUp.Remove();
             hud.uiSound.PlayOneShot(hud.sounds[2]);
-
         }
     }
 

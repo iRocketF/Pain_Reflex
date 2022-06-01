@@ -530,7 +530,6 @@ MonoBehaviour:
   aimDeviation: 0.5
   maxAimDeviation: 1
   minAimDeviation: 0.2
-  playerDistance: 0
   maxPlayerDistance: 20
   aimSpeed: 5
   viewRadius: 40
@@ -558,7 +557,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1789093718331303076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a111d359e9abd85469fb0159720d1e8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 602cafffa12a8914fac1c77fecde1b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isInvincible: 0
@@ -569,6 +568,10 @@ MonoBehaviour:
   armorDamageReductionPercentage: 50
   blood: {fileID: 3329617227668744050, guid: 2c98207269d33674c894c45b35b0b593, type: 3}
   critBox: {fileID: 0}
+  enemy: {fileID: 0}
+  reactMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &921115043154269911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,40 +597,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833f5900c5f646444a863bd11d10000d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phraseChance: 1
+  phraseChance: 0.33
   reloadClip:
-  - {fileID: 8300000, guid: e20cfa4fcb7ad464abd2e9ea1d0aae8e, type: 3}
-  - {fileID: 8300000, guid: 239c817c1d8d7f9428df260b783c0f69, type: 3}
-  - {fileID: 8300000, guid: caa00267ea65ad3469690f1b66e47bc7, type: 3}
-  - {fileID: 8300000, guid: 5ad8e625008cdf04e8fc189e90db1fc0, type: 3}
-  - {fileID: 8300000, guid: 55da60d4410ebba4692e9dd15b9ccc4b, type: 3}
-  - {fileID: 8300000, guid: 41b741ffe021cf3429f31bb1eddf11d6, type: 3}
+  - {fileID: 8300000, guid: b63d140dc62a42e4890ef117ac3b3ee3, type: 3}
+  - {fileID: 8300000, guid: 5f414e21e42dd4749a546c71c0bfc6ec, type: 3}
+  - {fileID: 8300000, guid: 9e5e38b00eb42684e8f269c9e8733d4e, type: 3}
+  - {fileID: 8300000, guid: 88d55d361bb29ff41a5d78395d99f865, type: 3}
+  - {fileID: 8300000, guid: c47b51544286fa849a3af9becc030bb1, type: 3}
+  - {fileID: 8300000, guid: ac05c4c680f625e47ac13be5cd129c35, type: 3}
+  - {fileID: 8300000, guid: fd5521e631d08184d969e115bbce36ef, type: 3}
   hurtClip:
-  - {fileID: 8300000, guid: 840d4f95a1c6fc441bff03c9b06d8ea3, type: 3}
-  - {fileID: 8300000, guid: 055226f54db56ed43815ef9f9dcd1f6f, type: 3}
-  - {fileID: 8300000, guid: 526c7d2b23dd6f24db8a73b0c169a0fe, type: 3}
-  - {fileID: 8300000, guid: 7f326a5a0084f5547b087ba4b069cb2d, type: 3}
-  - {fileID: 8300000, guid: 90103ef42f9205e479df612841111523, type: 3}
-  - {fileID: 8300000, guid: ce586cf17080eba4e8e30a9db030bfe9, type: 3}
-  - {fileID: 8300000, guid: aaf97f15e119beb469d2e7958522e1df, type: 3}
-  - {fileID: 8300000, guid: a247ca7c7b9c74c4392894409375d90e, type: 3}
+  - {fileID: 8300000, guid: 5473415c25a689e49bbb888d13b49210, type: 3}
+  - {fileID: 8300000, guid: 982a6ad4bf429464f99da8f51d4f3b0c, type: 3}
+  - {fileID: 8300000, guid: 72e535bbb999cc941b5682d938ad1395, type: 3}
+  - {fileID: 8300000, guid: a27babbc749b1304d9d831c65cd22d21, type: 3}
+  - {fileID: 8300000, guid: 8216425f1aaba15428b3e7041996c9d2, type: 3}
+  - {fileID: 8300000, guid: b57f2ea9e3dc48e48a65679b5f6873bf, type: 3}
+  - {fileID: 8300000, guid: 5f8f68ab239f60f49af955117069efc9, type: 3}
+  - {fileID: 8300000, guid: 1ce8bdea286f6804aa57ae4fa1953be0, type: 3}
+  - {fileID: 8300000, guid: 4e2a0a775d70ec9468709bbc9e3ba004, type: 3}
+  - {fileID: 8300000, guid: 6b4bacdc18c4ecd4aaa22db82831d896, type: 3}
+  - {fileID: 8300000, guid: 3b4f990ff208b2f4380ef2091745bb28, type: 3}
+  - {fileID: 8300000, guid: 79185613450860440ba2d6142a195c3d, type: 3}
   deathClip:
-  - {fileID: 8300000, guid: 840d4f95a1c6fc441bff03c9b06d8ea3, type: 3}
-  - {fileID: 8300000, guid: 055226f54db56ed43815ef9f9dcd1f6f, type: 3}
-  - {fileID: 8300000, guid: 526c7d2b23dd6f24db8a73b0c169a0fe, type: 3}
-  - {fileID: 8300000, guid: 7f326a5a0084f5547b087ba4b069cb2d, type: 3}
-  - {fileID: 8300000, guid: 90103ef42f9205e479df612841111523, type: 3}
-  - {fileID: 8300000, guid: ce586cf17080eba4e8e30a9db030bfe9, type: 3}
-  - {fileID: 8300000, guid: aaf97f15e119beb469d2e7958522e1df, type: 3}
-  - {fileID: 8300000, guid: a247ca7c7b9c74c4392894409375d90e, type: 3}
-  - {fileID: 8300000, guid: b59ba53e4627d5b4d99c50adcc05c9f5, type: 3}
-  - {fileID: 8300000, guid: 2612eef5be4875a49964f70e7d2a25b1, type: 3}
-  - {fileID: 8300000, guid: aa0e41035e6b95d47ae4ed8ad773125a, type: 3}
+  - {fileID: 8300000, guid: 9957eecabd1ad4747a60e1f01af915dd, type: 3}
+  - {fileID: 8300000, guid: fe97d9218ceeea440831ea44bccf2963, type: 3}
+  - {fileID: 8300000, guid: 22af007f46bec6a47a19e7824c9aa1c8, type: 3}
+  - {fileID: 8300000, guid: 69fb5e627c53025449c7e7c3bc16ece6, type: 3}
+  - {fileID: 8300000, guid: 13bfdd0006492ec4d9dcbcb7cb875892, type: 3}
+  - {fileID: 8300000, guid: 6d125ffc38904a94dae8dfe693b3cf9c, type: 3}
+  - {fileID: 8300000, guid: ecf576b1c08523a418b7c131c537402b, type: 3}
+  - {fileID: 8300000, guid: 9843827d8557c2b4c807efdd418d1837, type: 3}
+  - {fileID: 8300000, guid: d4786c477f69bdb41803748451d923ef, type: 3}
+  - {fileID: 8300000, guid: eed1deda76cde1747997fdb9713e6b58, type: 3}
+  - {fileID: 8300000, guid: 0a98de82752171f44ab032a6a4f1a511, type: 3}
+  - {fileID: 8300000, guid: 5d1ac25202af13945a7d3b25854066df, type: 3}
   spottedClip:
-  - {fileID: 8300000, guid: 51775c50849b0b347a4547af3980108b, type: 3}
-  - {fileID: 8300000, guid: 07e72cdb00a84c24daabdc6534f901fe, type: 3}
-  - {fileID: 8300000, guid: eca21233c4deed24fad5eca203925646, type: 3}
-  - {fileID: 8300000, guid: 867192d2dec91424483fcf09acb21d13, type: 3}
+  - {fileID: 8300000, guid: cf91a6a11fd5cfb40a83567ae9cffa68, type: 3}
+  - {fileID: 8300000, guid: fdb2b161874ab3b46baa86db4ea59666, type: 3}
+  - {fileID: 8300000, guid: a07b824151888fe44b8c5a293dc48c8b, type: 3}
+  - {fileID: 8300000, guid: fbaf968c82d423f4585da79ec4b16cde, type: 3}
+  - {fileID: 8300000, guid: a3faf5f36ac2c3c46af206fbba450b7f, type: 3}
+  - {fileID: 8300000, guid: a1d45f1697b3c69438f9aa248e2af37c, type: 3}
+  - {fileID: 8300000, guid: b393759a4b7f0004f9668b5503546ae1, type: 3}
+  - {fileID: 8300000, guid: 02558a5143235d246ae67c2c9a41f5f5, type: 3}
+  playerDeathClip:
+  - {fileID: 8300000, guid: b5f70ed37b28bf24091f6e42daad10af, type: 3}
+  - {fileID: 8300000, guid: 2249905d454c2fc49b51a2e85214d1f3, type: 3}
+  - {fileID: 8300000, guid: 5863bd90593dd7744b2903778bcbfe54, type: 3}
+  - {fileID: 8300000, guid: 2f59d60d4ad4b2545993b989e6e5aa0e, type: 3}
+  - {fileID: 8300000, guid: a29afab50081b814e8a40d68707a0ab2, type: 3}
+  - {fileID: 8300000, guid: a652750cd29d6a6418574a8f809fdfb1, type: 3}
+  - {fileID: 8300000, guid: ea33e530b09e38340aaa3c059b211d5a, type: 3}
+  allyDeathClip:
+  - {fileID: 8300000, guid: e1adbac772e737e42a882a9c85c21e1e, type: 3}
+  - {fileID: 8300000, guid: 73d6043d636c99e4c9f31b5a8aefae75, type: 3}
+  - {fileID: 8300000, guid: 661a14f33be87b643939af6e36fc3eff, type: 3}
+  - {fileID: 8300000, guid: c3c504764f1e9fc4897acc86cfba905d, type: 3}
+  - {fileID: 8300000, guid: f9de9fec3b482d940abb58c867c8600a, type: 3}
+  - {fileID: 8300000, guid: 547dd564563545546ba042152c1f0bcd, type: 3}
+  - {fileID: 8300000, guid: b14b6a4cb8e2ad74d96232c144c5ded9, type: 3}
 --- !u!82 &-8811615212052149986
 AudioSource:
   m_ObjectHideFlags: 0
@@ -648,7 +677,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 10
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -684,7 +713,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

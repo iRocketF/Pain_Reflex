@@ -118,11 +118,35 @@ public class PlayerInventory : MonoBehaviour
         {
             if (pickUp.caliber == ammoTypes[i])
             {
-                currentAmmo[i] = currentAmmo[i] + pickUp.ammoAmount;
-                pickUp.Remove();
-                break;
+                if(currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    currentAmmo[i] = currentAmmo[i] + pickUp.ammoAmount;
+
+                    if (currentAmmo[i] > maxAmmoCapacity[i])
+                        currentAmmo[i] = maxAmmoCapacity[i];
+
+                    pickUp.Remove();
+                    break;
+                }
             }
         }
+    }
+
+    public bool hasMaxAmmo(Pickup_Ammobox pickUp)
+    {
+        for (int i = 0; i < ammoTypes.Count; i++)
+        {
+            if (pickUp.caliber == ammoTypes[i])
+            {
+                if (currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    return false;
+                }
+                else
+                    return true;
+            }
+        }
+        return default;
     }
 
     public List<GameObject> SaveItems()

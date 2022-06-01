@@ -170,6 +170,8 @@
     <Compile Include="Assets\Scripts\AI\EnemyShotgun.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\Scripts\Levels\RoomSoundTransition.cs" />
+    <Compile Include="Assets\Scripts\Generic\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\Generic\EnemyHealth.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -194,7 +196,7 @@
     <None Include="Assets\Store Assets\QuickOutline\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Ultimate PBR Materials 300+\Third-Party Notices.txt" />
+    <None Include="Assets\Store Assets\Ultimate PBR Materials 300+\Third-Party Notices.txt" />
     <None Include="Assets\Store Assets\Day-Night Skyboxes\readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Store Assets\Blood decal pack\readme.txt" />
