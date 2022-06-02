@@ -147,6 +147,8 @@ public class WeaponBase : MonoBehaviour
         // a timer to stop the player from instantly picking the gun back up again after throwing it away
         if (!canPickUp)
         {
+            outline.enabled = false;
+
             timer_rePickUpTime += Time.deltaTime;
 
             if (timer_rePickUpTime >= rePickUpTime)

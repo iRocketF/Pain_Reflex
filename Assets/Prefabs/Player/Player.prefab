@@ -5991,14 +5991,18 @@ MonoBehaviour:
   rb_player: {fileID: 4921265128057533325}
   playerCollider: {fileID: 4921265128233218624}
   walkSpeed: 6.5
-  crouchSpeed: 3
+  crouchSpeed: 4
   groundDrag: 5
-  maxSlopeAngle: 60
+  groundCheckRadius: 0.4
+  maxSlopeAngle: 40
+  exitingSlope: 0
   orientation: {fileID: 4921265128233218627}
-  jumpForce: 6.25
+  jumpHeight: 2.25
+  jumpCooldown: 0.25
+  jumpRequest: 0
   matrixForce: 4
   airMultiplier: 0.2
-  fallMultiplier: 2
+  fallMultiplier: 2.25
   ground:
     serializedVersion: 2
     m_Bits: 33800
@@ -6007,10 +6011,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3a3269627432f5e409ba66ed3f7906ab, type: 3}
   startHeight: 0
   crouchHeight: 0
-  crouchTime: 2
+  crouchTime: 1
   stepRayUpper: {fileID: 8906885103739327153}
   stepRayLower: {fileID: 5099468752701751365}
-  stepHeight: 0.3
+  stepHeight: 0.4
   stepSmooth: 0.1
   isWalking: 0
   isCrouching: 0
@@ -6028,6 +6032,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b6a41a9401a28414bb868f4916164909, type: 3}
   - {fileID: 8300000, guid: bf9bff77340c80e45984cd6437a9370f, type: 3}
   playerSound: {fileID: 5582971340340924724}
+  noFriction: {fileID: 13400000, guid: 8486d4e6bb4637c4089d752bb4c898e0, type: 2}
 --- !u!114 &-7178577070692636433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6096,7 +6101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepSpeed: 0.45
-  crouchStepMultiplier: 1.25
+  crouchStepMultiplier: 1.6
   footstepSource: {fileID: 0}
   defaultSteps:
   - {fileID: 8300000, guid: 7a7f9cd1423531848a09e608b2119dc9, type: 3}
@@ -6333,7 +6338,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4921265128233218629}
-  m_Material: {fileID: 13400000, guid: 8486d4e6bb4637c4089d752bb4c898e0, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5

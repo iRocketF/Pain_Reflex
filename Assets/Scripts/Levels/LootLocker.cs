@@ -6,9 +6,7 @@ public class LootLocker : MonoBehaviour
 {
     private Animator animator;
 
-    [SerializeField]
     private bool isOpen;
-    [SerializeField]
     private bool isClosed;
 
     private InteractableButton button;

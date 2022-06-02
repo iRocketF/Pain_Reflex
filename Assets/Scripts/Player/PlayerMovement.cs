@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
         pController = GetComponent<CharacterController>();
         pCam = GetComponentInChildren<PlayerCamera>();
 
-        //currentStamina = maxStamina;
         startHeight = pController.height;
         crouchHeight = pController.height / 2f;
     }
@@ -61,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Movement();
             Crouch();
-            //Stamina();
         }
     }
 
