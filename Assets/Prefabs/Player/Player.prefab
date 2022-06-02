@@ -5997,11 +5997,12 @@ MonoBehaviour:
   maxSlopeAngle: 40
   exitingSlope: 0
   orientation: {fileID: 4921265128233218627}
-  jumpForce: 6.25
+  jumpHeight: 2.25
   jumpCooldown: 0.25
+  jumpRequest: 0
   matrixForce: 4
   airMultiplier: 0.2
-  fallMultiplier: 2
+  fallMultiplier: 2.25
   ground:
     serializedVersion: 2
     m_Bits: 33800
@@ -6010,7 +6011,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3a3269627432f5e409ba66ed3f7906ab, type: 3}
   startHeight: 0
   crouchHeight: 0
-  crouchTime: 2
+  crouchTime: 1
   stepRayUpper: {fileID: 8906885103739327153}
   stepRayLower: {fileID: 5099468752701751365}
   stepHeight: 0.4

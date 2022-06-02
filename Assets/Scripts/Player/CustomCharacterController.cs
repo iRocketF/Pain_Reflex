@@ -29,8 +29,10 @@ public class CustomCharacterController : MonoBehaviour
 
     // jump jump jump everybody jump
     [Header("Jumping related variables")]
-    public float jumpForce;
+    public float jumpHeight;
+    private float jumpForce;
     public float jumpCooldown;
+    [SerializeField] private bool jumpRequest;
     public float matrixForce;
     public float airMultiplier;
     public float fallMultiplier;
@@ -78,6 +80,7 @@ public class CustomCharacterController : MonoBehaviour
     [Header("Functionality stuff")]
     [SerializeField] AudioSource playerSound;
     [SerializeField] PhysicMaterial noFriction;
+    [SerializeField] CameraBreathe breathe;
 
     // the big boss
     private GameManager manager;
@@ -93,20 +96,19 @@ public class CustomCharacterController : MonoBehaviour
         startHeight = playerCollider.height;
         crouchHeight = startHeight / 2f;
 
+        jumpForce = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y);
+        readyToJump = true;
+
         currentStamina = maxMatrixStamina;
         matrixRegainOverTime = matrixDrainOverTime / 2f;
 
+        breathe = GetComponentInChildren<CameraBreathe>();
         manager = FindObjectOfType<GameManager>();
 
         stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepRayLower.transform.position.y + stepHeight, stepRayUpper.transform.position.z);
 
         toggleCrouch = manager.toggleCrouch;
         toggleAim = manager.toggleAim;
-
-        // set initial groundcheck
-        RaycastHit hit;
-
-        isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
     }
 
     void Update()
@@ -114,12 +116,20 @@ public class CustomCharacterController : MonoBehaviour
 
         RaycastHit hit;
 
-        if(isGrounded)
-            isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
-        else
-            isGrounded = Physics.SphereCast(transform.position, groundCheckRadius / 2f, Vector3.down, out hit, startHeight * 0.5f, ground);
+        isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
+        
+        if(Input.GetKeyDown(KeyCode.F3))
+        {
+            GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            debugSphere.GetComponent<Collider>().enabled = false;
 
+            if (Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground))
+            {
+                debugSphere.transform.position = hit.point;
+                debugSphere.transform.localScale = new Vector3(groundCheckRadius, groundCheckRadius, groundCheckRadius);          
+            }
 
+        }
 
 
         if (!isDead)
@@ -142,6 +152,9 @@ public class CustomCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         Movement();
+
+        if (jumpRequest)
+            Jump();
     }
 
     private void PlayerInput()
@@ -149,11 +162,11 @@ public class CustomCharacterController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && readyToJump && isGrounded)
         {
             readyToJump = false;
 
-            Jump();
+            jumpRequest = true;
 
             Invoke("ResetJump", jumpCooldown);
         }
@@ -183,15 +196,19 @@ public class CustomCharacterController : MonoBehaviour
         {
             if (Input.GetButton("Ctrl"))
             {
+                if (!isCrouching)
+                    crouchLerpTime = 0f;
+
                 isCrouching = true;
-                //crouchLerpTime = 0f;
 
                 Crouch();
             }
             else if (CanUncrouch())
             {
+                if(isCrouching)
+                    crouchLerpTime = 0f;
+
                 isCrouching = false;
-                //crouchLerpTime = 0f;
 
                 Crouch();
             }
@@ -203,7 +220,7 @@ public class CustomCharacterController : MonoBehaviour
     private void SpeedControl()
     {
 
-        if(OnSlope())
+        if (OnSlope())
         {
             if (!isCrouching)
             {
@@ -215,14 +232,14 @@ public class CustomCharacterController : MonoBehaviour
                 if (rb_player.velocity.magnitude > crouchSpeed)
                     rb_player.velocity = rb_player.velocity.normalized * crouchSpeed;
             }
-           
+
         }
         // this limits the player velocity so it doesn't exceed the speed in player variables
-        else 
+        else
         {
             Vector3 flatVelocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
 
-            if(!isCrouching)
+            if (!isCrouching)
             {
                 if (flatVelocity.magnitude > walkSpeed)
                 {
@@ -230,7 +247,7 @@ public class CustomCharacterController : MonoBehaviour
                     rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
                 }
             }
-            else
+            else if (isCrouching && isGrounded)
             {
                 if (flatVelocity.magnitude > crouchSpeed)
                 {
@@ -238,8 +255,15 @@ public class CustomCharacterController : MonoBehaviour
                     rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
                 }
             }
+            else if (isCrouching)
+            {
+                if (flatVelocity.magnitude > walkSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
+            }
         }
-
     }
 
     private void Movement()
@@ -303,10 +327,11 @@ public class CustomCharacterController : MonoBehaviour
     private void Jump()
     {
         exitingSlope = true;
+        jumpRequest = false;
 
-        rb_player.velocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
+        rb_player.velocity = new Vector3(rb_player.velocity.x, 0, rb_player.velocity.z);
 
-        rb_player.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        rb_player.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
         playerSound.PlayOneShot(jumpSounds[0]);
     }
@@ -424,6 +449,7 @@ public class CustomCharacterController : MonoBehaviour
                 lerpPercent = crouchLerpTime / crouchTime;
                 pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.crouchHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, crouchHeight, lerpPercent);
+                breathe.LerpPosition(lerpPercent, isCrouching);
             }
         }
         else if (!isCrouching)
@@ -439,6 +465,7 @@ public class CustomCharacterController : MonoBehaviour
                 lerpPercent = crouchLerpTime / crouchTime;
                 pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.startHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, startHeight, lerpPercent);
+                breathe.LerpPosition(lerpPercent, isCrouching);
             }
         }
 
@@ -450,7 +477,7 @@ public class CustomCharacterController : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector3.up * 0.75f);
 
-        if (Physics.Raycast(transform.position, Vector3.up, out hit, 1f))
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f))
             return false;
         else
             return true;
