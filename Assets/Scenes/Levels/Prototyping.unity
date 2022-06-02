@@ -4816,6 +4816,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1752592819313653286, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2681683551619782217, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: recoil
       value: -1
@@ -4838,7 +4842,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.349
+      value: 1.3490002
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4846,19 +4850,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.60801804
+      value: 0.608018
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.36099046
+      value: -0.36099023
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.36099035
+      value: -0.36099058
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.60801804
+      value: 0.60801816
       objectReference: {fileID: 0}
     - target: {fileID: 6604712569315100747, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16037,7 +16041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7559346501068544221, guid: a49a2525b792b4c4281617f7ca40213d, type: 3}
       propertyPath: recoil
-      value: -1.5
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a49a2525b792b4c4281617f7ca40213d, type: 3}

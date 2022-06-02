@@ -20,30 +20,46 @@ public class InteractablePickUp : MonoBehaviour
 
     public string ReturnInteractText(PlayerInventory inventory, HealthBase health)
     {
-        outline.enabled = true;
-
         if (inventory.weaponInventory[0] == null && GetComponent<WeaponBase>() != null)
         {
             WeaponBase weapon = GetComponent<WeaponBase>();
+
+            if(weapon.canPickUp)
+                outline.enabled = true;
+
             return "Pick up " + weapon.weaponName;
         }
         else if (inventory.weaponInventory[0] == null && GetComponent<MeleeWeapon>() != null)
         {
             MeleeWeapon weapon = GetComponent<MeleeWeapon>();
+
+            if (weapon.canPickUp)
+                outline.enabled = true;
+
             return "Pick up " + weapon.weaponName;
         }
         else if (inventory.weaponInventory[0] != null && GetComponent<WeaponBase>() != null)
         {
             WeaponBase weapon = GetComponent<WeaponBase>();
+
+            if (weapon.canPickUp)
+                outline.enabled = true;
+
             return "Swap weapon for " + weapon.weaponName;
         }
         else if (inventory.weaponInventory[0] != null && GetComponent<MeleeWeapon>() != null)
         {
             MeleeWeapon weapon = GetComponent<MeleeWeapon>();
+
+            if (weapon.canPickUp)
+                outline.enabled = true;
+
             return "Swap weapon for " + weapon.weaponName;
         }
         else if (CompareTag("AmmoPickUp"))
         {
+            outline.enabled = true;
+
             Pickup_Ammobox ammoBox = GetComponent<Pickup_Ammobox>();
 
             if (!inventory.hasMaxAmmo(ammoBox))
@@ -54,6 +70,8 @@ public class InteractablePickUp : MonoBehaviour
         }
         else if (CompareTag("HealthPickUp"))
         {
+            outline.enabled = true;
+
             Pickup_Healthbox healthBox = GetComponent<Pickup_Healthbox>();
 
             if (health.currentHealth == health.maxHealth)
@@ -63,6 +81,8 @@ public class InteractablePickUp : MonoBehaviour
         }
         else if (CompareTag("ArmorPickUp"))
         {
+            outline.enabled = true;
+
             PickUp_Armor armorBox = GetComponent<PickUp_Armor>();
 
             if (health.currentArmor == health.maxArmor)
@@ -72,6 +92,8 @@ public class InteractablePickUp : MonoBehaviour
         }
         else if (CompareTag("Keycard"))
         {
+            outline.enabled = true;
+
             return "Pick up keycard";
         }
         return null;
