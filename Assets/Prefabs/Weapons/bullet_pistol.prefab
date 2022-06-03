@@ -84,7 +84,11 @@ MonoBehaviour:
   bulletDamage: 15
   rigidBody: {fileID: 1653170290762283741}
   impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 136
   trailDelay: 0.05
+  bullethole: {fileID: 2907703517363007301, guid: b8791595de57d5148ac1beccc0754b11, type: 3}
   source: {fileID: 0}
 --- !u!1 &7219211532981857198
 GameObject:
@@ -223,7 +227,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.005
+  m_Time: 0.05
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1

@@ -6189,8 +6189,8 @@ MonoBehaviour:
   rechargeCoolDown: 3
   slowMoSounds:
   - {fileID: 8300000, guid: b6a41a9401a28414bb868f4916164909, type: 3}
-  - {fileID: 8300000, guid: eda355371cc710647b75a3f676cd0afa, type: 3}
-  returnTime: 2
+  - {fileID: 8300000, guid: 378a88229a3df7e48a3c2a6f165bc112, type: 3}
+  returnTime: 1
   returningToRealTime: 0
   damageReduction: 0
   regenOnHit: 4

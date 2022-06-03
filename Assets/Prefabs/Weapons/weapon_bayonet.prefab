@@ -148,7 +148,7 @@ MonoBehaviour:
   weaponName: Bayonet
   meleeDmg: 40
   meleeForce: 50
-  meleeRange: 3
+  meleeRange: 2.5
   throwForce: 30
   throwSpin: 0
   swingSpeed: 4

@@ -243,7 +243,7 @@ MonoBehaviour:
   rePickUpTime: 0.5
   meleeDmg: 15
   meleeForce: 50
-  meleeRange: 2
+  meleeRange: 2.5
   meleeMask:
     serializedVersion: 2
     m_Bits: 128
