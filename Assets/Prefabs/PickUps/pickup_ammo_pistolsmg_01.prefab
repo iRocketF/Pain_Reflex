@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4420415457320955837}
   - component: {fileID: 4420415457320955836}
   - component: {fileID: 5005327605086616024}
-  - component: {fileID: 4420415457320955838}
+  - component: {fileID: 3166946288349055016}
   - component: {fileID: 4420415457320955827}
+  - component: {fileID: 4420415457320955838}
   - component: {fileID: 4420415457320955824}
   - component: {fileID: 6183614558105100545}
   m_Layer: 11
@@ -99,20 +100,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8236091, y: 0.46034738, z: 1.9375648}
   m_Center: {x: -0.0058541447, y: 0.2268086, z: -2.6423304}
---- !u!114 &4420415457320955838
-MonoBehaviour:
+--- !u!135 &3166946288349055016
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4420415457320955833}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8095acc3638c6ac4197f0d77191dd942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  caliber: Pistol
-  ammoAmount: 10
+  serializedVersion: 2
+  m_Radius: 1.2
+  m_Center: {x: -0.0058541447, y: 0.2268086, z: -2.6423323}
 --- !u!54 &4420415457320955827
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,6 +129,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4420415457320955838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420415457320955833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8095acc3638c6ac4197f0d77191dd942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caliber: Pistol
+  ammoAmount: 10
 --- !u!114 &4420415457320955824
 MonoBehaviour:
   m_ObjectHideFlags: 0

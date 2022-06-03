@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class TutorialMessage : MonoBehaviour
 {
     public bool isStatic;
-
     private PlayerCamera pCam;
 
     void Start()
@@ -16,10 +15,8 @@ public class TutorialMessage : MonoBehaviour
 
     void Update()
     {
-
         if (!isStatic)
             LookAtPlayer();
-
     }
 
     // message always looks at player
