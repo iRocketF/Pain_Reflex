@@ -18,11 +18,13 @@ public class BulletBase : MonoBehaviour
 
     //impact particles
     public ParticleSystem impactParticles;
+    [SerializeField] LayerMask environmentMask;
    
     // trail & visuals
     private TrailRenderer trail;
     private MeshRenderer render;
     [SerializeField] float trailDelay;
+    [SerializeField] GameObject bullethole;
 
     public Transform source;
 
@@ -177,6 +179,12 @@ public class BulletBase : MonoBehaviour
         else if (collision.gameObject.layer == 10)
         {
             Vector3 contactPoint = collision.GetContact(0).point;
+            Vector3 normal = collision.GetContact(0).normal;
+
+            GameObject bhole = Instantiate(bullethole, contactPoint, Quaternion.LookRotation(normal));
+            bhole.transform.parent = collision.transform;
+            //Debug.Log("bullethole created?");
+            bhole.transform.position += bhole.transform.forward / 1000;
 
             ParticleSystem impact = Instantiate(impactParticles, contactPoint, Quaternion.identity);
             impact.transform.LookAt(source);

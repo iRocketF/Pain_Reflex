@@ -98,7 +98,7 @@ public class ReflexMode : MonoBehaviour
 
             returningToRealTime = true;
 
-            playerSound.PlayOneShot(slowMoSounds[1]);
+            //playerSound.PlayOneShot(slowMoSounds[1]);
         }
     }
 

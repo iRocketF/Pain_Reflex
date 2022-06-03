@@ -265,7 +265,11 @@ MonoBehaviour:
   bulletDamage: 7
   rigidBody: {fileID: 2578982875358965574}
   impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 1032
   trailDelay: 0.1
+  bullethole: {fileID: 2907703517363007301, guid: b8791595de57d5148ac1beccc0754b11, type: 3}
   source: {fileID: 0}
 --- !u!114 &552331717845934137
 MonoBehaviour:

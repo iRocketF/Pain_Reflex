@@ -316,7 +316,8 @@ public class WeaponBase : MonoBehaviour
 
         // muzzleflash gameobject that has the muzzleflash and smoke afterwards
         // set the layers to equippedweapon so the smoke aligns properly with barrel
-        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn);
+        //GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn);
+        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn.parent.parent);
 
         muzzle.layer = 12;
 
