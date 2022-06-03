@@ -240,7 +240,7 @@ MonoBehaviour:
   ammo: {fileID: 0}
   bullet: {fileID: 4928964695773918645, guid: afd43ae1e8821444b98e1a6e823dc326, type: 3}
   bulletSpawn: {fileID: 4909193070344660466}
-  muzzleEffects: {fileID: 5879447959204692281, guid: 8ceb4e42b339809489fed661cf9b4b50, type: 3}
+  muzzleEffects: {fileID: 1475285376581717884, guid: dca007724a4ed3e4dadbc166453fd291, type: 3}
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 0}
