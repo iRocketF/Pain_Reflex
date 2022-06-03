@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 7232687389635521312}
   - component: {fileID: 4083763187033008227}
   - component: {fileID: 7358474088573056888}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,8 +356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ec8e7f1ac96ef40b0be032cd8cdfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpen: 0
-  isClosed: 0
 --- !u!65 &4904407552498301406
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -577,6 +575,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8b6b828ebf9d00d43adf0c113404da66, type: 3}
       propertyPath: m_Name
       value: locker_doorL
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8b6b828ebf9d00d43adf0c113404da66, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8b6b828ebf9d00d43adf0c113404da66, type: 3}
       propertyPath: m_IsActive

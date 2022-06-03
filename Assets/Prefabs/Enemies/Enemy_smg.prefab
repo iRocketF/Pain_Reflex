@@ -842,13 +842,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phraseChance: 0.33
   reloadClip:
-  - {fileID: 8300000, guid: b63d140dc62a42e4890ef117ac3b3ee3, type: 3}
-  - {fileID: 8300000, guid: 5f414e21e42dd4749a546c71c0bfc6ec, type: 3}
-  - {fileID: 8300000, guid: 9e5e38b00eb42684e8f269c9e8733d4e, type: 3}
-  - {fileID: 8300000, guid: 88d55d361bb29ff41a5d78395d99f865, type: 3}
-  - {fileID: 8300000, guid: c47b51544286fa849a3af9becc030bb1, type: 3}
-  - {fileID: 8300000, guid: ac05c4c680f625e47ac13be5cd129c35, type: 3}
-  - {fileID: 8300000, guid: fd5521e631d08184d969e115bbce36ef, type: 3}
+  - {fileID: 8300000, guid: 9dfcd0919f56ae444bde94036d3c2932, type: 3}
+  - {fileID: 8300000, guid: c67d889efd08aec44b82ea1826105593, type: 3}
+  - {fileID: 8300000, guid: 93f07973811d63d43953155d9ab6b481, type: 3}
+  - {fileID: 8300000, guid: d10f1568cab65644ea0261850d5dc87f, type: 3}
+  - {fileID: 8300000, guid: 04ac4e410ecddbd49be8ece71a900813, type: 3}
+  - {fileID: 8300000, guid: b2f4169069513fc45a5250084351e7ee, type: 3}
+  - {fileID: 8300000, guid: ca02791cabcd1404d8c1d4df7e22a7f3, type: 3}
+  - {fileID: 8300000, guid: 0874bfa936d11744e9c11b73ed4f7edd, type: 3}
+  - {fileID: 8300000, guid: 5bcc38b1fb21a08439210e4b2f6cd2f8, type: 3}
+  - {fileID: 8300000, guid: 0c3eb970915b813489e33d3e3419c68e, type: 3}
+  - {fileID: 8300000, guid: d21d9e901a2d9224588262ccd0667d64, type: 3}
+  - {fileID: 8300000, guid: a43095e63c35a804b90cfb320d8241e6, type: 3}
+  - {fileID: 8300000, guid: aa50595368312ea42bbfd2dffe36a6e6, type: 3}
+  - {fileID: 8300000, guid: e6eb748f31aa4054fbdc07ce52747208, type: 3}
   hurtClip:
   - {fileID: 8300000, guid: 5473415c25a689e49bbb888d13b49210, type: 3}
   - {fileID: 8300000, guid: 982a6ad4bf429464f99da8f51d4f3b0c, type: 3}
@@ -878,12 +885,20 @@ MonoBehaviour:
   spottedClip:
   - {fileID: 8300000, guid: cf91a6a11fd5cfb40a83567ae9cffa68, type: 3}
   - {fileID: 8300000, guid: fdb2b161874ab3b46baa86db4ea59666, type: 3}
+  - {fileID: 8300000, guid: d55e4fb85759ca34f957122138e56a62, type: 3}
   - {fileID: 8300000, guid: a07b824151888fe44b8c5a293dc48c8b, type: 3}
+  - {fileID: 8300000, guid: 7c51f1bb22a146e409368a9bf3bbb4f4, type: 3}
   - {fileID: 8300000, guid: fbaf968c82d423f4585da79ec4b16cde, type: 3}
+  - {fileID: 8300000, guid: 35f66a8741193e34d9a64d6ad3eff236, type: 3}
   - {fileID: 8300000, guid: a3faf5f36ac2c3c46af206fbba450b7f, type: 3}
+  - {fileID: 8300000, guid: 8fa715bf4f6cc164cbe1139c5633b1fd, type: 3}
   - {fileID: 8300000, guid: a1d45f1697b3c69438f9aa248e2af37c, type: 3}
+  - {fileID: 8300000, guid: 4ad2dab9f913c764f93caef323595d34, type: 3}
   - {fileID: 8300000, guid: b393759a4b7f0004f9668b5503546ae1, type: 3}
-  - {fileID: 8300000, guid: 02558a5143235d246ae67c2c9a41f5f5, type: 3}
+  - {fileID: 8300000, guid: 1e9d8f275e3eeab419c86d9beb0405a6, type: 3}
+  - {fileID: 8300000, guid: 9cd0c874dcdb116468b3f71de42ce774, type: 3}
+  - {fileID: 8300000, guid: 1b13c8fadf564ca4e96b24653b046915, type: 3}
+  - {fileID: 8300000, guid: 6cbbe2c74809c0f4591518e1f370d684, type: 3}
   playerDeathClip:
   - {fileID: 8300000, guid: b5f70ed37b28bf24091f6e42daad10af, type: 3}
   - {fileID: 8300000, guid: 2249905d454c2fc49b51a2e85214d1f3, type: 3}

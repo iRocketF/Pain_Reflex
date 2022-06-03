@@ -1280,8 +1280,8 @@ MonoBehaviour:
   aimSpeed: 5
   viewRadius: 50
   viewAngle: 120
-  maxAttackRange: 3
-  minAttackRange: 2
+  maxAttackRange: 2.5
+  minAttackRange: 1
   awarenessRange: 7
   playerInAttackRange: 0
   playerInMinAttackRange: 0

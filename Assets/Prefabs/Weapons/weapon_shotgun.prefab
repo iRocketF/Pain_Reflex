@@ -243,7 +243,7 @@ MonoBehaviour:
   rePickUpTime: 0.5
   meleeDmg: 15
   meleeForce: 50
-  meleeRange: 2
+  meleeRange: 2.5
   meleeMask:
     serializedVersion: 2
     m_Bits: 128
@@ -262,7 +262,7 @@ MonoBehaviour:
   ammo: {fileID: 0}
   bullet: {fileID: 3221762771198322031, guid: 6aa6d575cae85a447b89d80b9d043707, type: 3}
   bulletSpawn: {fileID: 5474920372417242223}
-  muzzleEffects: {fileID: 5879447959204692281, guid: 8ceb4e42b339809489fed661cf9b4b50, type: 3}
+  muzzleEffects: {fileID: 1475285376581717884, guid: c2617843045818942a2bcb9bcbfcf4c5, type: 3}
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 1128423668526533194}

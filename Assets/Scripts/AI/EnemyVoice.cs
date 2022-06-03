@@ -23,12 +23,8 @@ public class EnemyVoice : MonoBehaviour
 
     public void PlayReloadVoice()
     {
-        if (Random.value < phraseChance)
-        {
-            voice.clip = reloadClip[Random.Range(0, reloadClip.Length)];
-            voice.Play();
-        }
-
+        voice.clip = reloadClip[Random.Range(0, reloadClip.Length)];
+        voice.Play();
     }
 
     public void PlayHurtVoice()

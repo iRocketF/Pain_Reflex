@@ -61,7 +61,7 @@ public class WeaponShotgun : WeaponBase
         weaponSound.PlayOneShot(weaponSounds[0]);
         StartCoroutine(Pump());
 
-        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn);
+        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn.parent.parent);
 
         muzzle.layer = 12;
 
