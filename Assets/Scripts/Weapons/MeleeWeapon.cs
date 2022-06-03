@@ -230,7 +230,8 @@ public class MeleeWeapon : MonoBehaviour
 
         // make the weapon ignore collision with the player model, add some force to throw the weapon away
         Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);
-        //rigidBody.AddForce(transform.forward * 100f + transform.up * 10f);
+        rigidBody.AddForce(-transform.forward * 2.5f + -transform.up * 3f, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
 
         canPickUp = false;
     }

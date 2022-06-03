@@ -107,13 +107,7 @@ public class PlayerHUD : MonoBehaviour
         else
             crossHair.enabled = false;
 
-        UpdateBars();
         UpdateText();
-    }
-
-    void UpdateBars()
-    {
-        matrixBar.fillAmount = player.currentStamina / player.maxMatrixStamina;
     }
 
     public void UpdateHealthBar()

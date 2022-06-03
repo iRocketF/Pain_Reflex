@@ -147,6 +147,8 @@ public class WeaponBase : MonoBehaviour
         // a timer to stop the player from instantly picking the gun back up again after throwing it away
         if (!canPickUp)
         {
+            outline.enabled = false;
+
             timer_rePickUpTime += Time.deltaTime;
 
             if (timer_rePickUpTime >= rePickUpTime)
@@ -450,7 +452,8 @@ public class WeaponBase : MonoBehaviour
 
         // make the weapon ignore collision with the player model, add some force to throw the weapon away
         Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);
-        rigidBody.AddForce(transform.forward * 100f + transform.up * 50f);
+        rigidBody.AddForce(transform.forward * 2.5f + transform.up * 2f, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
 
         isPickedUp = false;
                 canPickUp = false;

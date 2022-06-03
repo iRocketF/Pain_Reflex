@@ -14,11 +14,12 @@ public class CustomCharacterController : MonoBehaviour
     public float crouchSpeed;
     private float currentSpeed;
     public float groundDrag;
+    [SerializeField] float groundCheckRadius;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
-    private bool exitingSlope;
+    [SerializeField] private bool exitingSlope;
 
     public Transform orientation;
 
@@ -28,7 +29,10 @@ public class CustomCharacterController : MonoBehaviour
 
     // jump jump jump everybody jump
     [Header("Jumping related variables")]
-    public float jumpForce;
+    public float jumpHeight;
+    private float jumpForce;
+    public float jumpCooldown;
+    [SerializeField] private bool jumpRequest;
     public float matrixForce;
     public float airMultiplier;
     public float fallMultiplier;
@@ -62,19 +66,11 @@ public class CustomCharacterController : MonoBehaviour
     public bool toggleCrouch;
     public bool toggleAim;
 
-    [Header("Max Payne Jump Variables")]
-    public float slowMoScale;
-    public float maxMatrixStamina;
-    public float currentStamina;
-    public float matrixDrainChunk;
-    public float matrixDrainOverTime;
-    private float matrixRegainOverTime;
-    public float matrixRechargeCooldown;
-    private float matrixRechargeTimer;
-    public AudioClip[] slowMoSounds;
-
     [Header("Functionality stuff")]
-    [SerializeField] AudioSource playerSound;
+    [SerializeField] ReflexMode reflex;
+    public AudioSource playerSound;
+    [SerializeField] PhysicMaterial noFriction;
+    [SerializeField] CameraBreathe breathe;
 
     // the big boss
     private GameManager manager;
@@ -90,9 +86,11 @@ public class CustomCharacterController : MonoBehaviour
         startHeight = playerCollider.height;
         crouchHeight = startHeight / 2f;
 
-        currentStamina = maxMatrixStamina;
-        matrixRegainOverTime = matrixDrainOverTime / 2f;
+        jumpForce = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y);
+        readyToJump = true;
 
+        reflex = GetComponent<ReflexMode>();
+        breathe = GetComponentInChildren<CameraBreathe>();
         manager = FindObjectOfType<GameManager>();
 
         stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepRayLower.transform.position.y + stepHeight, stepRayUpper.transform.position.z);
@@ -103,12 +101,25 @@ public class CustomCharacterController : MonoBehaviour
 
     void Update()
     {
-        //isGrounded = Physics.Raycast(transform.position, Vector3.down, startHeight * 0.5f + 0.2f, ground);
 
         RaycastHit hit;
 
-        isGrounded = Physics.SphereCast(transform.position, 0.4f, Vector3.down, out hit, startHeight * 0.5f, ground);
-            
+        isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
+        
+        if(Input.GetKeyDown(KeyCode.F3))
+        {
+            GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            debugSphere.GetComponent<Collider>().enabled = false;
+
+            if (Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground))
+            {
+                debugSphere.transform.position = hit.point;
+                debugSphere.transform.localScale = new Vector3(groundCheckRadius, groundCheckRadius, groundCheckRadius);          
+            }
+
+        }
+
+
         if (!isDead)
         {
             PlayerInput();
@@ -116,8 +127,6 @@ public class CustomCharacterController : MonoBehaviour
 
             if(toggleCrouch)
                 Crouch();
-
-            PayneJumpResource();
         }
 
         if (isGrounded)
@@ -129,6 +138,9 @@ public class CustomCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         Movement();
+
+        if (jumpRequest)
+            Jump();
     }
 
     private void PlayerInput()
@@ -136,15 +148,21 @@ public class CustomCharacterController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-            Jump();
+        if (Input.GetButtonDown("Jump") && readyToJump && isGrounded)
+        {
+            readyToJump = false;
 
-        if (!manager.matrixMode && Input.GetButtonDown("L_Shift") && currentStamina > matrixDrainChunk)
-            PayneJump();
+            jumpRequest = true;
+
+            Invoke("ResetJump", jumpCooldown);
+        }
+
+        if (!manager.matrixMode && Input.GetButtonDown("L_Shift"))
+            reflex.ReflexModeToggle();
         else if (manager.matrixMode && Input.GetButtonDown("L_Shift"))
-            PayneJump();
+            reflex.ReflexModeToggle();
 
-        if(toggleCrouch)
+        if (toggleCrouch)
         {
             if (Input.GetButtonDown("Ctrl"))
             {
@@ -164,15 +182,19 @@ public class CustomCharacterController : MonoBehaviour
         {
             if (Input.GetButton("Ctrl"))
             {
+                if (!isCrouching)
+                    crouchLerpTime = 0f;
+
                 isCrouching = true;
-                //crouchLerpTime = 0f;
 
                 Crouch();
             }
             else if (CanUncrouch())
             {
+                if(isCrouching)
+                    crouchLerpTime = 0f;
+
                 isCrouching = false;
-                //crouchLerpTime = 0f;
 
                 Crouch();
             }
@@ -184,7 +206,7 @@ public class CustomCharacterController : MonoBehaviour
     private void SpeedControl()
     {
 
-        if(OnSlope())
+        if (OnSlope())
         {
             if (!isCrouching)
             {
@@ -197,20 +219,37 @@ public class CustomCharacterController : MonoBehaviour
                     rb_player.velocity = rb_player.velocity.normalized * crouchSpeed;
             }
 
-            
         }
         // this limits the player velocity so it doesn't exceed the speed in player variables
-        else 
+        else
         {
             Vector3 flatVelocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
 
-            if (flatVelocity.magnitude > walkSpeed)
+            if (!isCrouching)
             {
-                Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
-                rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                if (flatVelocity.magnitude > walkSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
+            }
+            else if (isCrouching && isGrounded)
+            {
+                if (flatVelocity.magnitude > crouchSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * crouchSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
+            }
+            else if (isCrouching)
+            {
+                if (flatVelocity.magnitude > walkSpeed)
+                {
+                    Vector3 limitedVelocity = flatVelocity.normalized * walkSpeed;
+                    rb_player.velocity = new Vector3(limitedVelocity.x, rb_player.velocity.y, limitedVelocity.z);
+                }
             }
         }
-
     }
 
     private void Movement()
@@ -232,32 +271,39 @@ public class CustomCharacterController : MonoBehaviour
                 rb_player.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
 
+        // if there is input, walking is true / also set physicsmaterial to nofriction when moving and remove physics material when standing still
         if (direction.magnitude > 0f)
+        {
             isWalking = true;
-        /*else if (direction.magnitude == 0f && isGrounded)
+
+            if (playerCollider.sharedMaterial != noFriction)
+                playerCollider.sharedMaterial = noFriction;
+        }
+        else
         {
             isWalking = false;
-            rb_player.velocity = Vector3.zero;
-        }*/
-        else
-            isWalking = false;
+
+            if (playerCollider.sharedMaterial != null)
+                playerCollider.sharedMaterial = null;
+        }
 
         if (isGrounded)
         {
             rb_player.AddForce(direction.normalized * currentSpeed * 10f, ForceMode.Force);
-            exitingSlope = false;
         }
         else if (!isGrounded)
             rb_player.AddForce(direction.normalized * currentSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        StepClimb(direction);
-
         // turn gravity off when the player is on slope
         rb_player.useGravity = !OnSlope();
 
+        // only do step climb when not on a slope
+        if (!OnSlope())
+            StepClimb(direction);
+
         // jump fallmultiplier applied when falling
 
-        if(rb_player.velocity.y < 0 && !manager.matrixMode)
+        if (rb_player.velocity.y < 0 && !manager.matrixMode)
         {
             rb_player.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -267,100 +313,20 @@ public class CustomCharacterController : MonoBehaviour
     private void Jump()
     {
         exitingSlope = true;
+        jumpRequest = false;
 
-        rb_player.velocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
+        rb_player.velocity = new Vector3(rb_player.velocity.x, 0, rb_player.velocity.z);
 
-        rb_player.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        rb_player.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
         playerSound.PlayOneShot(jumpSounds[0]);
     }
 
-    private void PayneJump()
+    private void ResetJump()
     {
-        if (!manager.matrixMode && isWalking && isGrounded)
-        {
-            manager.MatrixMode();
+        readyToJump = true;
 
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            isCrouching = true;
-            crouchLerpTime = 0f;
-
-            rb_player.velocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
-            rb_player.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-            rb_player.AddForce(direction.normalized * jumpForce, ForceMode.Impulse);
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-        }
-        else if (!manager.matrixMode && isWalking && !isGrounded)
-        {
-            manager.MatrixMode();
-
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-            manager.master.SetFloat("sfxPitch", slowMoScale);
-            manager.master.SetFloat("musicLowPass", 1000f);
-        }
-        else if (!manager.matrixMode && !isWalking)
-        {
-            manager.MatrixMode();
-
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-            manager.master.SetFloat("sfxPitch", slowMoScale);
-            manager.master.SetFloat("musicLowPass", 1000f);
-        }
-        else if(manager.matrixMode)
-        {
-            manager.MatrixMode();
-
-            isCrouching = false;
-            Time.timeScale = 1f;
-            // slowMoSound.PlayOneShot(slowMoSounds[1]);
-            manager.master.SetFloat("sfxPitch", 1f);
-            manager.master.SetFloat("musicLowPass", 5000f);
-        }
-    }
-
-    private void PayneJumpResource()
-    {
-        // handles logic for slow mo resource so it cant be spammed
-
-        if (manager.matrixMode)
-        {
-            // stop stamina drain when paused
-            if(manager.isPaused)
-                currentStamina = currentStamina - matrixDrainOverTime * Time.deltaTime;
-            else
-                currentStamina = currentStamina - matrixDrainOverTime * Time.unscaledDeltaTime;
-
-            if (currentStamina <= 0f)
-            {
-                PayneJump(); // pop this to put things into preslowmo
-                matrixRechargeTimer = 0f;
-            }
-        }
-        else if(!manager.matrixMode && currentStamina < maxMatrixStamina)
-        {
-            matrixRechargeTimer += Time.deltaTime;
-
-            if(matrixRechargeTimer >= matrixRechargeCooldown)
-            {
-                currentStamina += matrixDrainOverTime * Time.deltaTime;
-
-                if (currentStamina >= maxMatrixStamina)
-                {
-                    currentStamina = maxMatrixStamina;
-                    matrixRechargeTimer = 0f;
-                }
-            }
-        }
+        exitingSlope = false;
     }
 
     private void Crouch()
@@ -381,6 +347,7 @@ public class CustomCharacterController : MonoBehaviour
                 lerpPercent = crouchLerpTime / crouchTime;
                 pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.crouchHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, crouchHeight, lerpPercent);
+                breathe.LerpPosition(lerpPercent, isCrouching);
             }
         }
         else if (!isCrouching)
@@ -396,6 +363,7 @@ public class CustomCharacterController : MonoBehaviour
                 lerpPercent = crouchLerpTime / crouchTime;
                 pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.startHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, startHeight, lerpPercent);
+                breathe.LerpPosition(lerpPercent, isCrouching);
             }
         }
 
@@ -407,7 +375,7 @@ public class CustomCharacterController : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector3.up * 0.75f);
 
-        if (Physics.Raycast(transform.position, Vector3.up, out hit, 1f))
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f))
             return false;
         else
             return true;
@@ -417,7 +385,7 @@ public class CustomCharacterController : MonoBehaviour
 
     private bool OnSlope()
     {
-        // making player movement on slopes the same as walking on 
+        // checking if the player is on a slope
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, startHeight * 0.5f + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
