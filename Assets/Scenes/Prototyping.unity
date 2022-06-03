@@ -5899,6 +5899,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8934489965313506836, guid: 276498c8da6f69c47b4020d278359997, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 276498c8da6f69c47b4020d278359997, type: 3}
 --- !u!1 &711477162 stripped
