@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5360240172155916651}
   - component: {fileID: 2056218527442400952}
   - component: {fileID: 7909882282491355741}
-  - component: {fileID: 6516686227538621531}
-  - component: {fileID: 1799960784378788035}
   - component: {fileID: 6850537023049114869}
+  - component: {fileID: 6516686227538621531}
+  - component: {fileID: 1389145148085032513}
+  - component: {fileID: 1799960784378788035}
   - component: {fileID: 4521825857882580563}
   - component: {fileID: 5401378234733380366}
   m_Layer: 11
@@ -86,33 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6516686227538621531
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5801792559173393630}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1799960784378788035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5801792559173393630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8095acc3638c6ac4197f0d77191dd942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  caliber: Rifle
-  ammoAmount: 30
 --- !u!54 &6850537023049114869
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,6 +103,46 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6516686227538621531
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801792559173393630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &1389145148085032513
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801792559173393630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1799960784378788035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801792559173393630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8095acc3638c6ac4197f0d77191dd942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caliber: Rifle
+  ammoAmount: 30
 --- !u!114 &4521825857882580563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec77d24628e2b14cac06f75d20d3d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outline: {fileID: 0}
 --- !u!114 &5401378234733380366
 MonoBehaviour:
   m_ObjectHideFlags: 0

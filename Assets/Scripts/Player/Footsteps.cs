@@ -23,7 +23,7 @@ public class Footsteps : MonoBehaviour
         footstepIndex = 0;
 
         controller = GetComponent<CustomCharacterController>();
-        footstepSource = GetComponent<AudioSource>();
+        //footstepSource = GetComponent<AudioSource>();
     }
 
     void Update()

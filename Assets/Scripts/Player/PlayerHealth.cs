@@ -6,6 +6,9 @@ public class PlayerHealth : HealthBase
 {
     private PlayerHUD hud;
 
+    public delegate void OnDamageTaken();
+    public static OnDamageTaken onDamageTaken;
+
     public override void Start()
     {
         base.Start();
@@ -31,6 +34,8 @@ public class PlayerHealth : HealthBase
     public override void TakeDamage(float damage, float force, Vector3 contactPoint, Transform source, bool headshot)
     {
         base.TakeDamage(damage, force, contactPoint, source, headshot);
+
+        onDamageTaken();
 
         hud.UpdateHealthBar();
         hud.UpdateArmorBar();

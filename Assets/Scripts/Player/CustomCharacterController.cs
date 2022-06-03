@@ -66,19 +66,9 @@ public class CustomCharacterController : MonoBehaviour
     public bool toggleCrouch;
     public bool toggleAim;
 
-    [Header("Max Payne Jump Variables")]
-    public float slowMoScale;
-    public float maxMatrixStamina;
-    public float currentStamina;
-    public float matrixDrainChunk;
-    public float matrixDrainOverTime;
-    private float matrixRegainOverTime;
-    public float matrixRechargeCooldown;
-    private float matrixRechargeTimer;
-    public AudioClip[] slowMoSounds;
-
     [Header("Functionality stuff")]
-    [SerializeField] AudioSource playerSound;
+    [SerializeField] ReflexMode reflex;
+    public AudioSource playerSound;
     [SerializeField] PhysicMaterial noFriction;
     [SerializeField] CameraBreathe breathe;
 
@@ -99,9 +89,7 @@ public class CustomCharacterController : MonoBehaviour
         jumpForce = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y);
         readyToJump = true;
 
-        currentStamina = maxMatrixStamina;
-        matrixRegainOverTime = matrixDrainOverTime / 2f;
-
+        reflex = GetComponent<ReflexMode>();
         breathe = GetComponentInChildren<CameraBreathe>();
         manager = FindObjectOfType<GameManager>();
 
@@ -139,8 +127,6 @@ public class CustomCharacterController : MonoBehaviour
 
             if(toggleCrouch)
                 Crouch();
-
-            PayneJumpResource();
         }
 
         if (isGrounded)
@@ -171,12 +157,12 @@ public class CustomCharacterController : MonoBehaviour
             Invoke("ResetJump", jumpCooldown);
         }
 
-        if (!manager.matrixMode && Input.GetButtonDown("L_Shift") && currentStamina > matrixDrainChunk)
-            PayneJump();
+        if (!manager.matrixMode && Input.GetButtonDown("L_Shift"))
+            reflex.ReflexModeToggle();
         else if (manager.matrixMode && Input.GetButtonDown("L_Shift"))
-            PayneJump();
+            reflex.ReflexModeToggle();
 
-        if(toggleCrouch)
+        if (toggleCrouch)
         {
             if (Input.GetButtonDown("Ctrl"))
             {
@@ -341,94 +327,6 @@ public class CustomCharacterController : MonoBehaviour
         readyToJump = true;
 
         exitingSlope = false;
-    }
-
-    private void PayneJump()
-    {
-        if (!manager.matrixMode && isWalking && isGrounded)
-        {
-            manager.MatrixMode();
-
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            isCrouching = true;
-            crouchLerpTime = 0f;
-
-            rb_player.velocity = new Vector3(rb_player.velocity.x, 0f, rb_player.velocity.z);
-            rb_player.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-            rb_player.AddForce(direction.normalized * jumpForce, ForceMode.Impulse);
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-        }
-        else if (!manager.matrixMode && isWalking && !isGrounded)
-        {
-            manager.MatrixMode();
-
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-            manager.master.SetFloat("sfxPitch", slowMoScale);
-            manager.master.SetFloat("musicLowPass", 1000f);
-        }
-        else if (!manager.matrixMode && !isWalking)
-        {
-            manager.MatrixMode();
-
-            currentStamina = currentStamina - matrixDrainChunk;
-            matrixRechargeTimer = 0f;
-
-            playerSound.PlayOneShot(slowMoSounds[0]);
-            manager.master.SetFloat("sfxPitch", slowMoScale);
-            manager.master.SetFloat("musicLowPass", 1000f);
-        }
-        else if(manager.matrixMode)
-        {
-            manager.MatrixMode();
-
-            isCrouching = false;
-            Time.timeScale = 1f;
-            // slowMoSound.PlayOneShot(slowMoSounds[1]);
-            manager.master.SetFloat("sfxPitch", 1f);
-            manager.master.SetFloat("musicLowPass", 5000f);
-        }
-    }
-
-    private void PayneJumpResource()
-    {
-        // handles logic for slow mo resource so it cant be spammed
-
-        if (manager.matrixMode)
-        {
-            // stop stamina drain when paused
-            if(manager.isPaused)
-                currentStamina = currentStamina - matrixDrainOverTime * Time.deltaTime;
-            else
-                currentStamina = currentStamina - matrixDrainOverTime * Time.unscaledDeltaTime;
-
-            if (currentStamina <= 0f)
-            {
-                PayneJump(); // pop this to put things into preslowmo
-                matrixRechargeTimer = 0f;
-            }
-        }
-        else if(!manager.matrixMode && currentStamina < maxMatrixStamina)
-        {
-            matrixRechargeTimer += Time.deltaTime;
-
-            if(matrixRechargeTimer >= matrixRechargeCooldown)
-            {
-                currentStamina += matrixDrainOverTime * Time.deltaTime;
-
-                if (currentStamina >= maxMatrixStamina)
-                {
-                    currentStamina = maxMatrixStamina;
-                    matrixRechargeTimer = 0f;
-                }
-            }
-        }
     }
 
     private void Crouch()
