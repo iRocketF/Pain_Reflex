@@ -3517,7 +3517,7 @@ GameObject:
   - component: {fileID: 5548712938121179523}
   m_Layer: 10
   m_Name: window01_break_v2
-  m_TagString: Untagged
+  m_TagString: Footsteps/GLASS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,6 +9,7 @@ public class BreatheSimple : MonoBehaviour
     protected void Start()
     {
         startPos = transform.position;
+
     }
 
     protected void Update()
