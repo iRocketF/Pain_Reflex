@@ -106,7 +106,7 @@ public class BulletBase : MonoBehaviour
 
                 HealthBase targetHealth = hit.transform.gameObject.GetComponent<HealthBase>();
 
-                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.transform.position, source, false);
+                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.point, source, false);
 
                 Destroy(gameObject);
             }
