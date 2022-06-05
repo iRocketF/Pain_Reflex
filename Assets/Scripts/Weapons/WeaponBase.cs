@@ -54,6 +54,10 @@ public class WeaponBase : MonoBehaviour
     public Collider weaponCollider;
     public MeshRenderer arms;
     private Outline outline;
+    public GameObject shell;
+    public Transform ejectPort;
+    public float ejectionForce;
+
 
     [Header("Audio source and sounds")]
     public AudioSource weaponSound;
@@ -332,6 +336,7 @@ public class WeaponBase : MonoBehaviour
 
         weaponRecoil.AddRecoil();
         ammo.ReduceAmmo();
+        EjectCasing();
 
         isShooting = false;
     }
@@ -353,6 +358,22 @@ public class WeaponBase : MonoBehaviour
             bulletDirection = randomSpread * bulletDirection;
 
         return bulletDirection;
+    }
+
+    void EjectCasing()
+    {
+        GameObject newShell = Instantiate(shell, ejectPort.position, ejectPort.rotation);
+        BoxCollider shellCollider = newShell.GetComponent<BoxCollider>();
+        Rigidbody newShellrb = newShell.GetComponent<Rigidbody>();
+
+        Physics.IgnoreCollision(shellCollider, player.GetComponentInChildren<CapsuleCollider>(), true);
+
+        ejectionForce = Random.Range(1f, 1.5f);
+        float torque = Random.Range(900f, 1100f);
+
+        newShellrb.AddForce(newShell.transform.right * ejectionForce, ForceMode.Impulse);
+        newShellrb.AddForce(newShell.transform.up * ejectionForce, ForceMode.Impulse);
+        newShellrb.AddTorque(newShell.transform.forward * torque, ForceMode.Impulse);
     }
 
     void QuickMelee()

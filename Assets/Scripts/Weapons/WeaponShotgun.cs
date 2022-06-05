@@ -7,9 +7,6 @@ public class WeaponShotgun : WeaponBase
     [Header("Shotgun related variables")]
     public int shotgunShots;
     public float pumpDelay;
-    public float ejectionForce;
-    public GameObject shell;
-    public Transform ejectPort;
 
     public override void Start()
     {

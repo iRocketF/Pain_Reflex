@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public NavMeshAgent agent;
     [HideInInspector]
     public Transform player;
+    public Transform playerAimSpot;
     public Transform eyes;
     public Transform body;
 
@@ -102,6 +103,16 @@ public class EnemyAI : MonoBehaviour
             meleeWeapon = GetComponentInChildren<EnemyWeaponMelee>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        for(int i = 0; i < player.childCount; i++)
+        {
+            if(player.GetChild(i).name == "EnemyAimSpot")
+            {
+                playerAimSpot = player.GetChild(i);
+                break;
+            }
+        }
+
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthBase>();
         voice = GetComponent<EnemyVoice>();
@@ -333,7 +344,7 @@ public class EnemyAI : MonoBehaviour
             hasAimed = true;
         }
 
-        Vector3 target = new Vector3(player.position.x + targetX, player.position.y + targetY, player.position.z + targetZ);
+        Vector3 target = new Vector3(playerAimSpot.position.x + targetX, playerAimSpot.position.y + targetY, playerAimSpot.position.z + targetZ);
 
         TurnTowards(player);
 
@@ -364,7 +375,7 @@ public class EnemyAI : MonoBehaviour
             hasAimed = true;
         }
 
-        Vector3 target = new Vector3(player.position.x + targetX, player.position.y + targetY, player.position.z + targetZ);
+        Vector3 target = new Vector3(playerAimSpot.position.x + targetX, playerAimSpot.position.y + targetY, playerAimSpot.position.z + targetZ);
 
         TurnTowards(player);
 

@@ -106,7 +106,7 @@ public class BulletBase : MonoBehaviour
 
                 HealthBase targetHealth = hit.transform.gameObject.GetComponent<HealthBase>();
 
-                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.transform.position, source, false);
+                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.point, source, false);
 
                 Destroy(gameObject);
             }
@@ -181,10 +181,14 @@ public class BulletBase : MonoBehaviour
             Vector3 contactPoint = collision.GetContact(0).point;
             Vector3 normal = collision.GetContact(0).normal;
 
-            GameObject bhole = Instantiate(bullethole, contactPoint, Quaternion.LookRotation(normal));
-            bhole.transform.parent = collision.transform;
-            //Debug.Log("bullethole created?");
-            bhole.transform.position += bhole.transform.forward / 1000;
+            if(!collision.gameObject.CompareTag("Footsteps/GLASS"))
+            {
+                GameObject bhole = Instantiate(bullethole, contactPoint, Quaternion.LookRotation(normal));
+                bhole.transform.parent = collision.transform;
+                //Debug.Log("bullethole created?");
+                bhole.transform.position += bhole.transform.forward / 1000;
+            }
+
 
             ParticleSystem impact = Instantiate(impactParticles, contactPoint, Quaternion.identity);
             impact.transform.LookAt(source);

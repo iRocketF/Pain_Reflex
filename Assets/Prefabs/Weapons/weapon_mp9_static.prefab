@@ -71,6 +71,7 @@ Transform:
   m_Children:
   - {fileID: 8291130792423954495}
   - {fileID: 6753718967254009662}
+  - {fileID: 5716924623934153587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -235,6 +236,9 @@ MonoBehaviour:
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 5616317775457926225}
+  shell: {fileID: 8298973276698175154, guid: 9b27a83c1c1ef8b4fa25a888bbbdf2c0, type: 3}
+  ejectPort: {fileID: 5716924623934153587}
+  ejectionForce: 1.25
   weaponSound: {fileID: 1820894332409584880}
   firingSounds:
   - {fileID: 8300000, guid: 7e11c15fcea98e947be0cb18d3586337, type: 3}
@@ -408,6 +412,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &6161385126567847399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5716924623934153587}
+  m_Layer: 9
+  m_Name: EjectionPort
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5716924623934153587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161385126567847399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.179, y: -0.19, z: 1.343}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6604712569315100747}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6498904145758724309
 PrefabInstance:
   m_ObjectHideFlags: 0
