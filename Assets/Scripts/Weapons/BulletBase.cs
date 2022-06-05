@@ -18,6 +18,7 @@ public class BulletBase : MonoBehaviour
 
     //impact particles
     public ParticleSystem impactParticles;
+    public List<ParticleSystem> l_impactParticles;
     [SerializeField] LayerMask environmentMask;
    
     // trail & visuals
@@ -189,9 +190,7 @@ public class BulletBase : MonoBehaviour
                 bhole.transform.position += bhole.transform.forward / 1000;
             }
 
-
-            ParticleSystem impact = Instantiate(impactParticles, contactPoint, Quaternion.identity);
-            impact.transform.LookAt(source);
+            CreateImpactParticles(collision.gameObject.tag, contactPoint);
 
             if(debug)
             {
@@ -226,6 +225,33 @@ public class BulletBase : MonoBehaviour
     {
         render.enabled = true;
         trail.enabled = true;
+    }
+
+    void CreateImpactParticles(string tag, Vector3 contactPoint)
+    {
+        Debug.Log("create particles");
+        ParticleSystem impact;
+        switch(tag)
+        {
+            case "Footsteps/CONCRETE":
+                impact = Instantiate(l_impactParticles[0], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            case "Footsteps/WOOD":
+                impact = Instantiate(l_impactParticles[1], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            case "Footsteps/METAL":
+                Debug.Log("create metal sparks");
+                impact = Instantiate(l_impactParticles[2], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            default:
+                impact = Instantiate(l_impactParticles[0], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+        }
+
     }
 
     private void CreateDebugSphere(Vector3 contactPoint, Transform newParent)

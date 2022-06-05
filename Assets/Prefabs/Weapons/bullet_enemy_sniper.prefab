@@ -41,11 +41,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8589fe798b95b43a44ab3a3f6067a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastOverhead: 0
   bulletForce: 250
   bulletDamage: 50
   rigidBody: {fileID: 526949588535562520}
-  parent: {fileID: 0}
   impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  l_impactParticles:
+  - {fileID: 1076594313786965640, guid: 06287e982b13e8b4d94fb4395adbcc61, type: 3}
+  - {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 0
+  trailDelay: 0
+  bullethole: {fileID: 0}
   source: {fileID: 0}
 --- !u!1 &4385751865232321448
 GameObject:
