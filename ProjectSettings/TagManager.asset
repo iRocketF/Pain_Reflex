@@ -16,6 +16,7 @@ TagManager:
   - Footsteps/WOOD
   - Footsteps/METAL
   - Footsteps/CONCRETE
+  - Footsteps/GLASS
   layers:
   - Default
   - TransparentFX

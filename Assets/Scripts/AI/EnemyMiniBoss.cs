@@ -18,8 +18,12 @@ public class EnemyMiniBoss : EnemyAI
 
     public override void Die(float deathForce, Transform source, bool headshot)
     {
-        itemDrop.transform.SetParent(null);
-        itemDrop.isKinematic = false;
+        if(itemDrop != null)
+        {
+            itemDrop.transform.SetParent(null);
+            itemDrop.isKinematic = false;
+        }
+
 
         base.Die(deathForce, source, headshot);
     }

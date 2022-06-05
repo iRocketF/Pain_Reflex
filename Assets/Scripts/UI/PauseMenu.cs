@@ -69,6 +69,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseAndResume()
     {
         manager.Pause();
+        manager.SaveSettings();
     }
 
     public void MainMenu()
@@ -86,7 +87,10 @@ public class PauseMenu : MonoBehaviour
         if (!inSettings)
             inSettings = true;
         else
+        {
             inSettings = false;
+            manager.SaveSettings();
+        }
     }
 
     public void SetSensitivity()

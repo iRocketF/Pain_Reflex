@@ -126,5 +126,7 @@ public class SettingsMenu : MonoBehaviour
     public void Return()
     {
         manager.MainMenu();
+
+        manager.SaveSettings();
     }
 }

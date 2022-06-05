@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private bool gameLaunched;
+
     [Header("Player initialization & tracking")]
     public GameObject playerToSpawn;
     public GameObject player;
@@ -52,6 +54,14 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        gameLaunched = PlayerPrefs.GetInt("gameLaunched") == 1;
+
+        if (gameLaunched)
+            LoadSettings();
+        else
+            PlayerPrefs.SetInt("gameLaunched", 1);
+
+
         decalPool = GetComponentInChildren<ParticleDecalPool>();
         gameMusic = GetComponent<AudioSource>();
         scoreManager = GetComponent<ScoreManager>();
@@ -332,5 +342,40 @@ public class GameManager : MonoBehaviour
         master.SetFloat("masterVolume", Mathf.Log10(masterVolume) * 20);
         master.SetFloat("musicVolume", Mathf.Log10(musicVolume) * 20);
         master.SetFloat("sfxVolume", Mathf.Log10(sfxVolume) * 20);
+    }
+
+    public void SaveSettings()
+    {
+        // save sound settings
+        PlayerPrefs.SetFloat("masterVolume", masterVolume);
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+
+        // save sensitivity
+        PlayerPrefs.SetFloat("sensitivity", sensitivity);
+        PlayerPrefs.SetFloat("aimSensitivity", aimSensitivity);
+        Debug.Log(PlayerPrefs.GetFloat("aimSensitivity"));
+
+        // save toggles
+        PlayerPrefs.SetInt("toggleAim", toggleAim ? 1 : 0);
+        PlayerPrefs.SetInt("toggleCrouch", toggleCrouch ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadSettings()
+    {
+        // load sound settings
+        masterVolume = PlayerPrefs.GetFloat("masterVolume");
+        musicVolume = PlayerPrefs.GetFloat("musicVolume");
+        sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
+
+        // load sensitivity
+        sensitivity = PlayerPrefs.GetFloat("sensitivity");
+        aimSensitivity = PlayerPrefs.GetFloat("aimSensitivity");
+
+        // load toggles
+        toggleAim = PlayerPrefs.GetInt("toggleAim") == 1;
+        toggleCrouch = PlayerPrefs.GetInt("toggleCrouch") == 1;
     }
 }
