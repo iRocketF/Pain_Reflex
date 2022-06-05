@@ -84,6 +84,10 @@ MonoBehaviour:
   bulletDamage: 10
   rigidBody: {fileID: 2700134193429516307}
   impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  l_impactParticles:
+  - {fileID: 1076594313786965640, guid: 06287e982b13e8b4d94fb4395adbcc61, type: 3}
+  - {fileID: 1076594313786965640, guid: 6240d511df73a3647a7fc6023cc43a9a, type: 3}
+  - {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
   environmentMask:
     serializedVersion: 2
     m_Bits: 1032

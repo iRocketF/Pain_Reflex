@@ -234,7 +234,7 @@ MonoBehaviour:
   weaponName: Shotgun
   caliber: Shotgun
   fireMode: Single
-  fireRate: 0.8
+  fireRate: 1
   weaponSpread: 2.5
   spreadAimModifier: 1.2
   reloadTime: 0.4
@@ -266,6 +266,9 @@ MonoBehaviour:
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 1128423668526533194}
+  shell: {fileID: 8343555768877975176, guid: 790c86c7c96dad44cbf47f972178b224, type: 3}
+  ejectPort: {fileID: 3765519793990200453}
+  ejectionForce: 1.25
   weaponSound: {fileID: 0}
   firingSounds:
   - {fileID: 8300000, guid: beb848d5b35b46445b5b6a73703da1dc, type: 3}
@@ -281,9 +284,6 @@ MonoBehaviour:
   player: {fileID: 0}
   shotgunShots: 8
   pumpDelay: 0.25
-  ejectionForce: 1.25
-  shell: {fileID: 8343555768877975176, guid: 790c86c7c96dad44cbf47f972178b224, type: 3}
-  ejectPort: {fileID: 3765519793990200453}
 --- !u!114 &5089882386152875084
 MonoBehaviour:
   m_ObjectHideFlags: 0
