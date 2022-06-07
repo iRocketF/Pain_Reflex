@@ -229,7 +229,6 @@ public class BulletBase : MonoBehaviour
 
     void CreateImpactParticles(string tag, Vector3 contactPoint)
     {
-        Debug.Log("create particles");
         ParticleSystem impact;
         switch(tag)
         {

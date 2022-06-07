@@ -209,6 +209,7 @@ public class WeaponBase : MonoBehaviour
         if (isPickedUp && Input.GetButtonDown("Drop"))
             Drop();
 
+
         // set a bool for the ADS method to work
         if(movement.toggleAim)
         {
@@ -321,7 +322,7 @@ public class WeaponBase : MonoBehaviour
         // muzzleflash gameobject that has the muzzleflash and smoke afterwards
         // set the layers to equippedweapon so the smoke aligns properly with barrel
         //GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn);
-        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn.parent.parent);
+        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn);
 
         muzzle.layer = 12;
 
@@ -455,6 +456,13 @@ public class WeaponBase : MonoBehaviour
         transform.parent = null;
         inventory.weaponInventory[0] = null;
 
+        if (inventory.weaponPosition.childCount != 0)
+        {
+            inventory.weaponPosition.GetChild(0).gameObject.SetActive(true);
+            inventory.SetWeapon(inventory.weaponPosition.GetChild(0).gameObject);
+            // inventory.currentAmmo[3] -= 1;
+        }
+
         gameObject.layer = 9;
         if(transform.childCount != 0)
         {
@@ -481,7 +489,44 @@ public class WeaponBase : MonoBehaviour
                 canPickUp = false;
         SetMesh();
 
+        hud.UpdateAmmoText();
+    }
 
+    public void Swap()
+    {
+        if (isAiming)
+            isAiming = false;
+
+        StopCoroutine(Reload());
+
+        transform.parent = null;
+        inventory.weaponInventory[0] = null;
+
+        gameObject.layer = 9;
+        if (transform.childCount != 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.layer = 9;
+        }
+
+        animator.SetTrigger("Discard");
+        animator.enabled = false;
+        rigidBody.isKinematic = false;
+        weaponCollider.enabled = true;
+
+        if (arms != null)
+            arms.enabled = false;
+
+        transform.localScale = worldScale;
+
+        // make the weapon ignore collision with the player model, add some force to throw the weapon away
+        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);
+        rigidBody.AddForce(transform.forward * 2.5f + transform.up * 2f, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
+
+        isPickedUp = false;
+        canPickUp = false;
+        SetMesh();
     }
 
 }

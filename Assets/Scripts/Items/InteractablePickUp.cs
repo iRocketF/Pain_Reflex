@@ -54,7 +54,15 @@ public class InteractablePickUp : MonoBehaviour
             if (weapon.canPickUp)
                 outline.enabled = true;
 
-            return "Swap weapon for " + weapon.weaponName;
+            if (inventory.weaponInventory[0].GetComponent<WeaponBase>() != null && !inventory.hasMaxKnives(weapon))
+                return "Pick up extra " + weapon.weaponName;
+            if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null && !inventory.hasMaxKnives(weapon))
+                return "Pick up extra " + weapon.weaponName;
+            else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null && inventory.hasMaxKnives(weapon))
+                return "Carrying max amount of bayonets";
+            else if (inventory.weaponInventory[0].GetComponent<WeaponBase>() != null && inventory.hasMaxKnives(weapon))
+                return "Carrying max amount of bayonets";
+
         }
         else if (CompareTag("AmmoPickUp"))
         {
@@ -132,7 +140,7 @@ public class InteractablePickUp : MonoBehaviour
             if (inventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
             {
                 WeaponBase currentWeapon = inventory.weaponInventory[0].GetComponent<WeaponBase>();
-                currentWeapon.Drop();
+                currentWeapon.Swap();
                 inventory.SetWeapon(weapon.gameObject);
 
                 hud.uiSound.PlayOneShot(hud.sounds[3]);
@@ -140,7 +148,7 @@ public class InteractablePickUp : MonoBehaviour
             else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
             {
                 MeleeWeapon currentWeapon = inventory.weaponInventory[0].GetComponent<MeleeWeapon>();
-                currentWeapon.Drop();
+                currentWeapon.Swap();
                 inventory.SetWeapon(weapon.gameObject);
 
                 hud.uiSound.PlayOneShot(hud.sounds[3]);
@@ -161,19 +169,31 @@ public class InteractablePickUp : MonoBehaviour
         {
             if(inventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
             {
-                WeaponBase currentWeapon = inventory.weaponInventory[0].GetComponent<WeaponBase>();
-                currentWeapon.Drop();
-                inventory.SetWeapon(weapon.gameObject);
+                if (!inventory.hasMaxKnives(weapon))
+                {
+                    MeleeWeapon currentWeapon = inventory.weaponInventory[0].GetComponent<MeleeWeapon>();
+                    //currentWeapon.Drop();
+                    //inventory.SetWeapon(weapon.gameObject);
+                    inventory.AddExtraKnife(weapon);
 
-                hud.uiSound.PlayOneShot(hud.sounds[3]);
+                    hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+                    hud.UpdateAmmoText();
+                }
             }
             else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
             {
-                MeleeWeapon currentWeapon = inventory.weaponInventory[0].GetComponent<MeleeWeapon>();
-                currentWeapon.Drop();
-                inventory.SetWeapon(weapon.gameObject);
+                if(!inventory.hasMaxKnives(weapon))
+                {
+                    MeleeWeapon currentWeapon = inventory.weaponInventory[0].GetComponent<MeleeWeapon>();
+                    //currentWeapon.Drop();
+                    //inventory.SetWeapon(weapon.gameObject);
+                    inventory.AddExtraKnife(weapon);
 
-                hud.uiSound.PlayOneShot(hud.sounds[3]);
+                    hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+                    hud.UpdateAmmoText();
+                }
             }
         }
     }

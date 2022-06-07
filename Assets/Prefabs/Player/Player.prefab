@@ -6235,12 +6235,12 @@ MonoBehaviour:
   - Pistol
   - Rifle
   - Shotgun
-  - Sniper
+  - Knife
   maxAmmoCapacity:
   - 120
   - 90
   - 30
-  - 30
+  - 5
   currentAmmo:
   - 0
   - 0

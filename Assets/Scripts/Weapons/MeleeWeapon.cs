@@ -8,6 +8,8 @@ public class MeleeWeapon : MonoBehaviour
     public bool canPickUp;
 
     public string weaponName;
+    public string type;
+    public int ammoInt;
 
     [Header("Stats")]
     public float meleeDmg;
@@ -59,6 +61,12 @@ public class MeleeWeapon : MonoBehaviour
         animator = GetComponent<Animator>();
         animator.enabled = false;
 
+        for (int i = 0; i < inventory.ammoTypes.Count; i++)
+        {
+            if (type == inventory.ammoTypes[i])
+                ammoInt = i;
+        }
+
         outline = GetComponent<Outline>();
         outline.enabled = false;
     }
@@ -95,7 +103,7 @@ public class MeleeWeapon : MonoBehaviour
 
         // m1 = swing/stab with weapon, alternate attack animation
         // m2 = throw knife
-        if (isPickedUp && Input.GetButtonDown("Mouse1") && !isSwinging && Time.time >= nextTimeToSwing)
+        if (isPickedUp && Input.GetButton("Mouse1") && !isSwinging && Time.time >= nextTimeToSwing)
         {
             nextTimeToSwing = Time.time + 1f / swingSpeed;
             animator.SetTrigger("Swing");
@@ -103,9 +111,12 @@ public class MeleeWeapon : MonoBehaviour
         }
         else if (isPickedUp && Input.GetButtonDown("Mouse2") && !isSwinging && Time.time >= nextTimeToSwing)
         {
-            nextTimeToSwing = Time.time + 1f / swingSpeed;
-            //animator.SetTrigger("Stab");
-            Throw();
+            if (inventory.currentAmmo[ammoInt] != 0f)
+            {
+                nextTimeToSwing = Time.time + 1f / swingSpeed;
+                //animator.SetTrigger("Stab");
+                Throw();
+            }
         }
 
         // walking animation
@@ -118,10 +129,14 @@ public class MeleeWeapon : MonoBehaviour
         }
 
         // Drop the weapon the player is currently holding
-        if (isPickedUp && Input.GetButton("Drop"))
+        if (isPickedUp && Input.GetButtonDown("Drop"))
         {
-            Drop();
+            if(inventory.currentAmmo[ammoInt] != 0f)
+                Drop();
         }
+
+        if (isPickedUp && Input.GetKeyDown(KeyCode.F6))
+            Debug.Log(inventory.weaponPosition.childCount);
     }
 
     void Melee()
@@ -168,6 +183,21 @@ public class MeleeWeapon : MonoBehaviour
         transform.parent = null;
         inventory.weaponInventory[0] = null;
 
+        // if the player has extra knives, set them as the new knife after throwing
+        if(inventory.weaponPosition.childCount != 0)
+        {
+            inventory.weaponPosition.GetChild(0).gameObject.SetActive(true);
+            inventory.SetWeapon(inventory.weaponPosition.GetChild(0).gameObject);
+            inventory.weaponPosition.GetChild(0).gameObject.GetComponent<Animator>().SetTrigger("Throw");
+        }
+
+        inventory.currentAmmo[ammoInt] -= 1f;
+
+        if (inventory.currentAmmo[ammoInt] < 0f)
+            inventory.currentAmmo[ammoInt] = 0f;
+
+        hud.UpdateAmmoText();
+
         gameObject.layer = 9;
         if (transform.childCount != 0)
         {
@@ -184,7 +214,7 @@ public class MeleeWeapon : MonoBehaviour
         // make the weapon ignore collision with the player model, add weapon throw force, add spin with torque
         Physics.IgnoreCollision(weaponCollider, player.GetComponentInChildren<CapsuleCollider>(), true);
         rigidBody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
-        rigidBody.AddTorque(transform.right * throwSpin, ForceMode.Impulse);
+        rigidBody.AddRelativeTorque(transform.up * throwSpin, ForceMode.Impulse);
 
         canPickUp = false;
     }
@@ -216,6 +246,13 @@ public class MeleeWeapon : MonoBehaviour
         transform.parent = null;
         inventory.weaponInventory[0] = null;
 
+        inventory.currentAmmo[ammoInt] -= 1f;
+
+        if (inventory.currentAmmo[ammoInt] < 0f)
+            inventory.currentAmmo[ammoInt] = 0f;
+
+        hud.UpdateAmmoText();
+
         gameObject.layer = 9;
         if (transform.childCount != 0)
         {
@@ -234,6 +271,47 @@ public class MeleeWeapon : MonoBehaviour
         rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
 
         canPickUp = false;
+
+        if (inventory.weaponPosition.childCount != 0)
+        {
+            inventory.weaponPosition.GetChild(0).gameObject.SetActive(true);
+            inventory.SetWeapon(inventory.weaponPosition.GetChild(0).gameObject);
+        }
+    }
+
+    public void Swap()
+    {
+        // Strip the weapon from any player specific parts when dropped
+        // make the weapon physics based againn
+
+        // transform.parent = null;
+        inventory.weaponInventory[0] = null;
+
+        /* if (inventory.currentAmmo[ammoInt] < 0f)
+            inventory.currentAmmo[ammoInt] = 0f; */
+
+        hud.UpdateAmmoText();
+
+        /* gameObject.layer = 9;
+        if (transform.childCount != 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.layer = 9;
+        } */
+
+        /* animator.SetTrigger("Discard");
+        animator.enabled = false;
+        rigidBody.isKinematic = false;
+        weaponCollider.enabled = true;
+
+        // make the weapon ignore collision with the player model, add some force to throw the weapon away
+        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);
+        rigidBody.AddForce(-transform.forward * 2.5f + -transform.up * 3f, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
+
+        canPickUp = false; */
+
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -245,6 +323,8 @@ public class MeleeWeapon : MonoBehaviour
             if (collision.gameObject.GetComponent<HealthBase>() != null)
             {
                 HealthBase targetHealth = collision.gameObject.GetComponent<HealthBase>();
+                weaponSound.PlayOneShot(weaponSounds[1]);
+
 
                 if (collision.collider == targetHealth.critBox)
                 {

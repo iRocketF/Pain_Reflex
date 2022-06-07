@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475285375361956303}
   - component: {fileID: 1475285375361956298}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: shotgun_muzzle_sprite_flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475285375366013476}
   - component: {fileID: 1475285375366013479}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: shotgun_muzzle_sprite_smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 1475285375562109562}
   - component: {fileID: 1475285375562109561}
   - component: {fileID: 1475285375562109563}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: shotgun_muzzle_sprite_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.7534226, b: 0, a: 1}
   m_Intensity: 2
-  m_Range: 20
+  m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 6165611348892615770}
   - component: {fileID: 7010663475742465546}
   - component: {fileID: -8510031724759050372}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: muzzle_sprite_shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475285377377461140}
   - component: {fileID: 1475285377377461143}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: shotgun_muzzle_sprite_sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

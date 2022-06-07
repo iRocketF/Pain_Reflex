@@ -1253,6 +1253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   player: {fileID: 0}
+  playerAimSpot: {fileID: 0}
   eyes: {fileID: 7380167528797300214}
   body: {fileID: 0}
   playerMask:

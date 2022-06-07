@@ -32120,6 +32120,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6107396002418092042, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6107396002418092045, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
       propertyPath: m_text
       value: 'E - Pick up Bayonet
@@ -32127,7 +32131,12 @@ PrefabInstance:
 
         LMB - Swing
 
-        RMB - Stab
+        RMB - Throw
+
+
+        You
+        will always have your knife with you. You can pick up additional knives to
+        throw at enemies
 
 '
       objectReference: {fileID: 0}
@@ -32157,7 +32166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107396002810968535, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 1.948
       objectReference: {fileID: 0}
     - target: {fileID: 6107396002810968535, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50253,6 +50262,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6107396002418092042, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6107396002418092042, guid: 3615bbcfecf206a4ab2b8d372eb46e5f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
@@ -65974,6 +65987,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 368
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1001 &1753798835
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_RootOrder
+      value: 612
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.851
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.174
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -39.215
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.2705972
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.6532817
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6532816
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.27059814
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -135
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796202376863995526, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574111924105022524, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+      propertyPath: m_Name
+      value: weapon_bayonet (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
 --- !u!1001 &1754123729
 PrefabInstance:
   m_ObjectHideFlags: 0

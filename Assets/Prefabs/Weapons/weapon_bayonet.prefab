@@ -39,7 +39,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -40.872, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7484952685055039779
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -146,12 +146,14 @@ MonoBehaviour:
   isPickedUp: 0
   canPickUp: 0
   weaponName: Bayonet
+  type: Knife
+  ammoInt: 0
   meleeDmg: 40
   meleeForce: 50
   meleeRange: 2.5
   throwForce: 30
-  throwSpin: 0
-  swingSpeed: 4
+  throwSpin: 5
+  swingSpeed: 3
   meleeMask:
     serializedVersion: 2
     m_Bits: 128

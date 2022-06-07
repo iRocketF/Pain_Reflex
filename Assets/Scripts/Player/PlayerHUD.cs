@@ -126,12 +126,17 @@ public class PlayerHUD : MonoBehaviour
 
     public void UpdateAmmoText()
     {
-        if (pInventory.weaponInventory[0] != null &&
-            pInventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
+        if (pInventory.weaponInventory[0] != null && pInventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
         {
             ammo = pInventory.weaponInventory[0].GetComponent<AmmoBase>();
             ammoCountCurrent.text = ammo.currentMag.ToString();
-            ammoCountReserve.text = "/ " + pInventory.currentAmmo[ammo.ammoInt].ToString();
+            ammoCountReserve.text = " / " + pInventory.currentAmmo[ammo.ammoInt].ToString();
+        }
+        else if (pInventory.weaponInventory[0] != null && pInventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
+        {
+            MeleeWeapon knife = pInventory.weaponInventory[0].GetComponent<MeleeWeapon>();
+            ammoCountCurrent.text = "1";
+            ammoCountReserve.text = " + " + pInventory.currentAmmo[knife.ammoInt].ToString();
         }
         else
         {

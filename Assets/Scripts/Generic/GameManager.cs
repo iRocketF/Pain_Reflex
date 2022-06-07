@@ -354,7 +354,7 @@ public class GameManager : MonoBehaviour
         // save sensitivity
         PlayerPrefs.SetFloat("sensitivity", sensitivity);
         PlayerPrefs.SetFloat("aimSensitivity", aimSensitivity);
-        Debug.Log(PlayerPrefs.GetFloat("aimSensitivity"));
+        //Debug.Log(PlayerPrefs.GetFloat("aimSensitivity"));
 
         // save toggles
         PlayerPrefs.SetInt("toggleAim", toggleAim ? 1 : 0);

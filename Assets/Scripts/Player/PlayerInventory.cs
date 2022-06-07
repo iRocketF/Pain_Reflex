@@ -112,6 +112,33 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void SetExtraKnife(GameObject newKnife)
+    {
+        MeleeWeapon weapon = newKnife.GetComponent<MeleeWeapon>();
+
+        //weapon.transform.localScale = weapon.povScale;
+
+        newKnife.layer = 12;
+        if (newKnife.transform.childCount != 0)
+        {
+            for (int i = 0; i < newKnife.transform.childCount; i++)
+                newKnife.transform.GetChild(i).gameObject.layer = 12;
+        }
+
+        newKnife.GetComponent<Rigidbody>().isKinematic = true;
+        newKnife.GetComponent<Collider>().enabled = false;
+
+        newKnife.transform.SetParent(weaponPosition, false);
+        newKnife.transform.SetPositionAndRotation(weaponPosition.position, Quaternion.identity);
+
+        weapon.animator.enabled = true;
+        weapon.animator.SetTrigger("pickUp");
+
+        hud.UpdateAmmoText();
+
+        newKnife.SetActive(false);
+    }
+
     public void AddAmmo(Pickup_Ammobox pickUp)
     {
         for (int i = 0; i < ammoTypes.Count; i++)
@@ -132,11 +159,48 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void AddExtraKnife(MeleeWeapon newKnife)
+    {
+        for (int i = 0; i < ammoTypes.Count; i++)
+        {
+            if (newKnife.type == ammoTypes[i])
+            {
+                if (currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    currentAmmo[i] = currentAmmo[i] + 1f;
+
+                    if (currentAmmo[i] > maxAmmoCapacity[i])
+                        currentAmmo[i] = maxAmmoCapacity[i];
+
+                    SetExtraKnife(newKnife.gameObject);
+                    break;
+                }
+            }
+        }
+    }
+
     public bool hasMaxAmmo(Pickup_Ammobox pickUp)
     {
         for (int i = 0; i < ammoTypes.Count; i++)
         {
             if (pickUp.caliber == ammoTypes[i])
+            {
+                if (currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    return false;
+                }
+                else
+                    return true;
+            }
+        }
+        return default;
+    }
+
+    public bool hasMaxKnives(MeleeWeapon knife)
+    {
+        for (int i = 0; i < ammoTypes.Count; i++)
+        {
+            if (knife.type == ammoTypes[i])
             {
                 if (currentAmmo[i] < maxAmmoCapacity[i])
                 {
