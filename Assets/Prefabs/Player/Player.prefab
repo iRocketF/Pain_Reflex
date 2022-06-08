@@ -6168,6 +6168,7 @@ MonoBehaviour:
   playerSound: {fileID: 5582971340340924724}
   noFriction: {fileID: 13400000, guid: 8486d4e6bb4637c4089d752bb4c898e0, type: 2}
   breathe: {fileID: 0}
+  steps: {fileID: 5415759369786216746}
 --- !u!114 &2144474119720229946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6277,6 +6278,12 @@ MonoBehaviour:
   metalSteps:
   - {fileID: 8300000, guid: ac9e3a6f590015342b030b380ef312c3, type: 3}
   - {fileID: 8300000, guid: b285919538530764690ed415d8ef927c, type: 3}
+  jumpLandings:
+  - {fileID: 8300000, guid: 3a3269627432f5e409ba66ed3f7906ab, type: 3}
+  metalLandings:
+  - {fileID: 8300000, guid: a950021f561878049967e08e20da27e4, type: 3}
+  - {fileID: 8300000, guid: 46ced2064cc49b941a5f7cee62166887, type: 3}
+  - {fileID: 8300000, guid: edaf181d50bdd4f40bd3388a8cb115dc, type: 3}
 --- !u!82 &2135552823401610385
 AudioSource:
   m_ObjectHideFlags: 0

@@ -208,6 +208,7 @@ public class MeleeWeapon : MonoBehaviour
         animator.SetTrigger("Discard");
         animator.enabled = false;
         rigidBody.isKinematic = false;
+        rigidBody.useGravity = false;
         weaponCollider.enabled = true;
         isThrown = true;
 
@@ -330,6 +331,7 @@ public class MeleeWeapon : MonoBehaviour
                 {
                     //Debug.Log("Headshot!");
                     targetHealth.TakeDamage(meleeDmg * 2, throwForce, contactPoint, source, true);
+                    rigidBody.useGravity = true;
                     isThrown = false;
 
                     // play headshot sound
@@ -339,6 +341,7 @@ public class MeleeWeapon : MonoBehaviour
                 else
                 {
                     targetHealth.TakeDamage(meleeDmg, throwForce, contactPoint, source, false);
+                    rigidBody.useGravity = true;
                     isThrown = false;
 
                     // play normal hitmark sound
@@ -347,5 +350,7 @@ public class MeleeWeapon : MonoBehaviour
                 }
             }
         }
+
+        rigidBody.useGravity = true;
     }
 }

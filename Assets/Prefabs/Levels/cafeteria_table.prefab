@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1640996072022023737}
   m_Layer: 10
   m_Name: Table
-  m_TagString: Untagged
+  m_TagString: Footsteps/WOOD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8

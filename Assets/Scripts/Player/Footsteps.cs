@@ -15,6 +15,8 @@ public class Footsteps : MonoBehaviour
     [SerializeField] AudioClip[] defaultSteps;
     [SerializeField] AudioClip[] woodSteps;
     [SerializeField] AudioClip[] metalSteps;
+    [SerializeField] AudioClip[] jumpLandings;
+    [SerializeField] AudioClip[] metalLandings;
 
     private CustomCharacterController controller;
 
@@ -48,12 +50,12 @@ public class Footsteps : MonoBehaviour
                         if (footstepIndex > woodSteps.Length - 1)
                         {
                             footstepIndex = 0;
-                            footstepSource.PlayOneShot(woodSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(woodSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
                         else
                         {
-                            footstepSource.PlayOneShot(woodSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(woodSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
 
@@ -100,6 +102,25 @@ public class Footsteps : MonoBehaviour
                 }
 
                 footstepTimer = GetStepOffset;
+            }
+        }
+    }
+
+    public void PlayLandingNoise()
+    {
+        if (Physics.Raycast(controller.transform.position, Vector3.down, out RaycastHit hit, 2))
+        {
+            switch (hit.collider.tag)
+            {
+                case "Footsteps/WOOD":
+                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
+                    break;
+                case "Footsteps/METAL":
+                    footstepSource.PlayOneShot(metalLandings[Random.Range(0, metalLandings.Length - 1)], 0.5f);
+                    break;
+                default:
+                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
+                    break;
             }
         }
     }

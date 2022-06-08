@@ -37,6 +37,7 @@ public class CustomCharacterController : MonoBehaviour
     public float airMultiplier;
     public float fallMultiplier;
     private bool readyToJump;
+    private bool playedLandingNoise;
     public LayerMask ground;
     [SerializeField] AudioClip[] jumpSounds;
 
@@ -71,6 +72,7 @@ public class CustomCharacterController : MonoBehaviour
     public AudioSource playerSound;
     [SerializeField] PhysicMaterial noFriction;
     [SerializeField] CameraBreathe breathe;
+    [SerializeField] Footsteps steps;
 
     // the big boss
     private GameManager manager;
@@ -97,27 +99,22 @@ public class CustomCharacterController : MonoBehaviour
 
         toggleCrouch = manager.toggleCrouch;
         toggleAim = manager.toggleAim;
+
+        playedLandingNoise = true;
     }
 
     void Update()
     {
+        if(!playedLandingNoise && isGrounded)
+        {
+            steps.PlayLandingNoise();
+            playedLandingNoise = true;
+        }
 
         RaycastHit hit;
 
         isGrounded = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground);
         
-        if(Input.GetKeyDown(KeyCode.F3))
-        {
-            GameObject debugSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            debugSphere.GetComponent<Collider>().enabled = false;
-
-            if (Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out hit, startHeight * 0.5f, ground))
-            {
-                debugSphere.transform.position = hit.point;
-                debugSphere.transform.localScale = new Vector3(groundCheckRadius, groundCheckRadius, groundCheckRadius);          
-            }
-
-        }
 
 
         if (!isDead)
@@ -130,9 +127,14 @@ public class CustomCharacterController : MonoBehaviour
         }
 
         if (isGrounded)
+        {
             rb_player.drag = groundDrag;
+        }
         else
+        {
             rb_player.drag = 0f;
+            playedLandingNoise = false;
+        }
     }
 
     private void FixedUpdate()
