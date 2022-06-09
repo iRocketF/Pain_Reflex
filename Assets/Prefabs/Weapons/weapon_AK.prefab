@@ -208,7 +208,7 @@ MonoBehaviour:
   weaponSpread: 1
   spreadAimModifier: 2
   reloadTime: 2
-  recoil: -2.5
+  recoil: -2
   adsSpeed: 4
   rePickUpTime: 0.5
   meleeDmg: 15

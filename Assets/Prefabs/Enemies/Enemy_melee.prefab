@@ -1424,7 +1424,7 @@ MonoBehaviour:
   isDead: 0
   waitingForDoor: 0
   isWalking: 0
-  weaponToDrop: {fileID: 6574111924105022524, guid: d0cc480e2846e4f4bb9f71c8c5319290, type: 3}
+  weaponToDrop: {fileID: 2472486162184684735, guid: f20a94491a15b454b8367ad072261c6d, type: 3}
   headshotEffect: {fileID: 3329617227668744050, guid: bfe41632d217f804294b07c62671a534, type: 3}
   meleeDmg: 30
   meleeRange: 2

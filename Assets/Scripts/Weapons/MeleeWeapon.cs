@@ -37,6 +37,7 @@ public class MeleeWeapon : MonoBehaviour
 
     public Rigidbody rigidBody;
     public Collider weaponCollider;
+    public MeshRenderer arms;
     private Outline outline;
 
     public GameObject player;
@@ -55,7 +56,7 @@ public class MeleeWeapon : MonoBehaviour
         movement = player.GetComponentInChildren<CustomCharacterController>();
 
         rigidBody = GetComponent<Rigidbody>();
-        weaponCollider = GetComponent<BoxCollider>();
+        weaponCollider = GetComponent<Collider>();
         weaponSound = GetComponent<AudioSource>();
 
         animator = GetComponent<Animator>();
@@ -66,6 +67,9 @@ public class MeleeWeapon : MonoBehaviour
             if (type == inventory.ammoTypes[i])
                 ammoInt = i;
         }
+
+        if (arms != null)
+            arms.enabled = false;
 
         outline = GetComponent<Outline>();
         outline.enabled = false;
@@ -212,6 +216,9 @@ public class MeleeWeapon : MonoBehaviour
         weaponCollider.enabled = true;
         isThrown = true;
 
+        if (arms != null)
+            arms.enabled = false;
+
         // make the weapon ignore collision with the player model, add weapon throw force, add spin with torque
         Physics.IgnoreCollision(weaponCollider, player.GetComponentInChildren<CapsuleCollider>(), true);
         rigidBody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
@@ -265,6 +272,9 @@ public class MeleeWeapon : MonoBehaviour
         animator.enabled = false;
         rigidBody.isKinematic = false;
         weaponCollider.enabled = true;
+
+        if (arms != null)
+            arms.enabled = false;
 
         // make the weapon ignore collision with the player model, add some force to throw the weapon away
         Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);

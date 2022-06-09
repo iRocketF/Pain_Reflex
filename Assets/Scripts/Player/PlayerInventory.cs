@@ -105,6 +105,9 @@ public class PlayerInventory : MonoBehaviour
             newWeapon.transform.SetParent(weaponPosition, false);
             newWeapon.transform.SetPositionAndRotation(weaponPosition.position, Quaternion.identity);
 
+            if (weapon.arms != null)
+                weapon.arms.enabled = true;
+
             weapon.animator.enabled = true;
             weapon.animator.SetTrigger("pickUp");
 

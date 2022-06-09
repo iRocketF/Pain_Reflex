@@ -249,7 +249,6 @@ public class BulletBase : MonoBehaviour
                 impact.transform.LookAt(source);
                 break;
         }
-
     }
 
     private void CreateDebugSphere(Vector3 contactPoint, Transform newParent)

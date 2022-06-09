@@ -115,13 +115,13 @@ public class Footsteps : MonoBehaviour
             switch (hit.collider.tag)
             {
                 case "Footsteps/WOOD":
-                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
+                    footstepSource.PlayOneShot(jumpLandings[0], 0.6f);
                     break;
                 case "Footsteps/METAL":
-                    footstepSource.PlayOneShot(metalLandings[Random.Range(0, metalLandings.Length - 1)], 0.5f);
+                    footstepSource.PlayOneShot(metalLandings[Random.Range(0, metalLandings.Length - 1)], 0.6f);
                     break;
                 default:
-                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
+                    footstepSource.PlayOneShot(jumpLandings[0], 0.6f);
                     break;
             }
         }
