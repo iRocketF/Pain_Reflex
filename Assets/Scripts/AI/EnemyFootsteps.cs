@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Footsteps : MonoBehaviour
+public class EnemyFootsteps : MonoBehaviour
 {
     [SerializeField] float stepSpeed;
-    [SerializeField] float crouchStepMultiplier;
-    private float GetStepOffset => controller.isCrouching ? stepSpeed * crouchStepMultiplier : stepSpeed;
+    private float GetStepOffset => stepSpeed;
+
 
     private float footstepTimer;
     private int footstepIndex;
@@ -18,21 +19,20 @@ public class Footsteps : MonoBehaviour
     [SerializeField] AudioClip[] jumpLandings;
     [SerializeField] AudioClip[] metalLandings;
 
-    private CustomCharacterController controller;
-
+    private EnemyAI controller;
     [SerializeField] LayerMask ground;
 
     void Start()
     {
         footstepIndex = 0;
 
-        controller = GetComponent<CustomCharacterController>();
+        controller = GetComponent<EnemyAI>();
         //footstepSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (!controller.isDead && controller.isGrounded && controller.isWalking)
+        if (!controller.isDead && controller.isWalking)
         {
             Footstep();
         }
@@ -66,12 +66,12 @@ public class Footsteps : MonoBehaviour
                         if (footstepIndex > metalSteps.Length - 1)
                         {
                             footstepIndex = 0;
-                            footstepSource.PlayOneShot(metalSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(metalSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
                         else
                         {
-                            footstepSource.PlayOneShot(metalSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(metalSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
                         break;
@@ -92,37 +92,19 @@ public class Footsteps : MonoBehaviour
                         if (footstepIndex > defaultSteps.Length - 1)
                         {
                             footstepIndex = 0;
-                            footstepSource.PlayOneShot(defaultSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(defaultSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
                         else
                         {
-                            footstepSource.PlayOneShot(defaultSteps[footstepIndex]);
+                            footstepSource.PlayOneShot(defaultSteps[footstepIndex], 0.5f);
                             footstepIndex++;
                         }
                         break;
                 }
 
                 footstepTimer = GetStepOffset;
-            }
-        }
-    }
 
-    public void PlayLandingNoise()
-    {
-        if (Physics.Raycast(controller.transform.position, Vector3.down, out RaycastHit hit, 2, ground))
-        {
-            switch (hit.collider.tag)
-            {
-                case "Footsteps/WOOD":
-                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
-                    break;
-                case "Footsteps/METAL":
-                    footstepSource.PlayOneShot(metalLandings[Random.Range(0, metalLandings.Length - 1)], 0.5f);
-                    break;
-                default:
-                    footstepSource.PlayOneShot(jumpLandings[0], 0.5f);
-                    break;
             }
         }
     }

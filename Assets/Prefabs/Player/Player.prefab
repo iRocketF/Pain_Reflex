@@ -6284,6 +6284,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a950021f561878049967e08e20da27e4, type: 3}
   - {fileID: 8300000, guid: 46ced2064cc49b941a5f7cee62166887, type: 3}
   - {fileID: 8300000, guid: edaf181d50bdd4f40bd3388a8cb115dc, type: 3}
+  ground:
+    serializedVersion: 2
+    m_Bits: 1032
 --- !u!82 &2135552823401610385
 AudioSource:
   m_ObjectHideFlags: 0

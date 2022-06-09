@@ -9,7 +9,7 @@ public class BulletBase : MonoBehaviour
     public LayerMask targetMask;
     public float raycastOverhead;
 
-    public float bulletForce;
+    public float bulletForce; 
     public float bulletDamage;
 
     public Rigidbody rigidBody;
@@ -241,7 +241,6 @@ public class BulletBase : MonoBehaviour
                 impact.transform.LookAt(source);
                 break;
             case "Footsteps/METAL":
-                Debug.Log("create metal sparks");
                 impact = Instantiate(l_impactParticles[2], contactPoint, Quaternion.identity);
                 impact.transform.LookAt(source);
                 break;
