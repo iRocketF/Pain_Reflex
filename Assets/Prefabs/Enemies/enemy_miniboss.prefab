@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 4734667232235176656}
   - component: {fileID: 2765487615417232626}
   - component: {fileID: -127890818277251610}
+  - component: {fileID: 2641215140116726151}
   m_Layer: 7
   m_Name: enemy_miniboss
   m_TagString: Enemy
@@ -466,7 +467,8 @@ MonoBehaviour:
   isDead: 0
   waitingForDoor: 0
   isWalking: 0
-  weaponToDrop: {fileID: 4013433329765009677, guid: a49a2525b792b4c4281617f7ca40213d, type: 3}
+  destroyAtWalkpoint: 0
+  weaponToDrop: {fileID: 4295301585039725464, guid: c74052d8d5e4d164095c004c3d384ebd, type: 3}
   headshotEffect: {fileID: 3329617227668744050, guid: bfe41632d217f804294b07c62671a534, type: 3}
   itemDrop: {fileID: 8290281799440860364}
 --- !u!114 &-8543101872121435997
@@ -717,6 +719,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2641215140116726151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534709741926808070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 2
+  enableTimer: 0
+  timeUntilDisable: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &1934168271602174851
 GameObject:
   m_ObjectHideFlags: 0

@@ -816,6 +816,7 @@ GameObject:
   - component: {fileID: 5151915402451825630}
   - component: {fileID: -3620619643405315344}
   - component: {fileID: 8088766532491809672}
+  - component: {fileID: 6678671508764769236}
   m_Layer: 7
   m_Name: Enemy_smg
   m_TagString: Enemy
@@ -945,6 +946,7 @@ MonoBehaviour:
   isDead: 0
   waitingForDoor: 0
   isWalking: 0
+  destroyAtWalkpoint: 0
   weaponToDrop: {fileID: 5828633984353293041, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
   headshotEffect: {fileID: 3329617227668744050, guid: bfe41632d217f804294b07c62671a534, type: 3}
 --- !u!114 &4093170770561282806
@@ -1195,6 +1197,26 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6678671508764769236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858694031492859260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 1
+  enableTimer: 0
+  timeUntilDisable: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &5152594168935652645
 GameObject:
   m_ObjectHideFlags: 0

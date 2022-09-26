@@ -211,7 +211,7 @@ MonoBehaviour:
   recoil: -2
   adsSpeed: 4
   rePickUpTime: 0.5
-  meleeDmg: 15
+  meleeDmg: 30
   meleeForce: 50
   meleeRange: 2.5
   meleeMask:
@@ -230,13 +230,16 @@ MonoBehaviour:
   ammo: {fileID: 0}
   bullet: {fileID: 3354610413124852316, guid: 74f316c2abc9fcb4fa90298da768e1d8, type: 3}
   bulletSpawn: {fileID: 4014730807582108331}
-  muzzleEffects: {fileID: 1475285376581717884, guid: e2834e2a3d222d146bd165bfc85cfd65, type: 3}
+  muzzleEffects: {fileID: 1475285376581717884, guid: 6cf7785efd148674ca9ebf4a93239355, type: 3}
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 8732693481125856621}
   shell: {fileID: 8298973276698175154, guid: 9b27a83c1c1ef8b4fa25a888bbbdf2c0, type: 3}
   ejectPort: {fileID: 6120580174181598065}
   ejectionForce: 1.25
+  cameraShake: {fileID: 0}
+  shakeMag: 0.1
+  shakeDur: 0.05
   weaponSound: {fileID: 0}
   firingSounds:
   - {fileID: 8300000, guid: 5d29c718e15c54c4d9e585ea2bca4a8c, type: 3}

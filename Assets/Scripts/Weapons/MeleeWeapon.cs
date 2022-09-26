@@ -47,7 +47,7 @@ public class MeleeWeapon : MonoBehaviour
     private PlayerHUD hud;
     private Transform source;
 
-    void Start()
+    public void Start()
     {
         player = GameObject.FindWithTag("Player");
         hud = player.GetComponentInChildren<PlayerHUD>();

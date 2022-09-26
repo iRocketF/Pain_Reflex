@@ -140,13 +140,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fbf8a44fb357fc44ea7906cbb3f7bc17, type: 3}
   - {fileID: 8300000, guid: 1d4a7a9b876f08d4aacc7594b57d8a1c, type: 3}
   - {fileID: 8300000, guid: 711369cc3b5702645ae3fb2afaab6e60, type: 3}
-  - {fileID: 8300000, guid: a50e77a3c47d09f47909232a69395ed3, type: 3}
+  - {fileID: 8300000, guid: 9c4d0c1908abdc94fb512667874c05b7, type: 3}
   - {fileID: 8300000, guid: 1d4a7a9b876f08d4aacc7594b57d8a1c, type: 3}
   masterVolume: 0.5
   musicVolume: 0.5
   sfxVolume: 0.5
   currentScene:
     m_Handle: 0
+  decalPool: {fileID: 0}
 --- !u!114 &3209435001381293705
 MonoBehaviour:
   m_ObjectHideFlags: 0

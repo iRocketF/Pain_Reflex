@@ -36,6 +36,7 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField]
     private PlayerHUD hud;
+    private ItemCheckSphere sphere;
 
     public Transform weaponPosition;
     public Transform keycardHolder;
@@ -43,18 +44,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void Start()
     {
-        if (weaponPosition.childCount > 0)
-            SetWeapon(weaponPosition.GetChild(0).gameObject);
+        //if (weaponPosition.childCount > 0 && weaponInventory[0] == null)
+            //SetWeapon(weaponPosition.GetChild(0).gameObject);
 
         hud = GetComponentInChildren<PlayerHUD>();
+        sphere = GetComponentInChildren<ItemCheckSphere>();
     }
 
     public void SetWeapon(GameObject newWeapon)
     {
-        weaponInventory[0] = newWeapon.gameObject;
-
         if(newWeapon.GetComponent<WeaponBase>() != null)
         {
+            weaponInventory[0] = newWeapon.gameObject;
+
             WeaponBase weapon = newWeapon.GetComponent<WeaponBase>();
 
             weapon.transform.localScale = weapon.povScale;
@@ -64,7 +66,15 @@ public class PlayerInventory : MonoBehaviour
             if (newWeapon.transform.childCount != 0)
             {
                 for (int i = 0; i < newWeapon.transform.childCount; i++)
+                {
                     newWeapon.transform.GetChild(i).gameObject.layer = 12;
+
+                    if(newWeapon.transform.GetChild(i).childCount != 0)
+                    {
+                        for(int j = 0; j < newWeapon.transform.GetChild(i).childCount; j++)
+                            newWeapon.transform.GetChild(i).GetChild(j).gameObject.layer = 12;                  
+                    }
+                }
             }
 
             newWeapon.GetComponent<Rigidbody>().isKinematic = true;
@@ -85,9 +95,14 @@ public class PlayerInventory : MonoBehaviour
             weapon.SetMesh();
 
             hud.UpdateAmmoText();
+
+            sphere.UpdateWeapon(weapon);
         }
         else if (newWeapon.GetComponent<MeleeWeapon>() != null)
         {
+            if(weaponInventory[0] == null)
+                weaponInventory[0] = newWeapon.gameObject;
+
             MeleeWeapon weapon = newWeapon.GetComponent<MeleeWeapon>();
 
             //weapon.transform.localScale = weapon.povScale;
@@ -218,18 +233,24 @@ public class PlayerInventory : MonoBehaviour
 
     public List<GameObject> SaveItems()
     {
-        // get the player weapon and add it to the list
-        itemsToSave.Add(weaponInventory[0]);
+        // get the player weapon(s) and add it to the list
+        for (int i = 0; i < weaponPosition.childCount; i++)
+            itemsToSave.Add(weaponPosition.GetChild(i).gameObject);
 
         // add collected keycards to the list
         // functionality DISABLED for now, player will have to find keycards again in new level
         // this instead removes keycards from player inventory now
 
-        for (int i = 0; i < keycards.Count; i++)
-            keycards.Remove(keycards[i]);
+        //for (int i = 0; i < keycards.Count; i++)
+        //keycards.Remove(keycards[i]);
+        keycards.Clear();
 
         for (int i = 0; i < keycardUiHolder.childCount; i++)
+        {
             Destroy(keycardUiHolder.GetChild(i).gameObject);
+            Destroy(keycardHolder.GetChild(i).gameObject);
+
+        }
 
         return itemsToSave;
     }

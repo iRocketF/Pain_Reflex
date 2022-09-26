@@ -49,6 +49,9 @@ public class CustomCharacterController : MonoBehaviour
     public float crouchTime;
     private float crouchLerpTime;
 
+    // experimental: trying to keep the players head not going downwards when crouching midair
+    // public float crouchDifference;
+
     [Header("Player step climbing")]
     [SerializeField] GameObject stepRayUpper;
     [SerializeField] GameObject stepRayLower;
@@ -123,7 +126,10 @@ public class CustomCharacterController : MonoBehaviour
             SpeedControl();
 
             if(toggleCrouch)
+            {
                 Crouch();
+                pCam.CameraCrouch(isCrouching, isGrounded, readyToJump, crouchLerpTime);
+            }
         }
 
         if (isGrounded)
@@ -190,6 +196,7 @@ public class CustomCharacterController : MonoBehaviour
                 isCrouching = true;
 
                 Crouch();
+                pCam.CameraCrouch(isCrouching, isGrounded, readyToJump, crouchLerpTime);
             }
             else if (CanUncrouch())
             {
@@ -199,6 +206,7 @@ public class CustomCharacterController : MonoBehaviour
                 isCrouching = false;
 
                 Crouch();
+                pCam.CameraCrouch(isCrouching, isGrounded, readyToJump, crouchLerpTime);
             }
         }
 
@@ -334,36 +342,34 @@ public class CustomCharacterController : MonoBehaviour
     private void Crouch()
     {
         currentHeight = playerCollider.height;
-        pCam.currentHeight = pCam.transform.localPosition.y;
 
         if (isCrouching)
         {
             float lerpPercent = 0f;
 
-            if (lerpPercent <= 1f && crouchHeight < currentHeight)
+            if (crouchHeight < currentHeight)
             {
                 crouchLerpTime += Time.deltaTime;
                 if (crouchLerpTime > crouchTime)
                     crouchLerpTime = crouchTime;
 
                 lerpPercent = crouchLerpTime / crouchTime;
-                pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.crouchHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, crouchHeight, lerpPercent);
                 breathe.LerpPosition(lerpPercent, isCrouching);
             }
+
         }
         else if (!isCrouching)
         {
             float lerpPercent = 0f;
 
-            if (lerpPercent <= 1f && startHeight > currentHeight)
+            if (startHeight > currentHeight)
             {
                 crouchLerpTime += Time.deltaTime;
                 if (crouchLerpTime > crouchTime)
                     crouchLerpTime = crouchTime;
 
                 lerpPercent = crouchLerpTime / crouchTime;
-                pCam.transform.localPosition = new Vector3(0f, (Mathf.Lerp(pCam.currentHeight, pCam.startHeight, lerpPercent)), 0f);
                 playerCollider.height = Mathf.Lerp(currentHeight, startHeight, lerpPercent);
                 breathe.LerpPosition(lerpPercent, isCrouching);
             }

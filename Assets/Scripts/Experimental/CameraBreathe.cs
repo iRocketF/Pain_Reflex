@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class CameraBreathe : MonoBehaviour
 {
-    [SerializeField] Vector3 standPos;
-    [SerializeField] Vector3 crouchPos;
-    [SerializeField] Vector3 currentPos;
+    Vector3 standPos;
+    Vector3 crouchPos;
+    Vector3 currentPos;
 
     [SerializeField]
     private float amplitude;
     [SerializeField]
     private float period;
+    private float standPeriod;
+    private float crouchPeriod;
     [SerializeField]
     private float time;
 
@@ -24,6 +26,8 @@ public class CameraBreathe : MonoBehaviour
 
     void Start()
     {
+        standPeriod = period;
+        crouchPeriod = period * 1.5f;
 
         movement = GetComponentInParent<CustomCharacterController>();
         pCam = GetComponent<PlayerCamera>();
@@ -38,6 +42,11 @@ public class CameraBreathe : MonoBehaviour
     {
         if (!movement.isDead && movement.isWalking && movement.isGrounded)
         {
+            if (movement.isCrouching)
+                period = crouchPeriod;
+            else
+                period = standPeriod;
+
             CameraBop();
         }
     }

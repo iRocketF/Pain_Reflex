@@ -100,6 +100,36 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &1310376579577361245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2275779178019212975}
+  m_Layer: 9
+  m_Name: ejectPort
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2275779178019212975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310376579577361245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1108, z: 0.2329}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4221450865638998628}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581821709704589599
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,8 +428,11 @@ GameObject:
   - component: {fileID: 2990874271184393111}
   - component: {fileID: 1852069155306936064}
   - component: {fileID: 2405085125986249277}
+  - component: {fileID: 213138997880553760}
+  - component: {fileID: 4524333657183744866}
   - component: {fileID: 465979641378243522}
   - component: {fileID: 26017370381182094}
+  - component: {fileID: 5997496982986015902}
   m_Layer: 9
   m_Name: weapon_awm
   m_TagString: Weapon
@@ -421,6 +454,7 @@ Transform:
   - {fileID: 4218467389243143548}
   - {fileID: 8346940007498672243}
   - {fileID: 1273121553734946040}
+  - {fileID: 2275779178019212975}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -521,6 +555,8 @@ MonoBehaviour:
   isReloading: 0
   startEmpty: 0
   isDrop: 0
+  infiniteAmmo: 0
+  inventory: {fileID: 0}
 --- !u!114 &2405085125986249277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,36 +574,88 @@ MonoBehaviour:
   weaponName: AWM
   caliber: Sniper
   fireMode: Single
+  fireRate: 0.5
+  weaponSpread: 0.5
+  spreadAimModifier: 1
+  reloadTime: 3
+  recoil: 0
+  adsSpeed: 2
+  rePickUpTime: 1
   meleeDmg: 30
   meleeForce: 200
   meleeRange: 2
   meleeMask:
     serializedVersion: 2
     m_Bits: 128
-  fireRate: 0.5
-  weaponSpread: 0.5
-  spreadAimModifier: 1
-  reloadTime: 3
-  adsSpeed: 2
-  rePickUpTime: 1
+  propMask:
+    serializedVersion: 2
+    m_Bits: 1032
+  worldScale: {x: 0, y: 0, z: 0}
+  povScale: {x: 0.4, y: 0.4, z: 0.4}
+  models: []
   isShooting: 0
-  isReloading: 0
   isAiming: 0
+  weaponRecoil: {fileID: 0}
   animator: {fileID: 0}
   ammo: {fileID: 0}
   bullet: {fileID: 4928964695773918645, guid: 8bd934a5b767b1447ab11c6bccb66260, type: 3}
   bulletSpawn: {fileID: 8346940007498672243}
+  muzzleEffects: {fileID: 1475285376581717884, guid: e2834e2a3d222d146bd165bfc85cfd65, type: 3}
+  rigidBody: {fileID: 0}
+  weaponCollider: {fileID: 0}
+  arms: {fileID: 0}
+  shell: {fileID: 8298973276698175154, guid: 9b27a83c1c1ef8b4fa25a888bbbdf2c0, type: 3}
+  ejectPort: {fileID: 2275779178019212975}
+  ejectionForce: 0
+  cameraShake: {fileID: 0}
+  shakeMag: 0.4
+  shakeDur: 0.16
   weaponSound: {fileID: 0}
+  firingSounds:
+  - {fileID: 8300000, guid: 6455d0e3d74ab5d43aa0d01a66390a9f, type: 3}
   weaponSounds:
   - {fileID: 8300000, guid: 6455d0e3d74ab5d43aa0d01a66390a9f, type: 3}
   - {fileID: 8300000, guid: cfe95334434f3f6479dd4b089fdbe323, type: 3}
   - {fileID: 8300000, guid: 8a377359549668845bc8318884bea7dc, type: 3}
   - {fileID: 8300000, guid: fb066d54a9a270944ad083d74137d27a, type: 3}
   - {fileID: 8300000, guid: 4160cb06c6daefd458fd219694220753, type: 3}
-  rigidBody: {fileID: 0}
-  muzzleFlash: {fileID: 3786919925204485825, guid: 32199ca8e6d17be41bd405d63cfe79c0, type: 3}
   aimSpot: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+--- !u!114 &213138997880553760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223959975500137644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac875b8e14c4215408d903509f3db084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilKickTime: 0.05
+  recoilRecoveryTime: 2.75
+  recoilSmoothModifier: 45
+--- !u!114 &4524333657183744866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223959975500137644}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 5
+  enableTimer: 1
+  timeUntilDisable: 1
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!95 &465979641378243522
 Animator:
   serializedVersion: 3
@@ -578,7 +666,7 @@ Animator:
   m_GameObject: {fileID: 4223959975500137644}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5580062469eb83e408ea219a96b5a1f8, type: 2}
+  m_Controller: {fileID: 9100000, guid: e7f4b1720e14eb9408dfb7b32a70c43c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -599,6 +687,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec77d24628e2b14cac06f75d20d3d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &5997496982986015902
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223959975500137644}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.1595995
+  m_Center: {x: -0.024771336, y: -0.10490328, z: 0.9808965}
 --- !u!1 &7487653281981331426
 GameObject:
   m_ObjectHideFlags: 0

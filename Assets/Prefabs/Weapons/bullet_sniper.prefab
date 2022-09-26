@@ -29,68 +29,77 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06443014, y: 0.06305833, z: 0.3665093}
   m_Center: {x: -0.002211263, y: 0.0022651237, z: 0.04260776}
---- !u!114 &1869762621703900066
-MonoBehaviour:
+--- !u!108 &3713091825419212610
+Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188377953961963095}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d8589fe798b95b43a44ab3a3f6067a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 0
-  targetMask:
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.6950371, b: 0.1462264, a: 1}
+  m_Intensity: 1
+  m_Range: 6
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
     serializedVersion: 2
-    m_Bits: 0
-  raycastOverhead: 0
-  bulletForce: 0
-  bulletDamage: 100
-  rigidBody: {fileID: 526949588535562520}
-  impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
-  source: {fileID: 0}
---- !u!1 &4385751865232321448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 24108973583576346}
-  - component: {fileID: 18718353848617781}
-  m_Layer: 8
-  m_Name: Tracer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &24108973583576346
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385751865232321448}
-  m_LocalRotation: {x: 0.09229683, y: -0.7010573, z: 0.7010573, w: 0.09229683}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.010000001, y: 0.009999999, z: 0.009999998}
-  m_Children: []
-  m_Father: {fileID: 178530822677943208}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!96 &18718353848617781
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!96 &7370601294183705443
 TrailRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385751865232321448}
-  m_Enabled: 1
+  m_GameObject: {fileID: 188377953961963095}
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -102,7 +111,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f07e02d56d33ff0429edfb63faad2d62, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +153,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9433962, g: 0.47434926, b: 0, a: 1}
+      key0: {r: 0.94509804, g: 0.6671005, b: 0, a: 1}
       key1: {r: 1, g: 0.9011698, b: 0.4198113, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -180,6 +189,34 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &1869762621703900066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188377953961963095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8589fe798b95b43a44ab3a3f6067a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  raycastOverhead: 2
+  bulletForce: 250
+  bulletDamage: 100
+  rigidBody: {fileID: 526949588535562520}
+  impactParticles: {fileID: 1076594313786965640, guid: 7782066c64627fa4dbcadb6c3b58d5b7, type: 3}
+  l_impactParticles: []
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 0
+  trailDelay: 0.1
+  bullethole: {fileID: 2907703517363007301, guid: b8791595de57d5148ac1beccc0754b11, type: 3}
+  source: {fileID: 0}
 --- !u!1 &4928964695773918645
 GameObject:
   m_ObjectHideFlags: 0

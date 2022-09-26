@@ -19,7 +19,7 @@ public class ParticleDecalPool : MonoBehaviour
     private ParticleDecalData[] particleData;
     private ParticleSystem.Particle[] particles;
 
-    void Awake()
+     void Awake()
     {
         decalParticleSystem = GetComponent<ParticleSystem>();
 
@@ -71,10 +71,10 @@ public class ParticleDecalPool : MonoBehaviour
 
     public void ClearParticles()
     {
-        if(particleData != null)
-            for (int i = 0; i < particleData.Length; i++)
-                particleData[i] = null;
+        decalParticleSystem.Clear();
 
+        for (int i = 0; i < particleData.Length; i++)
+            particleData[i] = new ParticleDecalData();
     }
 
 }

@@ -62,11 +62,10 @@ public class Outline : MonoBehaviour {
   [SerializeField, Range(0f, 10f)]
   private float outlineWidth = 2f;
 
-    [Header("Timer for outline disable")]
-    [SerializeField]
-    private bool enableTimer;
-    public float timeUntilDisable;
-    private float timer;
+  [Header("Timer for outline disable")]
+  public bool enableTimer;
+  public float timeUntilDisable;
+  private float timer;
 
   [Header("Optional")]
 
@@ -117,7 +116,7 @@ public class Outline : MonoBehaviour {
       renderer.materials = materials.ToArray();
     }
 
-        timer = 0f;
+    timer = 0f;
   }
 
   void OnValidate() {
@@ -144,10 +143,10 @@ public class Outline : MonoBehaviour {
       UpdateMaterialProperties();
     }
 
-        if (enabled)
+        if (enabled && enableTimer)
             timer += Time.deltaTime;
 
-        if (timer >= timeUntilDisable)
+        if (timer >= timeUntilDisable && enableTimer)
             enabled = false;
 
   }

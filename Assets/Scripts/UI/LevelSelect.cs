@@ -30,6 +30,12 @@ public class LevelSelect : MonoBehaviour
     {
         manager.LoadScene("level_4_a");
     }
+    
+    public void LoadEndlessMode()
+    {
+        manager.LoadScene("level_arena_nightclub");
+    }
+
 
     public void Return()
     {

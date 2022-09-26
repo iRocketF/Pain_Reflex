@@ -126,6 +126,56 @@ public class InteractablePickUp : MonoBehaviour
             PickUpKeycard(inventory, hud);
     }
 
+    public void AttemptGroundPickUp(PlayerInventory inventory, HealthBase health, PlayerHUD hud)
+    {
+        bool hasAmmo = false;
+        // only pick up weapons if they have ammo in them, otherwise dont autopickup them
+        if (GetComponent<AmmoBase>() != null)
+        {
+            if (GetComponent<AmmoBase>().currentMag > 0)
+                hasAmmo = true;
+            else
+                hasAmmo = false;
+        }
+
+        // pick up first weapon the player makes contact with if currently not holding a weapon
+        if (inventory.weaponInventory[0] == null)
+        {
+            if (GetComponent<WeaponBase>() != null)
+            {
+                if (hasAmmo)
+                    PickUpWeapon(inventory, hud);
+            }
+            else if (GetComponent<MeleeWeapon>() != null)
+                PickUpMelee(inventory, hud);
+        }
+        else if (inventory.weaponInventory[0] != null)
+        {
+            // pick up additional bayonets to the player inventory in case the player is holding a firearm
+            if (inventory.weaponInventory[0].GetComponent<WeaponBase>() && GetComponent<MeleeWeapon>() != null)
+                PickUpMelee(inventory, hud);
+            // pick up additional bayonets when holding a knife
+            else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() && GetComponent<MeleeWeapon>() != null)
+                PickUpMelee(inventory, hud);
+            // pick up a weapon if holding a bayonet
+            else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() && GetComponent<WeaponBase>() != null)
+            {
+                if (hasAmmo)
+                    PickUpWeapon(inventory, hud);
+            }
+
+        }
+
+        if (CompareTag("AmmoPickUp"))
+            PickUpAmmo(inventory, hud);
+        else if (CompareTag("HealthPickUp"))
+            PickUpHealth(health, hud);
+        else if (CompareTag("ArmorPickUp"))
+            PickUpArmor(health, hud);
+        else if (CompareTag("Keycard"))
+            PickUpKeycard(inventory, hud);
+    }
+
     public void PickUpWeapon(PlayerInventory inventory, PlayerHUD hud)
     {
         WeaponBase weapon = gameObject.GetComponent<WeaponBase>();
@@ -134,6 +184,8 @@ public class InteractablePickUp : MonoBehaviour
         {
             inventory.SetWeapon(weapon.gameObject);
             hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+            hud.UpdatePickUpText(weapon.weaponName);
         }
         else if (weapon.canPickUp && inventory.weaponInventory[0] != null)
         {
@@ -144,6 +196,8 @@ public class InteractablePickUp : MonoBehaviour
                 inventory.SetWeapon(weapon.gameObject);
 
                 hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+                hud.UpdatePickUpText(weapon.weaponName);
             }
             else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
             {
@@ -152,6 +206,8 @@ public class InteractablePickUp : MonoBehaviour
                 inventory.SetWeapon(weapon.gameObject);
 
                 hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+                hud.UpdatePickUpText(weapon.weaponName);
             }
         }
     }
@@ -164,6 +220,8 @@ public class InteractablePickUp : MonoBehaviour
         {
             inventory.SetWeapon(weapon.gameObject);
             hud.uiSound.PlayOneShot(hud.sounds[3]);
+
+            hud.UpdatePickUpText(weapon.weaponName);
         }
         else if(weapon.canPickUp && inventory.weaponInventory != null)
         {
@@ -179,6 +237,7 @@ public class InteractablePickUp : MonoBehaviour
                     hud.uiSound.PlayOneShot(hud.sounds[3]);
 
                     hud.UpdateAmmoText();
+                    hud.UpdatePickUpText(weapon.weaponName);
                 }
             }
             else if (inventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
@@ -193,6 +252,7 @@ public class InteractablePickUp : MonoBehaviour
                     hud.uiSound.PlayOneShot(hud.sounds[3]);
 
                     hud.UpdateAmmoText();
+                    hud.UpdatePickUpText(weapon.weaponName);
                 }
             }
         }
@@ -207,6 +267,7 @@ public class InteractablePickUp : MonoBehaviour
             inventory.AddAmmo(pickUp);
             hud.uiSound.PlayOneShot(hud.sounds[0]);
             hud.UpdateAmmoText();
+            hud.UpdatePickUpText(pickUp.caliber + " AMMO");
         }
     }
 
@@ -219,6 +280,8 @@ public class InteractablePickUp : MonoBehaviour
             pHealth.Heal(pickUp.healAmount);
             pickUp.Remove();
             hud.uiSound.PlayOneShot(hud.sounds[2]);
+            hud.UpdatePickUpText("HEALTH");
+
         }
     }
 
@@ -231,16 +294,37 @@ public class InteractablePickUp : MonoBehaviour
             pHealth.AddArmor(pickUp.armorAmount);
             pickUp.Remove();
             hud.uiSound.PlayOneShot(hud.sounds[1]);
+            hud.UpdatePickUpText("ARMOR");
+
         }
     }
 
     public void PickUpKeycard(PlayerInventory inventory, PlayerHUD hud)
     {
         inventory.AddKeyCard(gameObject);
-
         gameObject.SetActive(false);
 
         hud.uiSound.PlayOneShot(hud.sounds[4]);
+        hud.UpdatePickUpText("KEYCARD");
+    }
+
+    // auto pick up on trigger
+    private void OnTriggerEnter(Collider other)
+    {       
+        if(other.gameObject.layer == 6)
+        {
+            // Debug.Log("picked up " + gameObject);
+
+            if(!other.GetComponentInParent<CustomCharacterController>().isDead)
+            {
+                PlayerInventory inventory = other.transform.parent.GetComponent<PlayerInventory>();
+                HealthBase health = other.transform.parent.GetComponent<HealthBase>();
+                PlayerHUD hud = other.transform.parent.GetChild(1).GetComponentInChildren<PlayerHUD>();
+
+                AttemptGroundPickUp(inventory, health, hud);
+            }
+
+        }
     }
 }
 

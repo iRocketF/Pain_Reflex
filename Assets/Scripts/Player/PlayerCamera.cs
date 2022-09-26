@@ -29,6 +29,8 @@ public class PlayerCamera : MonoBehaviour
     public float startHeight;
     public float currentHeight;
     public float crouchHeight;
+    private float crouchTime;
+    private float crouchLerpTime;
 
     [Header("Camera zoom related variables")]
     public float zoomSpeed;
@@ -54,6 +56,7 @@ public class PlayerCamera : MonoBehaviour
 
         startHeight = transform.localPosition.y;
         crouchHeight = transform.localPosition.y / 2f;
+        crouchTime = player.crouchTime;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -99,6 +102,43 @@ public class PlayerCamera : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+
+    public void CameraCrouch(bool isCrouching, bool isGrounded, bool readyToJump, float crouchLerpTime)
+    {
+        currentHeight = transform.localPosition.y;
+
+        if(isCrouching && isGrounded && readyToJump)
+        {
+            float lerpPercent = 0f;
+
+            if (crouchHeight < currentHeight)
+            {
+                crouchLerpTime += Time.deltaTime;
+                if (crouchLerpTime > crouchTime)
+                    crouchLerpTime = crouchTime;
+
+                lerpPercent = crouchLerpTime / crouchTime;
+                transform.localPosition = new Vector3(0f, (Mathf.Lerp(currentHeight, crouchHeight, lerpPercent)), 0f);
+            }
+        }
+        else if (!isCrouching)
+        {
+            float lerpPercent = 0f;
+
+            if(startHeight > currentHeight)
+            {
+                crouchLerpTime += Time.deltaTime;
+                if (crouchLerpTime > crouchTime)
+                    crouchLerpTime = crouchTime;
+
+                lerpPercent = crouchLerpTime / crouchTime;
+                transform.localPosition = new Vector3(0f, (Mathf.Lerp(currentHeight, startHeight, lerpPercent)), 0f);
+            }
+        }
+
+
+
     }
 
     public void ChangeSensitivity(float newSens)
@@ -151,4 +191,6 @@ public class PlayerCamera : MonoBehaviour
 
         }
     }
+
+
 }

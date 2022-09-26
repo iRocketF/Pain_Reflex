@@ -69,7 +69,7 @@ public class BulletBase : MonoBehaviour
 
                 // create a new collider to collide with environment
                 BoxCollider newCollider = gameObject.AddComponent<BoxCollider>();
-                newCollider.size = bulletCollider.size / 2f;
+                newCollider.size = bulletCollider.transform.localScale;
 
                 Collider[] enemyCollision = source.parent.gameObject.GetComponentsInChildren<Collider>();
                 GameObject player = GameObject.FindWithTag("Player");
@@ -99,7 +99,7 @@ public class BulletBase : MonoBehaviour
         // this is only ran if the bullet layer is EnemyBullet
         if(gameObject.layer == 14)
         {
-            RaycastHit hit;
+            /* RaycastHit hit;
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, raycastOverhead, targetMask))
             {
@@ -110,7 +110,7 @@ public class BulletBase : MonoBehaviour
                 targetHealth.TakeDamage(bulletDamage, bulletForce, hit.point, source, false);
 
                 Destroy(gameObject);
-            }
+            }*/
         }
 
         //Debug.DrawRay(transform.position, transform.forward * raycastOverhead, Color.red);

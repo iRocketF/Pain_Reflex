@@ -208,10 +208,10 @@ MonoBehaviour:
   weaponSpread: 2
   spreadAimModifier: 2
   reloadTime: 2
-  recoil: -2
+  recoil: -0.9
   adsSpeed: 4
   rePickUpTime: 0.5
-  meleeDmg: 15
+  meleeDmg: 30
   meleeForce: 50
   meleeRange: 2.5
   meleeMask:
@@ -219,7 +219,7 @@ MonoBehaviour:
     m_Bits: 128
   propMask:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 1033
   worldScale: {x: 0, y: 0, z: 0}
   povScale: {x: 0.12, y: 0.12, z: 0.12}
   models:
@@ -239,6 +239,9 @@ MonoBehaviour:
   shell: {fileID: 8298973276698175154, guid: 9b27a83c1c1ef8b4fa25a888bbbdf2c0, type: 3}
   ejectPort: {fileID: 5716924623934153587}
   ejectionForce: 1.25
+  cameraShake: {fileID: 0}
+  shakeMag: 0.05
+  shakeDur: 0.05
   weaponSound: {fileID: 1820894332409584880}
   firingSounds:
   - {fileID: 8300000, guid: 7e11c15fcea98e947be0cb18d3586337, type: 3}
@@ -284,12 +287,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5828633984353293041}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 5
   enableTimer: 1

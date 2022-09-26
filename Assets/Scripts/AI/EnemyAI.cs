@@ -84,6 +84,7 @@ public class EnemyAI : MonoBehaviour
     public bool isDead;
     public bool waitingForDoor;
     public bool isWalking;
+    public bool destroyAtWalkpoint;
 
     [Header("Weapon drop")]
     public GameObject weaponToDrop;
@@ -93,6 +94,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private GameObject headshotEffect;
 
+    private Outline outline;
+
+    private WaveManager arenaManager;
 
     public virtual void Start()
     {
@@ -121,6 +125,10 @@ public class EnemyAI : MonoBehaviour
 
         if (waypoint == null)
             randomPatrol = true;
+
+        outline = GetComponent<Outline>();
+
+        arenaManager = FindObjectOfType<WaveManager>();
     }
 
     public virtual void Update()
@@ -169,7 +177,7 @@ public class EnemyAI : MonoBehaviour
 
         if (!isStatic)
         {
-            if (playerInAwarenessRange && !hasLoS) Approach();
+            // if (playerInAwarenessRange && !hasLoS) Approach();
             if (!playerInAttackRange && !hasLoS && !sawPlayer) Patrol(); // player nowhere close, idle patrol
             if (playerInAttackRange && !hasLoS && !sawPlayer) Patrol(); // player in attack range, but no LoS yet
             if (playerInAttackRange && !hasLoS && sawPlayer) Chase(); // player close but no sight yet, idle patrol
@@ -220,7 +228,12 @@ public class EnemyAI : MonoBehaviour
             idleTimer = idleTimer + Time.deltaTime;
 
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+
+            if (destroyAtWalkpoint)
+                Destroy(gameObject);
+        }
 
         else if (idleTimer >= idleTime)
             walkPointSet = false;
@@ -274,13 +287,16 @@ public class EnemyAI : MonoBehaviour
 
             if (distanceToWalkPoint.magnitude < 1f)
             {
-                if (waypoint.GetComponent<Waypoint>().isFinalWaypoint)
+                if (waypoint.GetComponent<Waypoint>() != null)
                 {
-                    isStatic = true;
-                    isPursuer = true;
+                    if (waypoint.GetComponent<Waypoint>().isFinalWaypoint)
+                    {
+                        //isStatic = true;
+                        //isPursuer = true;
+                    }
+                    else
+                        waypoint = waypoint.GetComponent<Waypoint>().nextWaypoint;
                 }
-                else
-                    waypoint = waypoint.GetComponent<Waypoint>().nextWaypoint;
             }
             walkPoint = waypoint.position;
         }
@@ -428,7 +444,12 @@ public class EnemyAI : MonoBehaviour
 
     public virtual void Die(float deathForce, Transform source, bool headshot)
     {
+        if(arenaManager != null)
+            arenaManager.AddToKills();
+
         isDead = true;
+
+        outline.enabled = false;
 
         // disable pathfinding and enable physics
         Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -474,7 +495,11 @@ public class EnemyAI : MonoBehaviour
             GameObject newWeapon = Instantiate(weaponToDrop, weapon.transform.position, weapon.transform.rotation);
 
             newWeapon.GetComponent<AmmoBase>().isDrop = true;
-            newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().currentMag;
+
+            if(weapon.GetComponent<EnemyAmmoBase>().currentMag < weapon.GetComponent<EnemyAmmoBase>().maxMag / 2f)
+                newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().maxMag / 2f;
+            else
+                newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().currentMag;
 
             weapon.transform.parent = null;
         }

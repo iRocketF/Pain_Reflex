@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 5184483829759462829}
   - component: {fileID: 5191065111515408854}
   - component: {fileID: 2312803883559492528}
+  - component: {fileID: 5257486737680324068}
   m_Layer: 7
   m_Name: enemy_sniper
   m_TagString: Enemy
@@ -468,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   player: {fileID: 0}
+  playerAimSpot: {fileID: 0}
   eyes: {fileID: 4935980847732993865}
   body: {fileID: 0}
   playerMask:
@@ -505,8 +507,11 @@ MonoBehaviour:
   sawPlayer: 0
   react: 0
   voice: {fileID: 0}
+  steps: {fileID: 0}
   isDead: 0
   waitingForDoor: 0
+  isWalking: 0
+  destroyAtWalkpoint: 0
   weaponToDrop: {fileID: 4223959975500137644, guid: b8366cbface095e4fbaefddaa9187b28, type: 3}
   headshotEffect: {fileID: 0}
 --- !u!114 &5184483829759462829
@@ -688,6 +693,26 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a0ce2fad46bd6ae4c978c78721898e87, type: 3}
   - {fileID: 8300000, guid: 31c75b655366d47418c1e712bfb0f94e, type: 3}
   - {fileID: 8300000, guid: 78dfbd3800597e244860b9f4b3dbab18, type: 3}
+--- !u!114 &5257486737680324068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623476676765360483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 4
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 1
+  enableTimer: 0
+  timeUntilDisable: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!120 &450235149621032568
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class WeaponBase : MonoBehaviour
     public float weaponSpread;
     public float spreadAimModifier;
     protected float originalSpread;
+    private Coroutine reload;
     public float reloadTime;
     private float nextTimeToFire;
     public float recoil;
@@ -58,6 +59,10 @@ public class WeaponBase : MonoBehaviour
     public Transform ejectPort;
     public float ejectionForce;
 
+    [Header("Camera shake related modifiers")]
+    public CameraShake cameraShake;
+    public float shakeMag;
+    public float shakeDur;
 
     [Header("Audio source and sounds")]
     public AudioSource weaponSound;
@@ -96,6 +101,7 @@ public class WeaponBase : MonoBehaviour
         weaponCollider = GetComponent<Collider>();
         weaponSound = GetComponentInChildren<AudioSource>();
         weaponRecoil = GetComponent<WeaponRecoil>();
+        cameraShake = pCam.gameObject.GetComponent<CameraShake>();
 
         manager = FindObjectOfType<GameManager>();
 
@@ -171,6 +177,7 @@ public class WeaponBase : MonoBehaviour
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
                 Fire();
+                StartCoroutine(cameraShake.Shake(shakeDur, shakeMag));
             }
         }
         else if (fireMode == "Single")
@@ -179,6 +186,8 @@ public class WeaponBase : MonoBehaviour
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
                 Fire();
+                StartCoroutine(cameraShake.Shake(shakeDur, shakeMag));
+
             }
         }
         
@@ -409,7 +418,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void WeaponReload()
     {
-        StartCoroutine("Reload");
+        reload = StartCoroutine("Reload");
     }
 
     // do this in AmmoBase instead?
@@ -451,7 +460,12 @@ public class WeaponBase : MonoBehaviour
         if(isAiming)
             isAiming = false;
 
-        StopCoroutine(Reload());
+        if(reload != null)
+        {
+            StopCoroutine(reload);
+            ammo.isReloading = false;
+            weaponSound.Stop();
+        }
 
         transform.parent = null;
         inventory.weaponInventory[0] = null;
@@ -464,12 +478,20 @@ public class WeaponBase : MonoBehaviour
         }
 
         gameObject.layer = 9;
-        if(transform.childCount != 0)
+        if (transform.childCount != 0)
         {
             for (int i = 0; i < transform.childCount; i++)
-                transform.GetChild(i).gameObject.layer = 9;
+            {
+                if (transform.GetChild(i).childCount != 0)
+                {
+                    transform.GetChild(i).gameObject.layer = 9;
+
+                    for (int j = 0; j < transform.GetChild(i).childCount; j++)
+                        transform.GetChild(i).GetChild(j).gameObject.layer = 9;
+                }
+            }
         }
-            
+
         animator.SetTrigger("Discard");
         animator.enabled = false;
         rigidBody.isKinematic = false;
@@ -497,7 +519,12 @@ public class WeaponBase : MonoBehaviour
         if (isAiming)
             isAiming = false;
 
-        StopCoroutine(Reload());
+        if (reload != null)
+        {
+            StopCoroutine(reload);
+            ammo.isReloading = false;
+            weaponSound.Stop();
+        }
 
         transform.parent = null;
         inventory.weaponInventory[0] = null;
@@ -506,7 +533,15 @@ public class WeaponBase : MonoBehaviour
         if (transform.childCount != 0)
         {
             for (int i = 0; i < transform.childCount; i++)
-                transform.GetChild(i).gameObject.layer = 9;
+            {
+                if (transform.GetChild(i).childCount != 0)
+                {
+                    transform.GetChild(i).gameObject.layer = 9;
+
+                    for (int j = 0; j < transform.GetChild(i).childCount; j++)
+                        transform.GetChild(i).GetChild(j).gameObject.layer = 9;
+                }
+            }
         }
 
         animator.SetTrigger("Discard");
