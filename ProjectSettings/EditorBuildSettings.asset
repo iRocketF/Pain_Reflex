@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Prototyping.unity
+    guid: a438b73287e9eab4bbaf9f2fe262b678
   - enabled: 1
     path: Assets/Scenes/Levels/title_screen.unity
     guid: 122c62cab7118fb479f818cfd36a1a6b
@@ -26,19 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/level_3_a_v2.unity
     guid: d22449bd6a92c3e4ba25620da2ec9234
-  - enabled: 0
-    path: Assets/Scenes/Levels/original test levels/level_1_a.unity
-    guid: a777021ab0449cf4b8d92dd3c9d60821
-  - enabled: 0
-    path: Assets/Scenes/Levels/original test levels/level_1_b.unity
-    guid: 0904f32364ec5344697d7c852f52bea4
-  - enabled: 0
-    path: Assets/Scenes/Levels/original test levels/level_2_a.unity
-    guid: ff3b64c529b019245b65db193cb816d1
-  - enabled: 0
-    path: Assets/Scenes/Levels/original test levels/level_3_a.unity
-    guid: 3804027630dc3e54f8b720ced6e825fa
-  - enabled: 0
-    path: Assets/Scenes/Levels/original test levels/train_prototype.unity
-    guid: 9605a4844f4a3c44bb5d20f23d8f5e64
+  - enabled: 1
+    path: Assets/Scenes/Levels/level_arena_nightclub.unity
+    guid: 954ae52319a718d43bf2aeaa884e4a5a
   m_configObjects: {}

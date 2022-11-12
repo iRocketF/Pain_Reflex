@@ -164,7 +164,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67375928262227852}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
@@ -505,6 +505,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9b107a9ac5c1b164e90e8475b3767bdf, type: 3}
       propertyPath: m_Name
       value: locker_doorR
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9b107a9ac5c1b164e90e8475b3767bdf, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9b107a9ac5c1b164e90e8475b3767bdf, type: 3}
       propertyPath: m_IsActive

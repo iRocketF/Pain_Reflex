@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public NavMeshAgent agent;
     [HideInInspector]
     public Transform player;
+    public Transform playerAimSpot;
     public Transform eyes;
     public Transform body;
 
@@ -32,7 +33,6 @@ public class EnemyAI : MonoBehaviour
     public bool walkPointSet;
     public float walkPointRange;
     public float idleTime;
-    //[HideInInspector]
     public float idleTimer;
     public bool isStatic;
     public bool isPursuer;
@@ -45,18 +45,18 @@ public class EnemyAI : MonoBehaviour
 
     [Header("AI aim variables")]
     // aim deviation variables
-    [SerializeField] [Tooltip("how much AI aim deviates from target")]
+    [SerializeField][Tooltip("how much AI aim deviates from target")]
     private float aimDeviation; // how much AI aim deviates from target
-    [SerializeField] [Tooltip("how much aim can deviate at it's maximum")]
+    [SerializeField][Tooltip("how much aim can deviate at it's maximum")]
     private float maxAimDeviation; // how much aim can deviate at it's maximum
     [SerializeField][Tooltip("how much AI aim deviates from target")]
     private float minAimDeviation; // how much aim can deviate at it's minimum
-    [SerializeField] [Tooltip("how much AI aim deviates from target")]
+    [SerializeField][Tooltip("how much AI aim deviates from target")]
     private float maxPlayerDistance; // how far the player can be so deviation is 1;
     private float playerDistance; // current player distance
-
     public float aimSpeed;
 
+    // ai aim helpers
     private float targetX;
     private float targetY;
     private float targetZ;
@@ -78,13 +78,13 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Enemy sounds")]
     public EnemyVoice voice;
+    public EnemyFootsteps steps;
 
     [Header("Enemy bools")]
-    //public bool isPassive;
-    //public bool isAlert;
-    //public bool isAggressive;
     public bool isDead;
     public bool waitingForDoor;
+    public bool isWalking;
+    public bool destroyAtWalkpoint;
 
     [Header("Weapon drop")]
     public GameObject weaponToDrop;
@@ -94,6 +94,10 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private GameObject headshotEffect;
 
+    private Outline outline;
+
+    private WaveManager arenaManager;
+
     public virtual void Start()
     {
         if (GetComponentInChildren<EnemyWeaponBase>() != null)
@@ -102,14 +106,29 @@ public class EnemyAI : MonoBehaviour
             meleeWeapon = GetComponentInChildren<EnemyWeaponMelee>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        for(int i = 0; i < player.childCount; i++)
+        {
+            if(player.GetChild(i).name == "EnemyAimSpot")
+            {
+                playerAimSpot = player.GetChild(i);
+                break;
+            }
+        }
+
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthBase>();
         voice = GetComponent<EnemyVoice>();
+        steps = GetComponent<EnemyFootsteps>();
 
         idleTimer = 0f;
 
         if (waypoint == null)
             randomPatrol = true;
+
+        outline = GetComponent<Outline>();
+
+        arenaManager = FindObjectOfType<WaveManager>();
     }
 
     public virtual void Update()
@@ -158,7 +177,7 @@ public class EnemyAI : MonoBehaviour
 
         if (!isStatic)
         {
-            if (playerInAwarenessRange && !hasLoS) Approach();
+            // if (playerInAwarenessRange && !hasLoS) Approach();
             if (!playerInAttackRange && !hasLoS && !sawPlayer) Patrol(); // player nowhere close, idle patrol
             if (playerInAttackRange && !hasLoS && !sawPlayer) Patrol(); // player in attack range, but no LoS yet
             if (playerInAttackRange && !hasLoS && sawPlayer) Chase(); // player close but no sight yet, idle patrol
@@ -183,6 +202,12 @@ public class EnemyAI : MonoBehaviour
         if (isStatic && isPursuer && hasLoS)
             isStatic = false;
 
+        if (agent.velocity.x != 0 || agent.velocity.z != 0)
+            isWalking = true;
+        else
+            isWalking = false;
+
+
     }
 
     private void Patrol()
@@ -203,7 +228,12 @@ public class EnemyAI : MonoBehaviour
             idleTimer = idleTimer + Time.deltaTime;
 
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+
+            if (destroyAtWalkpoint)
+                Destroy(gameObject);
+        }
 
         else if (idleTimer >= idleTime)
             walkPointSet = false;
@@ -257,13 +287,16 @@ public class EnemyAI : MonoBehaviour
 
             if (distanceToWalkPoint.magnitude < 1f)
             {
-                if (waypoint.GetComponent<Waypoint>().isFinalWaypoint)
+                if (waypoint.GetComponent<Waypoint>() != null)
                 {
-                    isStatic = true;
-                    isPursuer = true;
+                    if (waypoint.GetComponent<Waypoint>().isFinalWaypoint)
+                    {
+                        //isStatic = true;
+                        //isPursuer = true;
+                    }
+                    else
+                        waypoint = waypoint.GetComponent<Waypoint>().nextWaypoint;
                 }
-                else
-                    waypoint = waypoint.GetComponent<Waypoint>().nextWaypoint;
             }
             walkPoint = waypoint.position;
         }
@@ -333,7 +366,7 @@ public class EnemyAI : MonoBehaviour
             hasAimed = true;
         }
 
-        Vector3 target = new Vector3(player.position.x + targetX, player.position.y + targetY, player.position.z + targetZ);
+        Vector3 target = new Vector3(playerAimSpot.position.x + targetX, playerAimSpot.position.y + targetY, playerAimSpot.position.z + targetZ);
 
         TurnTowards(player);
 
@@ -364,7 +397,7 @@ public class EnemyAI : MonoBehaviour
             hasAimed = true;
         }
 
-        Vector3 target = new Vector3(player.position.x + targetX, player.position.y + targetY, player.position.z + targetZ);
+        Vector3 target = new Vector3(playerAimSpot.position.x + targetX, playerAimSpot.position.y + targetY, playerAimSpot.position.z + targetZ);
 
         TurnTowards(player);
 
@@ -411,7 +444,12 @@ public class EnemyAI : MonoBehaviour
 
     public virtual void Die(float deathForce, Transform source, bool headshot)
     {
+        if(arenaManager != null)
+            arenaManager.AddToKills();
+
         isDead = true;
+
+        outline.enabled = false;
 
         // disable pathfinding and enable physics
         Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -457,7 +495,11 @@ public class EnemyAI : MonoBehaviour
             GameObject newWeapon = Instantiate(weaponToDrop, weapon.transform.position, weapon.transform.rotation);
 
             newWeapon.GetComponent<AmmoBase>().isDrop = true;
-            newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().currentMag;
+
+            if(weapon.GetComponent<EnemyAmmoBase>().currentMag < weapon.GetComponent<EnemyAmmoBase>().maxMag / 2f)
+                newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().maxMag / 2f;
+            else
+                newWeapon.GetComponent<AmmoBase>().currentMag = weapon.GetComponent<EnemyAmmoBase>().currentMag;
 
             weapon.transform.parent = null;
         }

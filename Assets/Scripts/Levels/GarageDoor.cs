@@ -28,6 +28,8 @@ public class GarageDoor : MonoBehaviour
     private bool isClosed;
     public bool isLocked;
 
+    public bool usedTrigger;
+
     void Start()
     {
         doorSound = GetComponent<AudioSource>();
@@ -117,6 +119,16 @@ public class GarageDoor : MonoBehaviour
     public void InvokeDoor()
     {
         Invoke("Operate", invokeDelay);
+    }
+
+    // only for cinematic purposes x)
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!usedTrigger && other.gameObject.layer == 7)
+        {
+            InvokeDoor();
+            usedTrigger = true;
+        }
     }
 
 }

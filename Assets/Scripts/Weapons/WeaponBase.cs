@@ -17,6 +17,7 @@ public class WeaponBase : MonoBehaviour
     public float weaponSpread;
     public float spreadAimModifier;
     protected float originalSpread;
+    private Coroutine reload;
     public float reloadTime;
     private float nextTimeToFire;
     public float recoil;
@@ -54,6 +55,14 @@ public class WeaponBase : MonoBehaviour
     public Collider weaponCollider;
     public MeshRenderer arms;
     private Outline outline;
+    public GameObject shell;
+    public Transform ejectPort;
+    public float ejectionForce;
+
+    [Header("Camera shake related modifiers")]
+    public CameraShake cameraShake;
+    public float shakeMag;
+    public float shakeDur;
 
     [Header("Audio source and sounds")]
     public AudioSource weaponSound;
@@ -92,6 +101,7 @@ public class WeaponBase : MonoBehaviour
         weaponCollider = GetComponent<Collider>();
         weaponSound = GetComponentInChildren<AudioSource>();
         weaponRecoil = GetComponent<WeaponRecoil>();
+        cameraShake = pCam.gameObject.GetComponent<CameraShake>();
 
         manager = FindObjectOfType<GameManager>();
 
@@ -167,6 +177,7 @@ public class WeaponBase : MonoBehaviour
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
                 Fire();
+                StartCoroutine(cameraShake.Shake(shakeDur, shakeMag));
             }
         }
         else if (fireMode == "Single")
@@ -175,6 +186,8 @@ public class WeaponBase : MonoBehaviour
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
                 Fire();
+                StartCoroutine(cameraShake.Shake(shakeDur, shakeMag));
+
             }
         }
         
@@ -204,6 +217,7 @@ public class WeaponBase : MonoBehaviour
         // Drop the weapon the player is currently holding
         if (isPickedUp && Input.GetButtonDown("Drop"))
             Drop();
+
 
         // set a bool for the ADS method to work
         if(movement.toggleAim)
@@ -317,7 +331,7 @@ public class WeaponBase : MonoBehaviour
         // muzzleflash gameobject that has the muzzleflash and smoke afterwards
         // set the layers to equippedweapon so the smoke aligns properly with barrel
         //GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn);
-        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn.parent.parent);
+        GameObject muzzle = Instantiate(muzzleEffects, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn);
 
         muzzle.layer = 12;
 
@@ -332,6 +346,7 @@ public class WeaponBase : MonoBehaviour
 
         weaponRecoil.AddRecoil();
         ammo.ReduceAmmo();
+        EjectCasing();
 
         isShooting = false;
     }
@@ -353,6 +368,22 @@ public class WeaponBase : MonoBehaviour
             bulletDirection = randomSpread * bulletDirection;
 
         return bulletDirection;
+    }
+
+    void EjectCasing()
+    {
+        GameObject newShell = Instantiate(shell, ejectPort.position, ejectPort.rotation);
+        BoxCollider shellCollider = newShell.GetComponent<BoxCollider>();
+        Rigidbody newShellrb = newShell.GetComponent<Rigidbody>();
+
+        Physics.IgnoreCollision(shellCollider, player.GetComponentInChildren<CapsuleCollider>(), true);
+
+        ejectionForce = Random.Range(1f, 1.5f);
+        float torque = Random.Range(900f, 1100f);
+
+        newShellrb.AddForce(newShell.transform.right * ejectionForce, ForceMode.Impulse);
+        newShellrb.AddForce(newShell.transform.up * ejectionForce, ForceMode.Impulse);
+        newShellrb.AddTorque(newShell.transform.forward * torque, ForceMode.Impulse);
     }
 
     void QuickMelee()
@@ -387,7 +418,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void WeaponReload()
     {
-        StartCoroutine("Reload");
+        reload = StartCoroutine("Reload");
     }
 
     // do this in AmmoBase instead?
@@ -429,18 +460,38 @@ public class WeaponBase : MonoBehaviour
         if(isAiming)
             isAiming = false;
 
-        StopCoroutine(Reload());
+        if(reload != null)
+        {
+            StopCoroutine(reload);
+            ammo.isReloading = false;
+            weaponSound.Stop();
+        }
 
         transform.parent = null;
         inventory.weaponInventory[0] = null;
 
+        if (inventory.weaponPosition.childCount != 0)
+        {
+            inventory.weaponPosition.GetChild(0).gameObject.SetActive(true);
+            inventory.SetWeapon(inventory.weaponPosition.GetChild(0).gameObject);
+            // inventory.currentAmmo[3] -= 1;
+        }
+
         gameObject.layer = 9;
-        if(transform.childCount != 0)
+        if (transform.childCount != 0)
         {
             for (int i = 0; i < transform.childCount; i++)
-                transform.GetChild(i).gameObject.layer = 9;
+            {
+                if (transform.GetChild(i).childCount != 0)
+                {
+                    transform.GetChild(i).gameObject.layer = 9;
+
+                    for (int j = 0; j < transform.GetChild(i).childCount; j++)
+                        transform.GetChild(i).GetChild(j).gameObject.layer = 9;
+                }
+            }
         }
-            
+
         animator.SetTrigger("Discard");
         animator.enabled = false;
         rigidBody.isKinematic = false;
@@ -460,7 +511,57 @@ public class WeaponBase : MonoBehaviour
                 canPickUp = false;
         SetMesh();
 
+        hud.UpdateAmmoText();
+    }
 
+    public void Swap()
+    {
+        if (isAiming)
+            isAiming = false;
+
+        if (reload != null)
+        {
+            StopCoroutine(reload);
+            ammo.isReloading = false;
+            weaponSound.Stop();
+        }
+
+        transform.parent = null;
+        inventory.weaponInventory[0] = null;
+
+        gameObject.layer = 9;
+        if (transform.childCount != 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).childCount != 0)
+                {
+                    transform.GetChild(i).gameObject.layer = 9;
+
+                    for (int j = 0; j < transform.GetChild(i).childCount; j++)
+                        transform.GetChild(i).GetChild(j).gameObject.layer = 9;
+                }
+            }
+        }
+
+        animator.SetTrigger("Discard");
+        animator.enabled = false;
+        rigidBody.isKinematic = false;
+        weaponCollider.enabled = true;
+
+        if (arms != null)
+            arms.enabled = false;
+
+        transform.localScale = worldScale;
+
+        // make the weapon ignore collision with the player model, add some force to throw the weapon away
+        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponentInChildren<CapsuleCollider>(), true);
+        rigidBody.AddForce(transform.forward * 2.5f + transform.up * 2f, ForceMode.Impulse);
+        rigidBody.AddTorque(transform.up * 5f, ForceMode.Impulse);
+
+        isPickedUp = false;
+        canPickUp = false;
+        SetMesh();
     }
 
 }

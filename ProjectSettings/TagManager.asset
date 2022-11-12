@@ -16,6 +16,7 @@ TagManager:
   - Footsteps/WOOD
   - Footsteps/METAL
   - Footsteps/CONCRETE
+  - Footsteps/GLASS
   layers:
   - Default
   - TransparentFX
@@ -33,9 +34,9 @@ TagManager:
   - EnvironmentTrigger
   - EnemyBullet
   - Button
-  - 
-  - 
-  - 
+  - PostProcess
+  - PostProcess2
+  - ItemCheckSphere
   - 
   - 
   - 

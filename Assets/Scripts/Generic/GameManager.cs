@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private bool gameLaunched;
+
     [Header("Player initialization & tracking")]
     public GameObject playerToSpawn;
     public GameObject player;
@@ -48,10 +50,18 @@ public class GameManager : MonoBehaviour
     public Scene currentScene;
 
     private ScoreManager scoreManager;
-    private ParticleDecalPool decalPool;
+    public ParticleDecalPool decalPool;
 
     void Awake()
     {
+        gameLaunched = PlayerPrefs.GetInt("gameLaunched") == 1;
+
+        if (gameLaunched)
+            LoadSettings();
+        else
+            PlayerPrefs.SetInt("gameLaunched", 1);
+
+
         decalPool = GetComponentInChildren<ParticleDecalPool>();
         gameMusic = GetComponent<AudioSource>();
         scoreManager = GetComponent<ScoreManager>();
@@ -81,6 +91,14 @@ public class GameManager : MonoBehaviour
         // swap the level music
         switch (scene.name)
         {
+            case ("main_menu"):
+                if(gameMusic.clip != tracks[3])
+                {
+                    gameMusic.clip = tracks[3];
+                    gameMusic.Play();
+                }
+                break;
+
             case "level_1_a_v2":
                 gameMusic.clip = tracks[0];
                 gameMusic.Play();
@@ -95,7 +113,15 @@ public class GameManager : MonoBehaviour
                 gameMusic.clip = tracks[2];
                 gameMusic.Play();
                 break;
+
+            case "level_arena_nightclub":
+                gameMusic.clip = tracks[4];
+                gameMusic.Play();
+                break;
         }
+
+        //clean up particles
+        //ClearParticles();
     }
 
     void Update()
@@ -120,13 +146,16 @@ public class GameManager : MonoBehaviour
         if(currentScene != SceneManager.GetActiveScene())
             currentScene = SceneManager.GetActiveScene();
 
-        if(!inMenus)
+        if(!inMenus && !ongoingTransition)
         {
-            Timer();
+            //Timer();
 
             if (Input.GetButtonDown("Escape"))
                 Pause();
-        }       
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+            ClearParticles();
     }
 
     void CheckGameStatus()
@@ -165,7 +194,10 @@ public class GameManager : MonoBehaviour
         }    
         else if (isPaused)
         {
-            Time.timeScale = 1f;
+            if (matrixMode)
+                Time.timeScale = slowMoScale;
+            else
+                Time.timeScale = 1f;
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -176,6 +208,8 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string scene)
     {
         SceneManager.LoadScene(scene);
+
+        ClearParticles();
 
         if (isPaused)
             Pause();
@@ -191,8 +225,6 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        ClearParticles();
-
         master.SetFloat("sfxPitch", 1f);
         master.SetFloat("musicLowPass", 5000);
 
@@ -204,6 +236,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
+
         if(!inMenus)
         {
             gameMusic.clip = tracks[0];
@@ -242,6 +275,8 @@ public class GameManager : MonoBehaviour
                 itemsToReturn[i] = Instantiate(itemsToReturn[i], transform);
         }
 
+        ongoingTransition = false;
+
         LoadScene(currentScene.name);
 
         scoreManager.score = 0f;
@@ -250,7 +285,7 @@ public class GameManager : MonoBehaviour
 
     void ClearParticles()
     {
-        decalPool.decalParticleSystem.Clear();
+        decalPool.ClearParticles();
     }
 
     public void Quit()
@@ -269,7 +304,7 @@ public class GameManager : MonoBehaviour
             spawn = FindObjectOfType<PlayerSpawnPoint>().transform;
 
         if (player == null)
-            player = Instantiate(playerToSpawn, spawn.position, spawn.rotation);
+            player = Instantiate(playerToSpawn, spawn.localPosition, spawn.localRotation);
 
         PlayerInventory inventory = player.GetComponent<PlayerInventory>();
         inventory.Start();
@@ -283,13 +318,24 @@ public class GameManager : MonoBehaviour
                 //if (itemsToReturn[i].GetComponent<Keycard>() == true)
                     //inventory.AddKeyCard(itemsToReturn[i]);
 
-                if (itemsToReturn[i].GetComponent<WeaponBase>() == true)
+                if (itemsToReturn[i].GetComponent<WeaponBase>() != null)
                 {
                     WeaponBase weapon = itemsToReturn[i].GetComponent<WeaponBase>();
                     weapon.Start();
                     weapon.GetComponent<AmmoBase>().Start();
                     weapon.GetComponent<WeaponRecoil>().Start();
+                    inventory.SetWeapon(itemsToReturn[i]);                    
+                }
+                else if (itemsToReturn[i].GetComponent<MeleeWeapon>() != null)
+                {
+                    MeleeWeapon weapon = itemsToReturn[i].GetComponent<MeleeWeapon>();
+                    weapon.Start();
                     inventory.SetWeapon(itemsToReturn[i]);
+
+                    if (inventory.weaponInventory[0].activeInHierarchy && inventory.weaponInventory[0] != itemsToReturn[i])
+                    {
+                        itemsToReturn[i].SetActive(false);
+                    }
                 }
             }
         }
@@ -297,6 +343,18 @@ public class GameManager : MonoBehaviour
         // give the player the ammo they had at a checkpoint in case of respawn
         for (int i = 0; i < ammoToReturn.Count; i++)
             inventory.currentAmmo[i] = ammoToReturn[i];
+
+        // set the 1st active item in weaponinventory the active weapon
+        for (int j = 0; j < inventory.weaponPosition.childCount; j++)
+        {
+            if (inventory.weaponPosition.GetChild(j).gameObject.activeSelf)
+            {
+                inventory.weaponInventory[0] = inventory.weaponPosition.GetChild(j).gameObject;
+                player.GetComponentInChildren<PlayerHUD>().UpdateAmmoText();
+                Debug.Log("weaponinventory currently holding " + inventory.weaponInventory[0]);
+                break;
+            }
+        } 
     }
 
     public void VictorySlowMo()
@@ -332,5 +390,40 @@ public class GameManager : MonoBehaviour
         master.SetFloat("masterVolume", Mathf.Log10(masterVolume) * 20);
         master.SetFloat("musicVolume", Mathf.Log10(musicVolume) * 20);
         master.SetFloat("sfxVolume", Mathf.Log10(sfxVolume) * 20);
+    }
+
+    public void SaveSettings()
+    {
+        // save sound settings
+        PlayerPrefs.SetFloat("masterVolume", masterVolume);
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+
+        // save sensitivity
+        PlayerPrefs.SetFloat("sensitivity", sensitivity);
+        PlayerPrefs.SetFloat("aimSensitivity", aimSensitivity);
+        //Debug.Log(PlayerPrefs.GetFloat("aimSensitivity"));
+
+        // save toggles
+        PlayerPrefs.SetInt("toggleAim", toggleAim ? 1 : 0);
+        PlayerPrefs.SetInt("toggleCrouch", toggleCrouch ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadSettings()
+    {
+        // load sound settings
+        masterVolume = PlayerPrefs.GetFloat("masterVolume");
+        musicVolume = PlayerPrefs.GetFloat("musicVolume");
+        sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
+
+        // load sensitivity
+        sensitivity = PlayerPrefs.GetFloat("sensitivity");
+        aimSensitivity = PlayerPrefs.GetFloat("aimSensitivity");
+
+        // load toggles
+        toggleAim = PlayerPrefs.GetInt("toggleAim") == 1;
+        toggleCrouch = PlayerPrefs.GetInt("toggleCrouch") == 1;
     }
 }

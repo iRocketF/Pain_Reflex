@@ -36,6 +36,7 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField]
     private PlayerHUD hud;
+    private ItemCheckSphere sphere;
 
     public Transform weaponPosition;
     public Transform keycardHolder;
@@ -43,18 +44,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void Start()
     {
-        if (weaponPosition.childCount > 0)
-            SetWeapon(weaponPosition.GetChild(0).gameObject);
+        //if (weaponPosition.childCount > 0 && weaponInventory[0] == null)
+            //SetWeapon(weaponPosition.GetChild(0).gameObject);
 
         hud = GetComponentInChildren<PlayerHUD>();
+        sphere = GetComponentInChildren<ItemCheckSphere>();
     }
 
     public void SetWeapon(GameObject newWeapon)
     {
-        weaponInventory[0] = newWeapon.gameObject;
-
         if(newWeapon.GetComponent<WeaponBase>() != null)
         {
+            weaponInventory[0] = newWeapon.gameObject;
+
             WeaponBase weapon = newWeapon.GetComponent<WeaponBase>();
 
             weapon.transform.localScale = weapon.povScale;
@@ -64,7 +66,15 @@ public class PlayerInventory : MonoBehaviour
             if (newWeapon.transform.childCount != 0)
             {
                 for (int i = 0; i < newWeapon.transform.childCount; i++)
+                {
                     newWeapon.transform.GetChild(i).gameObject.layer = 12;
+
+                    if(newWeapon.transform.GetChild(i).childCount != 0)
+                    {
+                        for(int j = 0; j < newWeapon.transform.GetChild(i).childCount; j++)
+                            newWeapon.transform.GetChild(i).GetChild(j).gameObject.layer = 12;                  
+                    }
+                }
             }
 
             newWeapon.GetComponent<Rigidbody>().isKinematic = true;
@@ -85,9 +95,14 @@ public class PlayerInventory : MonoBehaviour
             weapon.SetMesh();
 
             hud.UpdateAmmoText();
+
+            sphere.UpdateWeapon(weapon);
         }
         else if (newWeapon.GetComponent<MeleeWeapon>() != null)
         {
+            if(weaponInventory[0] == null)
+                weaponInventory[0] = newWeapon.gameObject;
+
             MeleeWeapon weapon = newWeapon.GetComponent<MeleeWeapon>();
 
             //weapon.transform.localScale = weapon.povScale;
@@ -105,11 +120,41 @@ public class PlayerInventory : MonoBehaviour
             newWeapon.transform.SetParent(weaponPosition, false);
             newWeapon.transform.SetPositionAndRotation(weaponPosition.position, Quaternion.identity);
 
+            if (weapon.arms != null)
+                weapon.arms.enabled = true;
+
             weapon.animator.enabled = true;
             weapon.animator.SetTrigger("pickUp");
 
             hud.UpdateAmmoText();
         }
+    }
+
+    public void SetExtraKnife(GameObject newKnife)
+    {
+        MeleeWeapon weapon = newKnife.GetComponent<MeleeWeapon>();
+
+        //weapon.transform.localScale = weapon.povScale;
+
+        newKnife.layer = 12;
+        if (newKnife.transform.childCount != 0)
+        {
+            for (int i = 0; i < newKnife.transform.childCount; i++)
+                newKnife.transform.GetChild(i).gameObject.layer = 12;
+        }
+
+        newKnife.GetComponent<Rigidbody>().isKinematic = true;
+        newKnife.GetComponent<Collider>().enabled = false;
+
+        newKnife.transform.SetParent(weaponPosition, false);
+        newKnife.transform.SetPositionAndRotation(weaponPosition.position, Quaternion.identity);
+
+        weapon.animator.enabled = true;
+        weapon.animator.SetTrigger("pickUp");
+
+        hud.UpdateAmmoText();
+
+        newKnife.SetActive(false);
     }
 
     public void AddAmmo(Pickup_Ammobox pickUp)
@@ -126,6 +171,26 @@ public class PlayerInventory : MonoBehaviour
                         currentAmmo[i] = maxAmmoCapacity[i];
 
                     pickUp.Remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void AddExtraKnife(MeleeWeapon newKnife)
+    {
+        for (int i = 0; i < ammoTypes.Count; i++)
+        {
+            if (newKnife.type == ammoTypes[i])
+            {
+                if (currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    currentAmmo[i] = currentAmmo[i] + 1f;
+
+                    if (currentAmmo[i] > maxAmmoCapacity[i])
+                        currentAmmo[i] = maxAmmoCapacity[i];
+
+                    SetExtraKnife(newKnife.gameObject);
                     break;
                 }
             }
@@ -149,20 +214,43 @@ public class PlayerInventory : MonoBehaviour
         return default;
     }
 
+    public bool hasMaxKnives(MeleeWeapon knife)
+    {
+        for (int i = 0; i < ammoTypes.Count; i++)
+        {
+            if (knife.type == ammoTypes[i])
+            {
+                if (currentAmmo[i] < maxAmmoCapacity[i])
+                {
+                    return false;
+                }
+                else
+                    return true;
+            }
+        }
+        return default;
+    }
+
     public List<GameObject> SaveItems()
     {
-        // get the player weapon and add it to the list
-        itemsToSave.Add(weaponInventory[0]);
+        // get the player weapon(s) and add it to the list
+        for (int i = 0; i < weaponPosition.childCount; i++)
+            itemsToSave.Add(weaponPosition.GetChild(i).gameObject);
 
         // add collected keycards to the list
         // functionality DISABLED for now, player will have to find keycards again in new level
         // this instead removes keycards from player inventory now
 
-        for (int i = 0; i < keycards.Count; i++)
-            keycards.Remove(keycards[i]);
+        //for (int i = 0; i < keycards.Count; i++)
+        //keycards.Remove(keycards[i]);
+        keycards.Clear();
 
         for (int i = 0; i < keycardUiHolder.childCount; i++)
+        {
             Destroy(keycardUiHolder.GetChild(i).gameObject);
+            Destroy(keycardHolder.GetChild(i).gameObject);
+
+        }
 
         return itemsToSave;
     }

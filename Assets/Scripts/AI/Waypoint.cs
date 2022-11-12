@@ -19,9 +19,4 @@ public class Waypoint : MonoBehaviour
         if (nextWaypoint == null)
             isFinalWaypoint = true;
     }
-
-    void Update()
-    {
-        
-    }
 }

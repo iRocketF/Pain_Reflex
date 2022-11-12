@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Warehouse Material Palette
   m_EditorClassIdentifier: 
   array:
-  - {fileID: 2100000, guid: 6b4cb7e8534a7404eb396bbe6082e725, type: 2}
-  - {fileID: 2100000, guid: 18743a4e33c8601488f2b4921e38cef2, type: 2}
-  - {fileID: 2100000, guid: 56810c3bf042e5847b845593f2527be1, type: 2}
-  - {fileID: 2100000, guid: 2ca55e2717619fd46b53ad09b27b107d, type: 2}
-  - {fileID: 2100000, guid: 4f5ad50a1a5c38940aa6bf26fc729901, type: 2}
-  - {fileID: 2100000, guid: a9a32308751731249a6ee91f02c6de35, type: 2}
-  - {fileID: 2100000, guid: 13b1056a852d8af4d9e7aa1117db82fd, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 86f3af625b3b8684b9a270e64afa9353, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

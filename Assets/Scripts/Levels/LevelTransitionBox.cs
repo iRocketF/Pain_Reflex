@@ -9,6 +9,12 @@ public class LevelTransitionBox : MonoBehaviour
     public GameObject player;
     public Transform oldTransitionPoint;
 
+    // custom text to replace the normal level end text, currently in use for demo purposes
+    // return to menu also sends the player to main menu upon completing the level
+    public string customTransitionText;
+    public bool useCustomText;
+    public bool returnToMenu;
+
     // this bool defines if the point is used to transition to another level
     // if false, point is simply non-functional other than to use as a receiving port
     public bool isTransitionPoint;
@@ -46,7 +52,7 @@ public class LevelTransitionBox : MonoBehaviour
             LevelTransition();
         }
 
-        if (!isTransitionPoint && !isTransitioning && manager.ongoingTransition)
+        if (!isTransitionPoint && !isTransitioning && manager.ongoingTransition && !returnToMenu)
         {
             // this probably could be done a lot easier, but this is a method that works
             // so we'll go with it
@@ -108,14 +114,25 @@ public class LevelTransitionBox : MonoBehaviour
         
         if(transitionTimer >= levelTransitionTime)
         {
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("Submit") && !returnToMenu)
             {
+                Debug.Log("Loading next level");
+
                 transitionTimer = 0f;
                 isTransitioning = false;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-                // TransitionLogic();
             }
+            else if (Input.GetButtonDown("Submit") && returnToMenu)
+            {
+                Debug.Log("Returning to main menu");
+
+                transitionTimer = 0f;
+                isTransitioning = false;
+                manager.ongoingTransition = false;
+
+                manager.MainMenu();
+            }
+
         }
     }
 
@@ -125,13 +142,21 @@ public class LevelTransitionBox : MonoBehaviour
         {
             if(other.gameObject.transform.parent.CompareTag("Player"))
             {
-                player = other.gameObject.transform.parent.gameObject;
-                player.transform.SetParent(transform, true);
+                if(!returnToMenu)
+                {
+                    player = other.gameObject.transform.parent.gameObject;
+                    player.transform.SetParent(transform, true);
 
-                DontDestroyOnLoad(transform);
+                    DontDestroyOnLoad(transform);
+                }
 
                 manager.ongoingTransition = true;
                 isTransitioning = true;
+
+                if(useCustomText)
+                {
+                    player.GetComponentInChildren<PlayerHUD>().finishText.text = customTransitionText;                
+                }
             }
         }
     }

@@ -9,7 +9,7 @@ public class BulletBase : MonoBehaviour
     public LayerMask targetMask;
     public float raycastOverhead;
 
-    public float bulletForce;
+    public float bulletForce; 
     public float bulletDamage;
 
     public Rigidbody rigidBody;
@@ -18,6 +18,7 @@ public class BulletBase : MonoBehaviour
 
     //impact particles
     public ParticleSystem impactParticles;
+    public List<ParticleSystem> l_impactParticles;
     [SerializeField] LayerMask environmentMask;
    
     // trail & visuals
@@ -68,7 +69,7 @@ public class BulletBase : MonoBehaviour
 
                 // create a new collider to collide with environment
                 BoxCollider newCollider = gameObject.AddComponent<BoxCollider>();
-                newCollider.size = bulletCollider.size / 2f;
+                newCollider.size = bulletCollider.transform.localScale;
 
                 Collider[] enemyCollision = source.parent.gameObject.GetComponentsInChildren<Collider>();
                 GameObject player = GameObject.FindWithTag("Player");
@@ -98,7 +99,7 @@ public class BulletBase : MonoBehaviour
         // this is only ran if the bullet layer is EnemyBullet
         if(gameObject.layer == 14)
         {
-            RaycastHit hit;
+            /* RaycastHit hit;
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, raycastOverhead, targetMask))
             {
@@ -106,10 +107,10 @@ public class BulletBase : MonoBehaviour
 
                 HealthBase targetHealth = hit.transform.gameObject.GetComponent<HealthBase>();
 
-                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.transform.position, source, false);
+                targetHealth.TakeDamage(bulletDamage, bulletForce, hit.point, source, false);
 
                 Destroy(gameObject);
-            }
+            }*/
         }
 
         //Debug.DrawRay(transform.position, transform.forward * raycastOverhead, Color.red);
@@ -181,13 +182,15 @@ public class BulletBase : MonoBehaviour
             Vector3 contactPoint = collision.GetContact(0).point;
             Vector3 normal = collision.GetContact(0).normal;
 
-            GameObject bhole = Instantiate(bullethole, contactPoint, Quaternion.LookRotation(normal));
-            bhole.transform.parent = collision.transform;
-            //Debug.Log("bullethole created?");
-            bhole.transform.position += bhole.transform.forward / 1000;
+            if(!collision.gameObject.CompareTag("Footsteps/GLASS"))
+            {
+                GameObject bhole = Instantiate(bullethole, contactPoint, Quaternion.LookRotation(normal));
+                bhole.transform.parent = collision.transform;
+                //Debug.Log("bullethole created?");
+                bhole.transform.position += bhole.transform.forward / 1000;
+            }
 
-            ParticleSystem impact = Instantiate(impactParticles, contactPoint, Quaternion.identity);
-            impact.transform.LookAt(source);
+            CreateImpactParticles(collision.gameObject.tag, contactPoint);
 
             if(debug)
             {
@@ -222,6 +225,30 @@ public class BulletBase : MonoBehaviour
     {
         render.enabled = true;
         trail.enabled = true;
+    }
+
+    void CreateImpactParticles(string tag, Vector3 contactPoint)
+    {
+        ParticleSystem impact;
+        switch(tag)
+        {
+            case "Footsteps/CONCRETE":
+                impact = Instantiate(l_impactParticles[0], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            case "Footsteps/WOOD":
+                impact = Instantiate(l_impactParticles[1], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            case "Footsteps/METAL":
+                impact = Instantiate(l_impactParticles[2], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+            default:
+                impact = Instantiate(l_impactParticles[0], contactPoint, Quaternion.identity);
+                impact.transform.LookAt(source);
+                break;
+        }
     }
 
     private void CreateDebugSphere(Vector3 contactPoint, Transform newParent)

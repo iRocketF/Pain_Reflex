@@ -177,6 +177,133 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1301697649961018421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5699938909569773950}
+  - component: {fileID: 912961124437992034}
+  m_Layer: 7
+  m_Name: FootstepSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5699938909569773950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301697649961018421}
+  m_LocalRotation: {x: -0, y: -0.7071067, z: -0, w: -0.70710695}
+  m_LocalPosition: {x: 0.0080000125, y: -1, z: -0.062000003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4858694031492859256}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &912961124437992034
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301697649961018421}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 17
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1652794918565131118
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,8 +813,10 @@ GameObject:
   - component: {fileID: 8088766532491809673}
   - component: {fileID: 4093170770561282806}
   - component: {fileID: -2820755813828852887}
+  - component: {fileID: 5151915402451825630}
   - component: {fileID: -3620619643405315344}
   - component: {fileID: 8088766532491809672}
+  - component: {fileID: 6678671508764769236}
   m_Layer: 7
   m_Name: Enemy_smg
   m_TagString: Enemy
@@ -717,6 +846,7 @@ Transform:
   - {fileID: 4266568340115965483}
   - {fileID: 750428648791896295}
   - {fileID: 701025944551577066}
+  - {fileID: 5699938909569773950}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -774,6 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   player: {fileID: 0}
+  playerAimSpot: {fileID: 0}
   eyes: {fileID: 7184277325031381424}
   body: {fileID: 0}
   playerMask:
@@ -811,8 +942,11 @@ MonoBehaviour:
   sawPlayer: 0
   react: 0
   voice: {fileID: 0}
+  steps: {fileID: 0}
   isDead: 0
   waitingForDoor: 0
+  isWalking: 0
+  destroyAtWalkpoint: 0
   weaponToDrop: {fileID: 5828633984353293041, guid: 0c2c47590ccc37c4f8f370b4e03957c0, type: 3}
   headshotEffect: {fileID: 3329617227668744050, guid: bfe41632d217f804294b07c62671a534, type: 3}
 --- !u!114 &4093170770561282806
@@ -915,6 +1049,36 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f9de9fec3b482d940abb58c867c8600a, type: 3}
   - {fileID: 8300000, guid: 547dd564563545546ba042152c1f0bcd, type: 3}
   - {fileID: 8300000, guid: b14b6a4cb8e2ad74d96232c144c5ded9, type: 3}
+--- !u!114 &5151915402451825630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858694031492859260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c431573d2248f4b9abb54f32d05a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.42
+  footstepSource: {fileID: 912961124437992034}
+  defaultSteps:
+  - {fileID: 8300000, guid: 7a7f9cd1423531848a09e608b2119dc9, type: 3}
+  - {fileID: 8300000, guid: 47cdb48d1ed7e2549aace6134366efe2, type: 3}
+  woodSteps:
+  - {fileID: 8300000, guid: afaa840b83886e847bfe6645fbfce6f1, type: 3}
+  - {fileID: 8300000, guid: f71864bee404a8849ad4760e282a1b75, type: 3}
+  - {fileID: 8300000, guid: e1089bfd0f8967c4fa4e6c5817e66645, type: 3}
+  - {fileID: 8300000, guid: 1fd6a705f442b7a49bbed58324074a37, type: 3}
+  metalSteps:
+  - {fileID: 8300000, guid: ac9e3a6f590015342b030b380ef312c3, type: 3}
+  - {fileID: 8300000, guid: b285919538530764690ed415d8ef927c, type: 3}
+  jumpLandings: []
+  metalLandings: []
+  ground:
+    serializedVersion: 2
+    m_Bits: 1032
 --- !u!82 &-3620619643405315344
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1033,6 +1197,26 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6678671508764769236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858694031492859260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 1
+  enableTimer: 0
+  timeUntilDisable: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &5152594168935652645
 GameObject:
   m_ObjectHideFlags: 0

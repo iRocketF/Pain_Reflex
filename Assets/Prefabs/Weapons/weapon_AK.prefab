@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1998653670214602252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6120580174181598065}
+  m_Layer: 9
+  m_Name: EjectPort
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6120580174181598065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998653670214602252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.072, y: 0.301, z: 0.292}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4015468948582969219}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4013433329765009677
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,6 +71,7 @@ Transform:
   m_Children:
   - {fileID: 4014730807582108331}
   - {fileID: 7600931204241538562}
+  - {fileID: 6120580174181598065}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: -90}
@@ -177,10 +208,10 @@ MonoBehaviour:
   weaponSpread: 1
   spreadAimModifier: 2
   reloadTime: 2
-  recoil: -2.5
+  recoil: -2
   adsSpeed: 4
   rePickUpTime: 0.5
-  meleeDmg: 15
+  meleeDmg: 30
   meleeForce: 50
   meleeRange: 2.5
   meleeMask:
@@ -199,10 +230,16 @@ MonoBehaviour:
   ammo: {fileID: 0}
   bullet: {fileID: 3354610413124852316, guid: 74f316c2abc9fcb4fa90298da768e1d8, type: 3}
   bulletSpawn: {fileID: 4014730807582108331}
-  muzzleEffects: {fileID: 1475285376581717884, guid: dca007724a4ed3e4dadbc166453fd291, type: 3}
+  muzzleEffects: {fileID: 1475285376581717884, guid: 6cf7785efd148674ca9ebf4a93239355, type: 3}
   rigidBody: {fileID: 0}
   weaponCollider: {fileID: 0}
   arms: {fileID: 8732693481125856621}
+  shell: {fileID: 8298973276698175154, guid: 9b27a83c1c1ef8b4fa25a888bbbdf2c0, type: 3}
+  ejectPort: {fileID: 6120580174181598065}
+  ejectionForce: 1.25
+  cameraShake: {fileID: 0}
+  shakeMag: 0.1
+  shakeDur: 0.05
   weaponSound: {fileID: 0}
   firingSounds:
   - {fileID: 8300000, guid: 5d29c718e15c54c4d9e585ea2bca4a8c, type: 3}

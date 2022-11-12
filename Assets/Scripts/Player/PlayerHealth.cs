@@ -70,13 +70,8 @@ public class PlayerHealth : HealthBase
         gameObject.GetComponent<Rigidbody>().mass = 40f;
         gameObject.GetComponent<Rigidbody>().AddForce(Vector3.back * 600f);
 
-        // drop the currently equipped weapon, if weapon is equipped
+        // disable the currently equipped weapon
         if (GetComponent<PlayerInventory>().weaponInventory[0] != null)
-        {
-            if (GetComponent<PlayerInventory>().weaponInventory[0].GetComponent<WeaponBase>() != null)
-                GetComponent<PlayerInventory>().weaponInventory[0].GetComponent<WeaponBase>().Drop();
-            else if (GetComponent<PlayerInventory>().weaponInventory[0].GetComponent<MeleeWeapon>() != null)
-                GetComponent<PlayerInventory>().weaponInventory[0].GetComponent<MeleeWeapon>().Drop();
-        }
+            GetComponent<PlayerInventory>().weaponInventory[0].SetActive(false);
     }
 }

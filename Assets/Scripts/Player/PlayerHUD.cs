@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerHUD : MonoBehaviour
     public Canvas hudCanvas;
     public Canvas pauseCanvas;
     public Canvas pauseSettings;
+    public Canvas tipCanvas;
     [SerializeField]
     private PauseMenu pauseMenu;
 
@@ -41,12 +43,14 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI interactText;
     public TextMeshProUGUI deathText;
     public TextMeshProUGUI finishText;
+    public TextMeshProUGUI pickUpText;
     //public TextMeshProUGUI scoreText;
 
     [Header("UI related bools")]
     public bool isInteractableInFront;
     public bool isHurt;
     public bool isHealed;
+    public bool checkingTips;
 
     [Header("UI related variables")]
     [SerializeField] private float interactRange; // how far the player can interact with stuff
@@ -56,6 +60,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private float healSplashTime; // how long does the red splash last upon taking damage
     private float healTimer; // timer for functionality
     public float keycardXOffset;
+    [SerializeField] private float pickUpFadeTime; // how long before the text fades away
+    private float fadeTimer; // timer for functionality 
 
     public PlayerInventory pInventory;
     public CustomCharacterController player;
@@ -83,7 +89,6 @@ public class PlayerHUD : MonoBehaviour
         playerMask = LayerMask.GetMask("Player");
     }
 
-    // Update is called one per frame
     void Update()
     {
         if(manager == null)
@@ -93,6 +98,11 @@ public class PlayerHUD : MonoBehaviour
 
         if (!player.isDead)
         {
+            if (Input.GetKey(KeyCode.Tab))
+                checkingTips = true;
+            else
+                checkingTips = false;
+
             CrossHairLogic();
             CheckForInteract();
 
@@ -108,6 +118,9 @@ public class PlayerHUD : MonoBehaviour
             crossHair.enabled = false;
 
         UpdateText();
+
+        if (pickUpText.enabled)
+            FadePickUpText();
     }
 
     public void UpdateHealthBar()
@@ -126,18 +139,42 @@ public class PlayerHUD : MonoBehaviour
 
     public void UpdateAmmoText()
     {
-        if (pInventory.weaponInventory[0] != null &&
-            pInventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
+        if (pInventory.weaponInventory[0] != null && pInventory.weaponInventory[0].GetComponent<WeaponBase>() != null)
         {
             ammo = pInventory.weaponInventory[0].GetComponent<AmmoBase>();
             ammoCountCurrent.text = ammo.currentMag.ToString();
-            ammoCountReserve.text = "/ " + pInventory.currentAmmo[ammo.ammoInt].ToString();
+            ammoCountReserve.text = " / " + pInventory.currentAmmo[ammo.ammoInt].ToString();
+        }
+        else if (pInventory.weaponInventory[0] != null && pInventory.weaponInventory[0].GetComponent<MeleeWeapon>() != null)
+        {
+            MeleeWeapon knife = pInventory.weaponInventory[0].GetComponent<MeleeWeapon>();
+            ammoCountCurrent.text = "1";
+            ammoCountReserve.text = " + " + pInventory.currentAmmo[knife.ammoInt].ToString();
         }
         else
         {
             ammoCountCurrent.text = null;
             ammoCountReserve.text = null;
         }
+    }
+
+    public void UpdatePickUpText(string item)
+    {
+        fadeTimer = 0f;
+        pickUpText.enabled = true;
+        pickUpText.text = "PICKED UP " + item.ToUpper();
+    }
+
+    void FadePickUpText()
+    {
+        fadeTimer += Time.deltaTime;
+
+        if(fadeTimer >= pickUpFadeTime)
+        {
+            pickUpText.enabled = false;
+            fadeTimer = 0f;
+        }
+
     }
 
     void UpdateText()
@@ -321,18 +358,30 @@ public class PlayerHUD : MonoBehaviour
             hudCanvas.enabled = false;
             pauseCanvas.enabled = true;
             pauseSettings.enabled = false;
+            tipCanvas.enabled = false;
+
         }
         else if (manager.isPaused && pauseMenu.inSettings)
         {
             hudCanvas.enabled = false;
             pauseCanvas.enabled = false;
             pauseSettings.enabled = true;
+            tipCanvas.enabled = false;
+
         }
-        else if (!manager.isPaused)
+        else if (!manager.isPaused && !checkingTips)
         {
             hudCanvas.enabled = true;
             pauseCanvas.enabled = false;
             pauseSettings.enabled = false;
+            tipCanvas.enabled = false;
+        }
+        else if (!manager.isPaused && checkingTips)
+        {
+            hudCanvas.enabled = false;
+            pauseCanvas.enabled = false;
+            pauseSettings.enabled = false;
+            tipCanvas.enabled = true;
         }
 
 

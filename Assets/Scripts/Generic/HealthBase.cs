@@ -53,7 +53,7 @@ public class HealthBase : MonoBehaviour
     {
         damage = ArmorCalculation(damage);
 
-        GameObject bloodSpray = Instantiate(blood,contactPoint,Quaternion.identity);
+        GameObject bloodSpray = Instantiate(blood, contactPoint, Quaternion.identity);
         bloodSpray.transform.LookAt(source);
 
         currentHealth = currentHealth - damage;
